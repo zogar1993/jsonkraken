@@ -12,9 +12,8 @@ fun jsonBoolean(value: Boolean) = if (value) KJson.jsonTrue else KJson.jsonFalse
 fun jsonNull() = KJson.jsonNull
 fun String.toJson(): JsonValue = KJson(this).create()
 
-class KJson internal constructor(raw: String) {
-	private val json: Text = Text(raw)
-	private val end = raw.length
+class KJson internal constructor(private val string: String) {
+	private val end = string.length
 
 	companion object {
 		internal val jsonTrue = JsonTrue()
@@ -27,42 +26,42 @@ class KJson internal constructor(raw: String) {
 	}
 
 	private fun extractString(): String {
-		json.start += 1//skip "
-		json.beforeIfAny { it == '\"' }
-		val result = json.toString()
-		json.start = json.end + 1 //skip "
-		json.end = end
+		start += 1//skip "
+		beforeIfAny { it == '\"' }
+		val result = stringui()
+		start = enda + 1 //skip "
+		enda = end
 		return result
 	}
 
 	private fun extractJsonValue(): JsonValue {
-		return when (json.next) {
+		return when (next) {
 			'{' -> createObject()
 			'[' -> createArray()
 			'\"' -> {
-				json.start += 1//skip "
-				val start = json.start
+				start += 1//skip "
+				val start = start
 				while (true) {
-					var index = json.indexOf { it == '\\' || it == '"' }
-					if (json.string[index] == '\\') {
+					var index = indexOf { it == '\\' || it == '"' }
+					if (string[index] == '\\') {
 						index++ // skip \
-						val escaped = json.string[index]
+						val escaped = string[index]
 						if (escaped in oneCharEscaped)
 							index++ // skip 1 char
 						else if (escaped == 'u') {
-							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
-							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
-							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
-							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
+							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
+							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
+							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
+							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
 						} else throw UnsupportedOperationException()
-						json.start = index
+						this.start = index
 					} else {
-						json.start = start
-						json.end = index
+						this.start = start
+						enda = index
 						break
 					}
 				}
-				val value = json.toString()
+				val value = stringui()
 				for (char in value) {
 					assert(char != '\n')
 					assert(char != '\t')
@@ -72,21 +71,21 @@ class KJson internal constructor(raw: String) {
 					if (char.toInt() != 0x7F)
 						assert(!char.isISOControl())
 				}
-				json.start = json.end + 1 //skip "
-				json.end = end
+				this.start = enda + 1 //skip "
+				enda = end
 
 				JsonString(value)
 			}
 			't' -> {
-				json.start += 4
+				start += 4
 				jsonTrue
 			}
 			'f' -> {
-				json.start += 5
+				start += 5
 				jsonFalse
 			}
 			'n' -> {
-				json.start += 4
+				start += 4
 				jsonNull
 			}
 			in digits -> {
@@ -97,8 +96,8 @@ class KJson internal constructor(raw: String) {
 	}
 
 	private fun createNumber(): JsonLiteral {
-		json.beforeIfAny { it in whiteChars || it == '}' || it == ']' || it == ',' }
-		val literal = json.toString()
+		beforeIfAny { it in whiteChars || it == '}' || it == ']' || it == ',' }
+		val literal = stringui()
 
 		val negative = literal[0] == '-'
 		if (negative) assert(literal[1] != '.')
@@ -108,8 +107,8 @@ class KJson internal constructor(raw: String) {
 		val indexOfDot = literal.indexOf('.')
 		assert(literal.last() != '.')
 		assert(literal[indexOfDot + 1].toLowerCase() != 'e')
-		json.start = json.end
-		json.end = end
+		start = enda
+		enda = end
 
 		return if (literal.contains('.') || literal.contains('e', ignoreCase = true))
 			JsonDouble(literal.toDouble())
@@ -118,27 +117,27 @@ class KJson internal constructor(raw: String) {
 
 	private fun createObject(): JsonObject {
 		val attributes = LinkedHashMap<String, JsonValue>()
-		json.start += 1 //skip '{'
-		json.skipSpaces()
-		if (json.next == '}')
-			json.start += 1 //skip '}'
+		start += 1 //skip '{'
+		skipSpaces()
+		if (next == '}')
+			start += 1 //skip '}'
 		else
 			while (true) {
 				val key = extractString()
 
-				json.skipSpaces()
-				assert(json.next == ':')
-				json.start += 1//skip :
+				skipSpaces()
+				assert(next == ':')
+				start += 1//skip :
 
-				json.skipSpaces()
+				skipSpaces()
 				val jsonValue: JsonValue = extractJsonValue()
 				attributes[key] = jsonValue
 
-				json.skipSpaces()
-				val delimiter = json.next
-				json.start += 1//skip , or }
+				skipSpaces()
+				val delimiter = next
+				start += 1//skip , or }
 
-				if (delimiter == ',') json.skipSpaces()
+				if (delimiter == ',') skipSpaces()
 				else if (delimiter == '}') break
 				else throw IllegalStateException()
 			}
@@ -148,21 +147,21 @@ class KJson internal constructor(raw: String) {
 
 	private fun createArray(): JsonArray {
 		val items = LinkedList<JsonValue>()
-		json.start += 1 //skip '['
-		json.skipSpaces()
-		if (json.next == ']')
-			json.start += 1 //skip ']'
+		start += 1 //skip '['
+		skipSpaces()
+		if (next == ']')
+			start += 1 //skip ']'
 		else
 			while (true) {
-				json.skipSpaces()
+				skipSpaces()
 				val jsonValue = extractJsonValue()
 				items.add(jsonValue)
 
-				json.skipSpaces()
-				val delimiter = json.next
-				json.start += 1//skip , or ]
+				skipSpaces()
+				val delimiter = next
+				start += 1//skip , or ]
 
-				if (delimiter == ',') json.skipSpaces()
+				if (delimiter == ',') skipSpaces()
 				else if (delimiter == ']') break
 				else throw IllegalStateException()
 			}
@@ -170,10 +169,46 @@ class KJson internal constructor(raw: String) {
 	}
 
 	internal fun create(): JsonValue {
-		json.skipSpaces()
+		skipSpaces()
 		val result = extractJsonValue()
-		json.skipSpaces()
-		assert(json.start == json.end)
+		skipSpaces()
+		assert(start == enda)
 		return result
+	}
+
+	var start = 0
+	var enda = string.length
+	val next get() = string[start]
+	operator fun get(i: Int) = string[start + i]
+
+	fun beforeIfAny(occurrence: (Char) -> Boolean) {
+		for (i in start until enda)
+			if (occurrence(string[i])) {
+				enda = i
+				return
+			}
+	}
+
+	fun stringui(): String {
+		return string.substring(start, enda)
+	}
+
+	fun skipSpaces() {
+		for (i in start until enda) {
+			val char = string[i]
+			if (char != ' ' && char != '\t' && char != '\n' && char != '\r') {
+				start = i
+				return
+			}
+		}
+		enda = start
+	}
+
+	fun indexOf(occurrence: (Char) -> Boolean): Int {
+		for (i in start until enda)
+			if (occurrence(string[i])) {
+				return i
+			}
+		return -1
 	}
 }
