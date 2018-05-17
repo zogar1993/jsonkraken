@@ -1,5 +1,6 @@
 package jemzart.kjson
 
+import jemzart.kjson.helpers.isHexa
 import jemzart.kjson.helpers.isISOControlCharacterOtherThanDelete
 import jemzart.kjson.helpers.isWhiteSpace
 import jemzart.kjson.helpers.isWhiteSpaceOtherThanSpace
@@ -44,10 +45,11 @@ class KJson internal constructor(private val string: String) {
 						if (escaped in oneCharEscaped)
 							index++ // skip 1 char
 						else if (escaped == 'u') {
-							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
-							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
-							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
-							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
+							assert(string[index + 1].isHexa())
+							assert(string[index + 2].isHexa())
+							assert(string[index + 3].isHexa())
+							assert(string[index + 4].isHexa())
+							index += 5 //skip uFFFF
 						} else throw UnsupportedOperationException()
 						start = index
 					} else {
