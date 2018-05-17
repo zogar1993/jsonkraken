@@ -1,20 +1,18 @@
 package jemzart.kjson
 
 import jemzart.kjson.values.*
-import sun.plugin.dom.exception.InvalidStateException
-import java.lang.Boolean
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
 fun emptyJsonObject() = JsonObject(LinkedHashMap())
 fun emptyJsonArray() = JsonArray(mutableListOf())
-class KJson private constructor(raw: String){
+class KJson private constructor(raw: String) {
 	private val json: Text = Text(raw)
 	private val end = raw.length
 
 	companion object {
 		fun String.toJson(): JsonValue = KJson(this).create()
-		private val whiteChars = arrayOf('\t', '\n', ' ')
+		private val whiteChars = arrayOf('\t', '\n', ' ', '\r')
 		private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
 		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
 		private val hexas = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
@@ -28,6 +26,7 @@ class KJson private constructor(raw: String){
 		json.end = end
 		return result
 	}
+
 	private fun extractJsonValue(): JsonValue {
 		return when (json.next) {
 			'{' -> createObject()
@@ -35,14 +34,14 @@ class KJson private constructor(raw: String){
 			'\"' -> {
 				json.start += 1//skip "
 				val start = json.start
-				while (true){
-					var index = json.indexOf { it == '\\' || it == '"'}
-					if (json.string[index] == '\\'){
+				while (true) {
+					var index = json.indexOf { it == '\\' || it == '"' }
+					if (json.string[index] == '\\') {
 						index++ // skip \
 						val escaped = json.string[index]
-						if(escaped in oneCharEscaped)
+						if (escaped in oneCharEscaped)
 							index++ // skip 1 char
-						else if(escaped == 'u'){
+						else if (escaped == 'u') {
 							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
 							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
 							assert(json.string[++index].toUpperCase() in hexas) // skip 1 hexa
@@ -56,7 +55,7 @@ class KJson private constructor(raw: String){
 					}
 				}
 				val value = json.toString()
-				for (char in value){
+				for (char in value) {
 					assert(char != '\n')
 					assert(char != '\t')
 					assert(char != '\r')
@@ -95,12 +94,12 @@ class KJson private constructor(raw: String){
 
 		val negative = literal[0] == '-'
 		if (negative) assert(literal[1] != '.')
-		if(literal != "0" && literal != "-0")
-			if(literal[if(negative)1 else 0] == '0')// is not zero but starts with zero
+		if (literal != "0" && literal != "-0")
+			if (literal[if (negative) 1 else 0] == '0')// is not zero but starts with zero
 				assert(literal.contains('.') || literal.contains('e', ignoreCase = true))
 		val indexOfDot = literal.indexOf('.')
 		assert(literal.last() != '.')
-		assert(literal[indexOfDot+1].toLowerCase() != 'e')
+		assert(literal[indexOfDot + 1].toLowerCase() != 'e')
 		json.start = json.end
 		json.end = end
 
@@ -116,7 +115,7 @@ class KJson private constructor(raw: String){
 		if (json.next == '}')
 			json.start += 1 //skip '}'
 		else
-			while(true) {
+			while (true) {
 				val key = extractString()
 
 				json.skipSpaces()
@@ -131,8 +130,8 @@ class KJson private constructor(raw: String){
 				val delimiter = json.next
 				json.start += 1//skip , or }
 
-				if(delimiter == ',') json.skipSpaces()
-				else if(delimiter == '}') break
+				if (delimiter == ',') json.skipSpaces()
+				else if (delimiter == '}') break
 				else throw IllegalStateException()
 			}
 		return JsonObject(attributes)
@@ -146,7 +145,7 @@ class KJson private constructor(raw: String){
 		if (json.next == ']')
 			json.start += 1 //skip ']'
 		else
-			while(true) {
+			while (true) {
 				json.skipSpaces()
 				val jsonValue = extractJsonValue()
 				items.add(jsonValue)
@@ -155,8 +154,8 @@ class KJson private constructor(raw: String){
 				val delimiter = json.next
 				json.start += 1//skip , or ]
 
-				if(delimiter == ',') json.skipSpaces()
-				else if(delimiter == ']') break
+				if (delimiter == ',') json.skipSpaces()
+				else if (delimiter == ']') break
 				else throw IllegalStateException()
 			}
 		return JsonArray(items)

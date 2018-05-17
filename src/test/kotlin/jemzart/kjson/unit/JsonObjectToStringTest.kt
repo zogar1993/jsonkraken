@@ -6,7 +6,7 @@ import org.junit.Test
 
 class JsonObjectToStringTest {
 	@Test
-	fun simpleObject(){
+	fun simpleObject() {
 		val jsonObject = emptyJsonObject()
 		jsonObject["name"] = JsonString("Von Chap")
 		assert(jsonObject.toString() == "{\"name\":\"Von Chap\"}")

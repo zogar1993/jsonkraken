@@ -4,11 +4,11 @@ class Text(val string: String) {
 	var start = 0
 	var end = string.length
 	val next get() = string[start]
-	operator fun get(i: Int) = string[start+i]
+	operator fun get(i: Int) = string[start + i]
 
-	fun beforeIfAny(occurrence: (Char)->Boolean){
+	fun beforeIfAny(occurrence: (Char) -> Boolean) {
 		for (i in start until end)
-			if(occurrence(string[i])){
+			if (occurrence(string[i])) {
 				end = i
 				return
 			}
@@ -19,9 +19,9 @@ class Text(val string: String) {
 	}
 
 	fun skipSpaces() {
-		for (i in start until end){
+		for (i in start until end) {
 			val char = string[i]
-			if(char != ' ' && char != '\t' && char != '\n'){
+			if (char != ' ' && char != '\t' && char != '\n' && char != '\r') {
 				start = i
 				return
 			}
@@ -29,9 +29,9 @@ class Text(val string: String) {
 		end = start
 	}
 
-	fun indexOf(occurrence: (Char)->Boolean): Int {
+	fun indexOf(occurrence: (Char) -> Boolean): Int {
 		for (i in start until end)
-			if(occurrence(string[i])){
+			if (occurrence(string[i])) {
 				return i
 			}
 		return -1
