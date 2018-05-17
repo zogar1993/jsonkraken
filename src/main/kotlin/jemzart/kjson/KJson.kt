@@ -1,5 +1,6 @@
 package jemzart.kjson
 
+import jemzart.kjson.helpers.isISOControlCharacterOtherThanDelete
 import jemzart.kjson.helpers.isWhiteSpace
 import jemzart.kjson.helpers.isWhiteSpaceOtherThanSpace
 import jemzart.kjson.values.*
@@ -33,8 +34,8 @@ class KJson internal constructor(private val string: String) {
 			'[' -> createArray()
 			'\"' -> {
 				start += 1//skip "
-				val start = start
-				var end: Int
+				val memoryStart = start
+				val end: Int
 				while (true) {
 					var index = indexOf { it == '\\' || it == '"' }
 					if (string[index] == '\\') {
@@ -48,23 +49,21 @@ class KJson internal constructor(private val string: String) {
 							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
 							assert(string[++index].toUpperCase() in hexas) // skip 1 hexa
 						} else throw UnsupportedOperationException()
-						this.start = index
+						start = index
 					} else {
-						this.start = start
+						start = memoryStart
 						end = index
 						break
 					}
 				}
-				val value = stringUpTo(end)
-				for (char in value) {
-					assert(!char.isWhiteSpaceOtherThanSpace())
-//					val codePoint = value.toInt()
-//					assert(!(codePoint <= 0x9F && (codePoint > 0x7F || codePoint.ushr(5) == 0)))
-					if (char.toInt() != 0x7F)
-						assert(!char.isISOControl())
-				}
-				this.start = end + 1 //skip "
 
+				for (i in start until end) {
+					assert(!string[i].isWhiteSpaceOtherThanSpace())
+					assert(!string[i].isISOControlCharacterOtherThanDelete())
+				}
+
+				val value = stringUpTo(end)
+				this.start = end + 1 //skip "
 				JsonString(value)
 			}
 			't' -> {
