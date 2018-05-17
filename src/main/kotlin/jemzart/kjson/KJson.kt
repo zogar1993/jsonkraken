@@ -27,7 +27,6 @@ class KJson internal constructor(private val string: String) {
 		internal val jsonNull = JsonNull()
 		private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
 		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
-		private val hexas = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
 	}
 	private fun extractJsonValue(): JsonValue {
 		return when (next) {
