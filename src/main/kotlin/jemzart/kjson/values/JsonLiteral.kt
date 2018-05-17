@@ -1,6 +1,6 @@
 package jemzart.kjson.values
 
-abstract class JsonLiteral : JsonValue {
+abstract class JsonLiteral internal constructor() : JsonValue {
 	override fun iterator(): Iterator<JsonValue> = throw UnsupportedOperationException()
 	override operator fun get(key: String) = throw UnsupportedOperationException()
 	override fun set(key: String, value: JsonValue) = throw UnsupportedOperationException()

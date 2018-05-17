@@ -1,6 +1,6 @@
 package jemzart.kjson.unit
 
-import jemzart.kjson.KJson.Companion.toJson
+import jemzart.kjson.toJson
 import jemzart.kjson.helpers.asResourceFile
 import jemzart.kjson.values.JsonValue
 import org.junit.Test

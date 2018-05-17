@@ -6,18 +6,17 @@ import kotlin.collections.LinkedHashMap
 
 fun emptyJsonObject() = JsonObject(LinkedHashMap())
 fun emptyJsonArray() = JsonArray(mutableListOf())
-
 fun jsonTrue() = KJson.jsonTrue
 fun jsonFalse() = KJson.jsonFalse
 fun jsonBoolean(value: Boolean) = if (value) KJson.jsonTrue else KJson.jsonFalse
 fun jsonNull() = KJson.jsonNull
+fun String.toJson(): JsonValue = KJson(this).create()
 
-class KJson private constructor(raw: String) {
+class KJson internal constructor(raw: String) {
 	private val json: Text = Text(raw)
 	private val end = raw.length
 
 	companion object {
-		fun String.toJson(): JsonValue = KJson(this).create()
 		internal val jsonTrue = JsonTrue()
 		internal val jsonFalse = JsonFalse()
 		internal val jsonNull = JsonNull()
@@ -170,7 +169,7 @@ class KJson private constructor(raw: String) {
 		return JsonArray(items)
 	}
 
-	private fun create(): JsonValue {
+	internal fun create(): JsonValue {
 		json.skipSpaces()
 		val result = extractJsonValue()
 		json.skipSpaces()

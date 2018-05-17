@@ -1,6 +1,6 @@
 package jemzart.kjson.values
 
-class JsonArray(override val value: MutableList<JsonValue>) : JsonValue {
+class JsonArray internal constructor(override val value: MutableList<JsonValue>) : JsonValue {
 	override fun iterator(): Iterator<JsonValue> = value.iterator()
 	override operator fun get(key: String) = throw UnsupportedOperationException()
 	override fun set(key: String, value: JsonValue) = throw UnsupportedOperationException()

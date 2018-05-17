@@ -1,6 +1,6 @@
 package jemzart.kjson.values
 
-class JsonObject(override val value: LinkedHashMap<String, JsonValue>) : JsonValue {
+class JsonObject  internal constructor(override val value: LinkedHashMap<String, JsonValue>) : JsonValue {
 	override fun iterator(): Iterator<JsonValue> = value.values.iterator()
 	override fun get(key: String): JsonValue = value[key]!!
 	override fun set(key: String, value: JsonValue) {

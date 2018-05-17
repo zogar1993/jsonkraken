@@ -1,13 +1,6 @@
 package jemzart.kjson.values
 
-class JsonFalse : JsonLiteral() {
-	companion object {
-		private var created = false
-	}
-	init {
-		assert(!created)
-		created = true
-	}
+class JsonFalse internal constructor() : JsonLiteral() {
 	override val value = false
 	override fun toString() = "false"
 }
