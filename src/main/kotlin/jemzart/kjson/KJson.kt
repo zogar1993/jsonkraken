@@ -16,6 +16,9 @@ fun String.toJson(): JsonValue = KJson(this).create()
 
 class KJson internal constructor(private val string: String) {
 	private val last = string.length
+	var start = 0
+	var end = string.length
+	val next get() = string[start]
 
 	companion object {
 		internal val jsonTrue = JsonTrue()
@@ -184,11 +187,6 @@ class KJson internal constructor(private val string: String) {
 		assert(start == end)
 		return result
 	}
-
-	var start = 0
-	var end = string.length
-	val next get() = string[start]
-	operator fun get(i: Int) = string[start + i]
 
 	fun beforeIfAny(occurrence: (Char) -> Boolean) {
 		for (i in start until end)
