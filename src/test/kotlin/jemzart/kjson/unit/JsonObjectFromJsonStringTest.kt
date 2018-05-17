@@ -1,9 +1,9 @@
 package jemzart.kjson.unit
 
 import jemzart.kjson.KJson.Companion.toJson
+import jemzart.kjson.helpers.asResourceFile
 import jemzart.kjson.values.JsonValue
 import org.junit.Test
-import java.io.File
 
 class JsonObjectFromJsonStringTest {
 	@Test
@@ -124,9 +124,7 @@ class JsonObjectFromJsonStringTest {
 	fun backslashedQuotes(){
 		val raw = "[\"\\\"\"]"
 		val json = raw.toJson()
-		var result = "\"\\\"\""
-		result = "[$result]"
-		assert(json.value.toString() == result)
+		assert(json.value.toString() == "[\"\\\"\"]")
 	}
 
 	@Test
@@ -137,40 +135,68 @@ class JsonObjectFromJsonStringTest {
 	}
 
 	@Test
-	fun validationFiles(){
+	fun minusZero(){
+		val raw = "-0"
+		val json = raw.toJson()
+		assert(json.value == 0)
+	}
+
+	@Test
+	fun mustParse() {
 		var passed = 0
 		var failed = 0
-
-		File("C:\\Proyectos\\von-chap\\json tests\\test_parsing").walk().forEach {
-			if (!it.isDirectory){
-
-				val text =  it.readText()
-//				println("${it.name} $text")
-				when (it.name[0]) {
-					'n' -> try {
-						val json = text.toJson()
-						println("${it.name} ----- $text ----- $json")
-						failed++
-					} catch (ex: Throwable) {
-						passed++
-					}
-					'y' -> try {
-						val json = text.toJson()
+		"/test_parsing".asResourceFile().walk().forEach {
+			if (!it.isDirectory) {
+				val text = it.readText()
+				if (it.name[0] == 'y')
+					try {
+						text.toJson()
 						passed++
 					} catch (ex: Throwable) {
-						println("${it.name} ----- $text")
 						failed++
 					}
-//					'i' -> try {
-//						val json = text.toJson()
-//						passed++
-//					} catch (ex: Throwable) {
-//						println("${it.name} ----- $text")
-//						failed++
-//					}
-				}
 			}
 		}
-		println("passed: $passed, failed: $failed")
+		println("MUST: $passed passed, $failed failed")
+		assert(failed==0)
+	}
+
+	@Test
+	fun mustNotParse() {
+		var passed = 0
+		var failed = 0
+		"/test_parsing".asResourceFile().walk().forEach {
+			if (!it.isDirectory) {
+				val text = it.readText()
+				if (it.name[0] == 'n')
+					try {
+						text.toJson()
+						failed++
+					} catch (ex: Throwable) {
+						passed++
+					}
+			}
+		}
+		println("MUST NOT: $passed passed, $failed failed")
+		assert(failed==0)
+	}
+
+	@Test
+	fun mayParse() {
+		var passed = 0
+		var failed = 0
+		"/test_parsing".asResourceFile().walk().forEach {
+			if (!it.isDirectory) {
+				val text = it.readText()
+				if (it.name[0] == 'i')
+					try {
+						text.toJson()
+						passed++
+					} catch (ex: Throwable) {
+						failed++
+					}
+			}
+		}
+		println("MAY: $passed passed, $failed failed")
 	}
 }
