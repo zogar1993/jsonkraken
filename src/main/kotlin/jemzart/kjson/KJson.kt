@@ -77,15 +77,25 @@ class KJson internal constructor(private val string: String) {
 				JsonString(value)
 			}
 			't' -> {
-				start += 4
+				assert(string[start + 1] == 'r')
+				assert(string[start + 2] == 'u')
+				assert(string[start + 3] == 'e')
+				start += 4 //skip true
 				jsonTrue
 			}
 			'f' -> {
-				start += 5
+				assert(string[start + 1] == 'a')
+				assert(string[start + 2] == 'l')
+				assert(string[start + 3] == 's')
+				assert(string[start + 4] == 'e')
+				start += 5 //skip false
 				jsonFalse
 			}
 			'n' -> {
-				start += 4
+				assert(string[start + 1] == 'u')
+				assert(string[start + 2] == 'l')
+				assert(string[start + 3] == 'l')
+				start += 4 //skip true
 				jsonNull
 			}
 			in digits -> {
