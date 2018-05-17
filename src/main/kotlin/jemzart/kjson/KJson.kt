@@ -6,12 +6,21 @@ import kotlin.collections.LinkedHashMap
 
 fun emptyJsonObject() = JsonObject(LinkedHashMap())
 fun emptyJsonArray() = JsonArray(mutableListOf())
+
+fun jsonTrue() = KJson.jsonTrue
+fun jsonFalse() = KJson.jsonFalse
+fun jsonBoolean(value: Boolean) = if (value) KJson.jsonTrue else KJson.jsonFalse
+fun jsonNull() = KJson.jsonNull
+
 class KJson private constructor(raw: String) {
 	private val json: Text = Text(raw)
 	private val end = raw.length
 
 	companion object {
 		fun String.toJson(): JsonValue = KJson(this).create()
+		internal val jsonTrue = JsonTrue()
+		internal val jsonFalse = JsonFalse()
+		internal val jsonNull = JsonNull()
 		private val whiteChars = arrayOf('\t', '\n', ' ', '\r')
 		private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
 		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
@@ -71,15 +80,15 @@ class KJson private constructor(raw: String) {
 			}
 			't' -> {
 				json.start += 4
-				JsonTrue()
+				jsonTrue
 			}
 			'f' -> {
 				json.start += 5
-				JsonFalse()
+				jsonFalse
 			}
 			'n' -> {
 				json.start += 4
-				JsonNull()
+				jsonNull
 			}
 			in digits -> {
 				createNumber()
