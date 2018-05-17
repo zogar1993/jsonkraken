@@ -1,6 +1,5 @@
 package jemzart.kjson.unit
 
-import jdk.jfr.events.ExceptionThrownEvent
 import jemzart.kjson.toJson
 import jemzart.kjson.helpers.asResourceFile
 import jemzart.kjson.values.JsonValue
