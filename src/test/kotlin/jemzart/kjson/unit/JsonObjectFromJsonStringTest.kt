@@ -159,7 +159,7 @@ class JsonObjectFromJsonStringTest {
 					}
 			}
 		}
-		println("MUST: $passed passed, $failed failed")
+		println("MUST: $passed parsed, $failed not parsed")
 		assert(failed == 0)
 	}
 
@@ -173,14 +173,14 @@ class JsonObjectFromJsonStringTest {
 				if (it.name[0] == 'n')
 					try {
 						text.toJson()
-						failed++
-					} catch (ex: Throwable) {
 						passed++
+					} catch (ex: Throwable) {
+						failed++
 					}
 			}
 		}
-		println("MUST NOT: $passed passed, $failed failed")
-		assert(failed == 0)
+		println("MUST NOT: $passed parsed, $failed not parsed")
+		assert(passed == 0)
 	}
 
 	@Test
@@ -199,6 +199,6 @@ class JsonObjectFromJsonStringTest {
 					}
 			}
 		}
-		println("MAY: $passed passed, $failed failed")
+		println("MAY: $passed parsed, $failed not parsed")
 	}
 }

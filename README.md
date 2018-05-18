@@ -1,5 +1,5 @@
 # KJSON
-#### JavaScript like Json parser for Kotlin (Java)
+#### Idiomatic Json parser for Kotlin (Java)
 
 ## ¿What is KJSON?
 KJSON is a fully compliant, pretty optimized, idiomatic JSON parser. It is written in Kotlin for the Java Virtual Machine.
