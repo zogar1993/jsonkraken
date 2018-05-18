@@ -6,7 +6,6 @@ import jemzart.kjson.helpers.isISOControlCharacterOtherThanDelete
 import jemzart.kjson.helpers.isWhiteSpace
 import jemzart.kjson.helpers.isWhiteSpaceOtherThanSpace
 import jemzart.kjson.values.*
-import java.util.*
 
 class StringToObjectParser internal constructor(private val raw: String) {
 	private val last = raw.length
@@ -18,7 +17,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
 	}
 
-	private fun extractJsonValue(): JsonValue {
+	private fun extractJsonValue(): Any? {
 		return when (first) {
 			'{' -> createObject()
 			'[' -> createArray()
@@ -55,14 +54,14 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 				val value = raw.substring(start, end)
 				this.start = end + 1 //skip "
-				JsonString(value)
+				value
 			}
 			't' -> {
 				assert(raw[start + 1] == 'r')
 				assert(raw[start + 2] == 'u')
 				assert(raw[start + 3] == 'e')
 				start += 4 //skip true
-				jsonTrue
+				true
 			}
 			'f' -> {
 				assert(raw[start + 1] == 'a')
@@ -70,14 +69,14 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				assert(raw[start + 3] == 's')
 				assert(raw[start + 4] == 'e')
 				start += 5 //skip false
-				jsonFalse
+				false
 			}
 			'n' -> {
 				assert(raw[start + 1] == 'u')
 				assert(raw[start + 2] == 'l')
 				assert(raw[start + 3] == 'l')
 				start += 4 //skip true
-				jsonNull
+				null
 			}
 			in digits -> {
 				createNumber()
@@ -86,7 +85,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		}
 	}
 
-	private fun createNumber(): JsonLiteral {
+	private fun createNumber(): Any {
 		val end = fromStartIndexOf { it.isWhiteSpace() || it == '}' || it == ']' || it == ',' }
 		val literal = raw.substring(start, end)
 
@@ -101,8 +100,8 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		start = end
 
 		return if (literal.contains('.') || literal.contains('e', ignoreCase = true))
-			JsonDouble(literal.toDouble())
-		else JsonInteger(literal.toInt())
+			literal.toDouble()
+		else literal.toInt()
 	}
 
 	private fun createObject(): JsonObject {
@@ -124,8 +123,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				start += 1//skip :
 
 				skipSpaces()
-				val jsonValue: JsonValue = extractJsonValue()
-				obj[key] = jsonValue
+				obj[key] = extractJsonValue()
 
 				skipSpaces()
 				val delimiter = first
@@ -162,7 +160,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		return arr
 	}
 
-	internal fun create(): JsonValue {
+	internal fun create(): Any? {
 		skipSpaces()
 		val result = extractJsonValue()
 		skipSpaces()

@@ -2,21 +2,22 @@ package jemzart.kjson.values
 
 import java.util.*
 
-class JsonObject internal constructor() : JsonValue {
-	override fun set(index: Int, value: JsonValue) {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-	}
+class JsonObject internal constructor() : JsonCollection {
+	private val map: MutableMap<String, Any?> = mutableMapOf()
+	private val list: LinkedList<Pair<String, Any?>> = LinkedList()
 
-	override fun get(index: Int): JsonValue {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-	}
+	override fun get(index: Int): JsonCollection = throw UnsupportedOperationException()
+	override fun set(index: Int, value: JsonCollection) = throw UnsupportedOperationException()
+	override fun <T> get(index: Int, shamelessHack: T): T = throw UnsupportedOperationException()
+	override fun set(index: Int, value: Any?) = throw UnsupportedOperationException()
 
-	private val map: MutableMap<String, JsonValue> = mutableMapOf()
-	private val list: LinkedList<Pair<String, JsonValue>> = LinkedList()
-	override val value get() = throw NoSuchElementException()
-	override fun iterator(): Iterator<JsonValue> = list.map { it.second } .iterator()
-	override fun get(key: String): JsonValue = map[key]!!
-	override fun set(key: String, value: JsonValue) {
+	override fun iterator(): Iterator<Any?> = list.map { it.second } .iterator()
+
+	override fun <T> get(key: String, shamelessHack: T): T = map[key]!! as T
+	override fun get(key: String): JsonCollection = get(key, JsonCollection.dummy)
+
+	override fun set(key: String, value: JsonCollection) = set(key, value as Any)
+	override fun set(key: String, value: Any?){
 		if(map.containsKey(key)) {
 			val obj = map[key]
 			list.removeIf { it.second == obj }
@@ -37,23 +38,21 @@ class JsonObject internal constructor() : JsonValue {
 		return stringBuilder.toString()
 	}
 
-	override val jsonType get() = JsonType.Object
-
-	fun add(key: String, value: JsonValue){
+	fun add(key: String, value: Any){
 		assert(!map.containsKey(key))
 		list.add(key to value)
 		map[key] = value
 	}
 
-	fun insert(index: Int,  pair: Pair<String, JsonValue>){
+	fun insert(index: Int,  pair: Pair<String, JsonCollection>){
 
 	}
 
-	fun insertAfer(name: String,  pair: Pair<String, JsonValue>){
+	fun insertAfer(name: String,  pair: Pair<String, JsonCollection>){
 
 	}
 
-	fun insertBefore(name: String,  pair: Pair<String, JsonValue>){
+	fun insertBefore(name: String,  pair: Pair<String, JsonCollection>){
 
 	}
 }

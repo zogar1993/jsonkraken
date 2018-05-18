@@ -5,15 +5,14 @@ import jemzart.kjson.values.*
 
 fun jsonObject() = JsonObject()
 fun jsonArray() = JsonArray()
-fun jsonTrue() = jsonTrue
-fun jsonFalse() = jsonFalse
-fun jsonNull() = jsonNull
-fun jsonBoolean(value: Boolean) = if (value) jsonTrue else jsonFalse
-fun jsonString(value: String) = JsonString(value)
-fun jsonDouble(value: Double) = JsonDouble(value)
-fun jsonInteger(value: Int) = JsonInteger(value)
-fun String.toJson(): JsonValue = StringToObjectParser(this).create()
 
-internal val jsonTrue = JsonTrue()
-internal val jsonFalse = JsonFalse()
-internal val jsonNull = JsonNull()
+val STRING: String = ""
+val INTEGER: Int = 0
+val BOOLEAN: Boolean = false
+val DOUBLE: Double = 0.0
+val NULLABLE_STRING: String? = ""
+val NULLABLE_INTEGER: Int? = 0
+val NULLABLE_BOOLEAN: Boolean? = false
+val NULLABLE_DOUBLE: Double? = 0.0
+
+fun String.toJson(): Any? = StringToObjectParser(this).create()
