@@ -1,6 +1,5 @@
 package jemzart.kjson.parsers
 
-import jemzart.kjson.*
 import jemzart.kjson.helpers.isHexa
 import jemzart.kjson.helpers.isISOControlCharacterOtherThanDelete
 import jemzart.kjson.helpers.isWhiteSpace
@@ -138,7 +137,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 
 	private fun createArray(): JsonArray {
-		val arr = jsonArray()
+		val arr = JsonArray()
 		start += 1 //skip '['
 		skipSpaces()
 		if (first == ']')

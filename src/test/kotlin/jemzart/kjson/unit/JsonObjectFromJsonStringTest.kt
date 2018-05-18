@@ -1,82 +1,72 @@
 package jemzart.kjson.unit
 
-import jemzart.kjson.toJson
+import jemzart.kjson.*
 import jemzart.kjson.helpers.asResourceFile
-import jemzart.kjson.values.JsonCollection
+import jemzart.kjson.values.JsonNonCollection
 import org.junit.Test
 
 class JsonObjectFromJsonStringTest {
-//	@Test
-//	fun simpleString() {
-//		val raw = "{\"name\":\"Von Chap\"}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == "Von Chap")
-//	}
-//
-//	@Test
-//	fun simpleTrue() {
-//		val raw = "{\"name\":true}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == true)
-//	}
-//
-//	@Test
-//	fun simpleFalse() {
-//		val raw = "{\"name\":false}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == false)
-//	}
-//
-//	@Test
-//	fun simpleNull() {
-//		val raw = "{\"name\":null}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == null)
-//	}
-//
-//	@Test
-//	fun simpleInt() {
-//		val raw = "{\"name\":13}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == 13)
-//	}
-//
-//	@Test
-//	fun simpleNegativeInt() {
-//		val raw = "{\"name\":-13}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == -13)
-//	}
-//
-//	@Test
-//	fun simpleFloat() {
-//		val raw = "{\"name\":-13.22}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == -13.22)
-//	}
-//
-//	@Test
-//	fun simpleNegativeFloat() {
-//		val raw = "{\"name\":13.22}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == 13.22)
-//	}
-//
-//	@Test
-//	fun simpleTwoAttributesJson() {
-//		val raw = "{\"name\":\"Von Chap\",\"warband\":\"Sworn Brothers\"}"
-//		val json = raw.toJson()
-//		assert(json["name"].value == "Von Chap")
-//		assert(json["warband"].value == "Sworn Brothers")
-//	}
-//
-//	@Test
-//	fun subObjectJson() {
-//		val raw = "{\"captain\":{\"name\":\"Von Chap\"}}"
-//		val json = raw.toJson()
-//		assert((json["captain"]["name"].value == "Von Chap"))
-//	}
-//
+	@Test
+	fun simpleString() {
+		val json = "{\"name\":\"Von Chap\"}".toJson()
+		assert(json["name", STRING] == "Von Chap")
+	}
+
+	@Test
+	fun simpleTrue() {
+		val json = "{\"captain\":true}".toJson()
+		assert(json["captain", BOOLEAN])
+	}
+
+	@Test
+	fun simpleFalse() {
+		val json = "{\"captain\":false}".toJson()
+		assert(!json["captain", BOOLEAN])
+	}
+
+	@Test
+	fun simpleNull() {
+		val json = "{\"name\":null}".toJson()
+		assert(json["name", NULLABLE_STRING] == null)
+	}
+
+	@Test
+	fun simpleInt() {
+		val json = "{\"age\":42}".toJson()
+		assert(json["age", INTEGER] == 42)
+	}
+
+	@Test
+	fun simpleNegativeInt() {
+		val json = "{\"age\":-42}".toJson()
+		assert(json["age", INTEGER] == -42)
+	}
+
+	@Test
+	fun simpleDouble() {
+		val json = "{\"age\":13.22}".toJson()
+		assert(json["age", DOUBLE] == 13.22)
+	}
+
+	@Test
+	fun simpleNegativeDouble() {
+		val json = "{\"age\":-13.22}".toJson()
+		assert(json["age", DOUBLE] == -13.22)
+	}
+
+	@Test
+	fun simpleTwoAttributesJson() {
+		val json = "{\"name\":\"Von Chap\",\"warband\":\"Sworn Brothers\"}".toJson()
+		assert(json["name", STRING] == "Von Chap")
+		assert(json["warband", STRING] == "Sworn Brothers")
+	}
+
+	@Test
+	fun subObjectJson() {
+		val json = "{\"captain\":{\"name\":\"Von Chap\"}}".toJson()
+		assert((json["captain"]["name", STRING] == "Von Chap"))
+	}
+
 //	@Test
 //	fun arrayWithObjects() {
 //		val raw = "[{\"name\":\"Von Chap\"}, {\"name\":\"Ulf\"}]"
@@ -94,7 +84,7 @@ class JsonObjectFromJsonStringTest {
 //		val array = json["characters"].value as List<JsonCollection>
 //		assert(array.size == 2)
 //	}
-//
+
 //	@Test
 //	fun arrayWithInt() {
 //		val raw = "[2]"
@@ -112,49 +102,45 @@ class JsonObjectFromJsonStringTest {
 //		val array = json as List<JsonCollection>
 //		assert(array.size == 0)
 //	}
-//
-//	@Test
-//	fun lonelyNumber() {
-//		val raw = "1"
-//		val json = raw.toJson()
-//		assert(json == 1)
-//	}
-//
-//	@Test
-//	fun backslashedQuotes() {
-//		val raw = "[\"\\\"\"]"
-//		val json = raw.toJson()
-//		assert(json.toString() == "[\"\\\"\"]")
-//	}
-//
-//	@Test
-//	fun zero() {
-//		val raw = "0"
-//		val json = raw.toJson()
-//		assert(json == 0)
-//	}
-//
-//	@Test
-//	fun minusZero() {
-//		val raw = "-0"
-//		val json = raw.toJson()
-//		assert(json == 0)
-//	}
-//
-//	@Test(expected = Throwable::class)
-//	fun misspelledNull() {
-//		"nnnn".toJson()
-//	}
-//
-//	@Test(expected = Throwable::class)
-//	fun misspelledTrue() {
-//		"tttt".toJson()
-//	}
-//
-//	@Test(expected = Throwable::class)
-//	fun misspelledFalse() {
-//		"fffff".toJson()
-//	}
+
+	@Test
+	fun lonelyNumber() {
+		val json = "1".toJson() as JsonNonCollection
+		assert(json.value == 1)
+	}
+
+	@Test
+	fun backslashedQuotes() {
+		val json = "[\"\\\"\"]".toJson()
+		assert(json[0, STRING] == "\\\"")
+	}
+
+	@Test
+	fun zero() {
+		val json = "0".toJson() as JsonNonCollection
+		assert(json.value == 0)
+	}
+
+	@Test
+	fun minusZero() {
+		val json = "-0".toJson() as JsonNonCollection
+		assert(json.value == 0)
+	}
+
+	@Test(expected = Throwable::class)
+	fun misspelledNull() {
+		"nnnn".toJson()
+	}
+
+	@Test(expected = Throwable::class)
+	fun misspelledTrue() {
+		"tttt".toJson()
+	}
+
+	@Test(expected = Throwable::class)
+	fun misspelledFalse() {
+		"fffff".toJson()
+	}
 
 	@Test
 	fun mustParse() {
