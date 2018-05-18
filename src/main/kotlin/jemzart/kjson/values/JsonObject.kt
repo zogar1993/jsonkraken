@@ -3,11 +3,11 @@ package jemzart.kjson.values
 import jemzart.kjson.JSON_VALUE
 import java.util.*
 
-class JsonObject internal constructor() : JsonValue() {
+class JsonObject : JsonValue() {
 	private val map: MutableMap<String, Any?> = mutableMapOf()
 	private val list: LinkedList<Pair<String, Any?>> = LinkedList()
 
-	override fun iterator(): Iterator<Any?> = list.map { it.second } .iterator()
+	override fun iterator(): Iterator<Pair<String, Any?>> = list.iterator()
 
 	override fun <T> get(key: String, shamelessHack: T): T = map[key] as T
 	override fun get(key: String): JsonValue = get(key, JSON_VALUE)

@@ -2,7 +2,7 @@ package jemzart.kjson.values
 
 import jemzart.kjson.JSON_VALUE
 
-class JsonArray internal constructor() : JsonValue() {
+class JsonArray : JsonValue() {
 	private val list: MutableList<Any?> = mutableListOf()
 
 	override fun iterator(): Iterator<Any?> = list.iterator()
