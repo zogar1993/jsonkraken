@@ -7,8 +7,7 @@ KJSON is a fully compliant, pretty optimized, idiomatic JSON parser. It is writt
 ## ¿Why should I care?
 - If you are looking to map POJOs, then this may not be for you (at least not yet, since it is not my main goal, but i do not overlook the posibility)
 - If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
-- On the other hand, if you prefer *obj["captain"]["name"]* you may want to keep reading. 
-- Basically, if you have an issue related to JSON parsing where you think "*If this was JavaScript, I would be a lot happier*", then read on.
+- On the other hand, if you prefer *obj["captain"]["name"]* you may want to keep reading.
 
 ## ¿Why another JSON parsing library?
 There are many reasons:
