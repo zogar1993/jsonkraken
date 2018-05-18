@@ -3,10 +3,11 @@ package jemzart.kjson
 import jemzart.kjson.parsers.StringToObjectParser
 import jemzart.kjson.values.*
 
-fun emptyJsonObject() = JsonObject(LinkedHashMap())
-fun emptyJsonArray() = JsonArray(mutableListOf())
+fun jsonObject() = JsonObject()
+fun jsonArray() = JsonArray()
 fun jsonTrue() = jsonTrue
 fun jsonFalse() = jsonFalse
+fun jsonNull() = jsonNull
 fun jsonBoolean(value: Boolean) = if (value) jsonTrue else jsonFalse
 fun jsonString(value: String) = JsonString(value)
 fun jsonDouble(value: Double) = JsonDouble(value)

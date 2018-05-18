@@ -1,12 +1,10 @@
 package jemzart.kjson.parsers
 
+import jemzart.kjson.*
 import jemzart.kjson.helpers.isHexa
 import jemzart.kjson.helpers.isISOControlCharacterOtherThanDelete
 import jemzart.kjson.helpers.isWhiteSpace
 import jemzart.kjson.helpers.isWhiteSpaceOtherThanSpace
-import jemzart.kjson.jsonFalse
-import jemzart.kjson.jsonNull
-import jemzart.kjson.jsonTrue
 import jemzart.kjson.values.*
 import java.util.*
 
@@ -108,7 +106,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	}
 
 	private fun createObject(): JsonObject {
-		val attributes = LinkedHashMap<String, JsonValue>()
+		val obj = JsonObject()
 		start += 1 //skip '{'
 		skipSpaces()
 		if (first == '}')
@@ -127,7 +125,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 				skipSpaces()
 				val jsonValue: JsonValue = extractJsonValue()
-				attributes[key] = jsonValue
+				obj[key] = jsonValue
 
 				skipSpaces()
 				val delimiter = first
@@ -137,12 +135,12 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				else if (delimiter == '}') break
 				else throw IllegalStateException()
 			}
-		return JsonObject(attributes)
+		return obj
 	}
 
 
 	private fun createArray(): JsonArray {
-		val items = LinkedList<JsonValue>()
+		val arr = jsonArray()
 		start += 1 //skip '['
 		skipSpaces()
 		if (first == ']')
@@ -151,7 +149,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 			while (true) {
 				skipSpaces()
 				val jsonValue = extractJsonValue()
-				items.add(jsonValue)
+				arr.add(jsonValue)
 
 				skipSpaces()
 				val delimiter = first
@@ -161,7 +159,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				else if (delimiter == ']') break
 				else throw IllegalStateException()
 			}
-		return JsonArray(items)
+		return arr
 	}
 
 	internal fun create(): JsonValue {

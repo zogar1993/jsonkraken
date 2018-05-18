@@ -1,13 +1,14 @@
 package jemzart.kjson.unit
 
-import jemzart.kjson.emptyJsonObject
+import jemzart.kjson.jsonArray
+import jemzart.kjson.jsonObject
 import jemzart.kjson.values.JsonString
 import org.junit.Test
 
 class JsonObjectToStringTest {
 	@Test
 	fun simpleObject() {
-		val jsonObject = emptyJsonObject()
+		val jsonObject = jsonObject()
 		jsonObject["name"] = JsonString("Von Chap")
 		assert(jsonObject.toString() == "{\"name\":\"Von Chap\"}")
 	}
