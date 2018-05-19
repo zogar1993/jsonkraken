@@ -1,6 +1,7 @@
 package jemzart.kjson.values
 
 import jemzart.kjson.JSON_VALUE
+import jemzart.kjson.operations.JsonObjectInsertion
 import java.util.*
 
 class JsonObject : JsonValue() {
@@ -12,7 +13,6 @@ class JsonObject : JsonValue() {
 
 	override fun <T> get(key: String, shamelessHack: T): T = map[key] as T
 	override fun get(key: String): JsonValue = get(key, JSON_VALUE)
-
 	override fun set(key: String, value: Any?){
 		if(map.containsKey(key)) {
 			val obj = map[key]
@@ -28,15 +28,7 @@ class JsonObject : JsonValue() {
 		map[key] = value
 	}
 
-	fun insert(index: Int,  pair: Pair<String, JsonValue>){
-
-	}
-
-	fun insertAfer(name: String,  pair: Pair<String, JsonValue>){
-
-	}
-
-	fun insertBefore(name: String,  pair: Pair<String, JsonValue>){
+	fun insert(insertion: JsonObjectInsertion<String, Any?>){
 
 	}
 }
