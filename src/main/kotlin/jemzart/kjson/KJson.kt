@@ -1,5 +1,6 @@
 package jemzart.kjson
 
+import jemzart.kjson.parsers.ObjectToStringParser
 import jemzart.kjson.parsers.StringToObjectParser
 import jemzart.kjson.values.JsonArray
 import jemzart.kjson.values.JsonNonCollection
@@ -27,3 +28,5 @@ fun String.toJson(): JsonValue {
 	val obj = StringToObjectParser(this).create()
 	return if (obj is JsonValue) obj else JsonNonCollection(obj)
 }
+
+fun JsonValue.toJsonString(): String = ObjectToStringParser(this).create()

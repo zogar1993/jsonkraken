@@ -4,6 +4,7 @@ import jemzart.kjson.JSON_VALUE
 import java.util.*
 
 class JsonObject : JsonValue() {
+	override val size: Int get() = list.size
 	private val map: MutableMap<String, Any?> = mutableMapOf()
 	private val list: LinkedList<Pair<String, Any?>> = LinkedList()
 
@@ -19,18 +20,6 @@ class JsonObject : JsonValue() {
 		}
 		list.add(key to value)
 		map[key] = value
-	}
-
-	override fun toString(): String {
-		val stringBuilder = StringBuilder()
-		stringBuilder.append("{")
-		var first = true
-		for (pair in list) {
-			if (!first) stringBuilder.append(",") else first = false
-			stringBuilder.append("\"${pair.first}\":${pair.second}")
-		}
-		stringBuilder.append("}")
-		return stringBuilder.toString()
 	}
 
 	fun add(key: String, value: Any){

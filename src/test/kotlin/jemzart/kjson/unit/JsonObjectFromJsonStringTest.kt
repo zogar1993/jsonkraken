@@ -67,41 +67,31 @@ class JsonObjectFromJsonStringTest {
 		assert((json["captain"]["name", STRING] == "Von Chap"))
 	}
 
-//	@Test
-//	fun arrayWithObjects() {
-//		val raw = "[{\"name\":\"Von Chap\"}, {\"name\":\"Ulf\"}]"
-//		val json = raw.toJson()
-//
-//		val array = json as List<JsonCollection>
-//		assert(array.size == 2)
-//	}
-//
-//	@Test
-//	fun objectWithArrayWithObjects() {
-//		val raw = "{\"characters\":[{\"name\":\"Von Chap\"}, {\"name\":\"Ulf\"}]}"
-//		val json = raw.toJson()
-//
-//		val array = json["characters"].value as List<JsonCollection>
-//		assert(array.size == 2)
-//	}
+	@Test
+	fun arrayWithObjects() {
+		val json = "[{\"name\":\"Von Chap\"}, {\"name\":\"Ulf\"}]".toJson()
+		assert(json[0]["name", STRING] == "Von Chap")
+		assert(json[1]["name", STRING] == "Ulf")
+	}
 
-//	@Test
-//	fun arrayWithInt() {
-//		val raw = "[2]"
-//		val json = raw.toJson()
-//
-//		val array = json as List<JsonCollection>
-//		assert(array.size == 1)
-//	}
-//
-//	@Test
-//	fun emptyArray() {
-//		val raw = "[]"
-//		val json = raw.toJson()
-//
-//		val array = json as List<JsonCollection>
-//		assert(array.size == 0)
-//	}
+	@Test
+	fun objectWithArrayWithObjects() {
+		val json = "{\"characters\":[{\"name\":\"Von Chap\"}, {\"name\":\"Ulf\"}]}".toJson()
+		assert(json["characters"][0]["name", STRING] == "Von Chap")
+		assert(json["characters"][1]["name", STRING] == "Ulf")
+	}
+
+	@Test
+	fun arrayWithInt() {
+		val json = "[2]".toJson()
+		assert(json[0, INTEGER] == 2)
+	}
+
+	@Test
+	fun emptyArray() {
+		val json = "[]".toJson()
+		assert(json.size == 0)
+	}
 
 	@Test
 	fun lonelyNumber() {
