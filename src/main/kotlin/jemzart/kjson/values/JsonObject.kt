@@ -1,6 +1,7 @@
 package jemzart.kjson.values
 
 import jemzart.kjson.JSON_VALUE
+import jemzart.kjson.enums.JsonObjectPosition
 import jemzart.kjson.operations.JsonObjectInsertion
 import java.util.*
 
@@ -11,6 +12,7 @@ class JsonObject : JsonValue() {
 
 	override fun iterator(): Iterator<Pair<String, Any?>> = list.iterator()
 
+	override fun <T> get(index: Int, shamelessHack: T): T = list[index] as T
 	override fun <T> get(key: String, shamelessHack: T): T = map[key] as T
 	override fun get(key: String): JsonValue = get(key, JSON_VALUE)
 	override fun set(key: String, value: Any?){
@@ -29,6 +31,21 @@ class JsonObject : JsonValue() {
 	}
 
 	fun insert(insertion: JsonObjectInsertion<String, Any?>){
+		assert(map.containsKey(insertion.relativeTo))
+		assert(!map.containsKey(insertion.pair.first))
+		map[insertion.pair.first] = insertion.pair.second
+		for(i in 0 until size)
+			if(insertion.relativeTo == list[i].first){
+				val index = if (insertion.position == JsonObjectPosition.Before) i else i + 1
+				list.add(index, insertion.pair)
+				return
+			}
+	}
 
+	fun delete(key: String){
+		if(map.containsKey(key)){
+			map.remove(key)
+			list.removeIf { it.first == key }
+		}
 	}
 }

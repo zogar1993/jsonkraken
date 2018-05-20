@@ -25,6 +25,7 @@ val NULLABLE_JSON_VALUE: JsonValue? = null
 val NULLABLE_JSON_OBJECT: JsonObject? = null
 val NULLABLE_JSON_ARRAY: JsonArray? = null
 val NULLABLE_JSON_NON_COLLECTION: JsonNonCollection? = null
+fun <T>jsonEntry(value: T) = Pair("", value)
 
 fun String.toJson(): JsonValue {
 	val obj = StringToObjectParser(this).create()
