@@ -8,13 +8,13 @@ class JsonObject : JsonValue() {
 
 	override fun iterator(): Iterator<Pair<String, Any?>> = map.map { it.key to it.value }.iterator()
 
-	override fun <T> get(key: String, shamelessHack: T): T = map[key] as T
-	override fun get(key: String): JsonValue = get(key, JSON_VALUE)
-	override fun set(key: String, value: Any?){
-		map[key] = value
+	override fun <T> get(name: String, shamelessHack: T): T = map[name] as T
+	override fun get(name: String): JsonValue = get(name, JSON_VALUE)
+	override fun set(name: String, value: Any?){
+		map[name] = value
 	}
 
-	fun remove(key: String){
-		map.remove(key)
+	fun remove(name: String){
+		map.remove(name)
 	}
 }
