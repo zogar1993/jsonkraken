@@ -18,4 +18,10 @@ class JsonArray : JsonValue() {
 	fun add(item: Any?){
 		list.add(item)
 	}
+
+	fun remove(index: Int) = list.removeAt(index)
+
+	fun insert(index: Int, value: Any?){
+		list.add(index, value)
+	}
 }

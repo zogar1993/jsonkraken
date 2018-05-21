@@ -1,8 +1,6 @@
 package jemzart.kjson.unit
 
 import jemzart.kjson.STRING
-import jemzart.kjson.after
-import jemzart.kjson.jsonEntry
 import jemzart.kjson.values.JsonArray
 import jemzart.kjson.values.JsonObject
 import org.junit.Test
@@ -11,7 +9,7 @@ class JsonObjectTest {
 	@Test
 	fun added(){
 		val obj = JsonObject()
-		obj.add("name", "Ragoz")
+		obj["name"] = "Ragoz"
 		assert(obj["name", STRING] == "Ragoz")
 	}
 
@@ -24,20 +22,35 @@ class JsonObjectTest {
 
 
 	@Test
-	fun insertAfter() {
-		val obj = JsonObject()
-		obj.add("Captain", "Von Chap")
-		obj.add("Soldier", "Ulf")
-		obj.insert("Hero" to "Joelin" after "Captain")
-		assert(obj[1, jsonEntry(STRING)].second == "Joelin")
+	fun insertFirst() {
+		val obj = JsonArray()
+		obj.add("Von Chap")
+		obj.add("Ulf")
+		obj.insert(0, "Joelin")
+		assert(obj[0, STRING] == "Joelin")
+		assert(obj[1, STRING] == "Von Chap")
+		assert(obj[2, STRING] == "Ulf")
 	}
 
 	@Test
-	fun insertBefore() {
-		val obj = JsonObject()
-		obj.add("Captain", "Von Chap")
-		obj.add("Soldier", "Ulf")
-		obj.insert("Hero" to "Joelin" after "Captain")
-		assert(obj[1, jsonEntry(STRING)].second == "Joelin")
+	fun insertInTheMiddle() {
+		val obj = JsonArray()
+		obj.add("Von Chap")
+		obj.add("Ulf")
+		obj.insert(1, "Joelin")
+		assert(obj[1, STRING] == "Joelin")
+		assert(obj[0, STRING] == "Von Chap")
+		assert(obj[2, STRING] == "Ulf")
+	}
+
+	@Test
+	fun insertLast() {
+		val obj = JsonArray()
+		obj.add("Von Chap")
+		obj.add("Ulf")
+		obj.insert(2, "Joelin")
+		assert(obj[2, STRING] == "Joelin")
+		assert(obj[0, STRING] == "Von Chap")
+		assert(obj[1, STRING] == "Ulf")
 	}
 }

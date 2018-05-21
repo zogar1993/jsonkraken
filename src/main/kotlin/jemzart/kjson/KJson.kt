@@ -1,7 +1,5 @@
 package jemzart.kjson
 
-import jemzart.kjson.enums.JsonObjectPosition
-import jemzart.kjson.operations.JsonObjectInsertion
 import jemzart.kjson.parsers.ObjectToStringParser
 import jemzart.kjson.parsers.StringToObjectParser
 import jemzart.kjson.values.JsonArray
@@ -25,7 +23,6 @@ val NULLABLE_JSON_VALUE: JsonValue? = null
 val NULLABLE_JSON_OBJECT: JsonObject? = null
 val NULLABLE_JSON_ARRAY: JsonArray? = null
 val NULLABLE_JSON_NON_COLLECTION: JsonNonCollection? = null
-fun <T>jsonEntry(value: T) = Pair("", value)
 
 fun String.toJson(): JsonValue {
 	val obj = StringToObjectParser(this).create()
@@ -33,6 +30,3 @@ fun String.toJson(): JsonValue {
 }
 
 fun JsonValue.toJsonString(): String = ObjectToStringParser(this).create()
-
-infix fun <T> Pair<String, T>.after(that: String) = JsonObjectInsertion(this, JsonObjectPosition.After, that)
-infix fun <T> Pair<String, T>.before(that: String) = JsonObjectInsertion(this, JsonObjectPosition.After, that)
