@@ -7,7 +7,7 @@ class JsonArray : JsonValue() {
 	private val list: MutableList<Any?> = mutableListOf()
 
 	override fun iterator(): Iterator<Any?> = list.iterator()
-
+	@Suppress("UNCHECKED_CAST")
 	override fun <T> get(index: Int, shamelessHack: T): T = list[index] as T
 	override fun get(index: Int): JsonValue = get(index, JSON_VALUE)
 
@@ -19,7 +19,9 @@ class JsonArray : JsonValue() {
 		list.add(item)
 	}
 
-	fun remove(index: Int) = list.removeAt(index)
+	override fun remove(index: Int){
+		list.removeAt(index)
+	}
 
 	fun insert(index: Int, value: Any?){
 		list.add(index, value)
