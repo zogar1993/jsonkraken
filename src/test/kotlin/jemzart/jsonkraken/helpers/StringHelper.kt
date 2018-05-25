@@ -1,4 +1,4 @@
-package jemzart.kjson.helpers
+package jemzart.jsonkraken.helpers
 
 import java.io.File
 

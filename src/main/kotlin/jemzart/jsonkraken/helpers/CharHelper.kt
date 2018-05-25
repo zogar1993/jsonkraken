@@ -1,4 +1,4 @@
-package jemzart.kjson.helpers
+package jemzart.jsonkraken.helpers
 
 internal fun Char.isWhiteSpaceOtherThanSpace(): Boolean {
 	return this == '\n' || this == '\t' || this == '\r'

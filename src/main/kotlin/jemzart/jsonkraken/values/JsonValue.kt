@@ -1,4 +1,4 @@
-package jemzart.kjson.values
+package jemzart.jsonkraken.values
 
 abstract class JsonValue: Iterable<Any?> {
 	open operator fun get(name: String): JsonValue = throw UnsupportedOperationException()

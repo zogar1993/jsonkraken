@@ -1,7 +1,7 @@
-package jemzart.kjson.unit
+package jemzart.jsonkraken.unit
 
-import jemzart.kjson.toJsonString
-import jemzart.kjson.values.JsonObject
+import jemzart.jsonkraken.toJsonString
+import jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class JsonObjectToStringTest {

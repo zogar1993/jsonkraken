@@ -1,6 +1,6 @@
-package jemzart.kjson.values
+package jemzart.jsonkraken.values
 
-import jemzart.kjson.JSON_VALUE
+import jemzart.jsonkraken.JSON_VALUE
 
 class JsonObject : JsonValue() {
 	override val size: Int get() = map.size

@@ -1,11 +1,11 @@
-package jemzart.kjson
+package jemzart.jsonkraken
 
-import jemzart.kjson.parsers.ObjectToStringParser
-import jemzart.kjson.parsers.StringToObjectParser
-import jemzart.kjson.values.JsonArray
-import jemzart.kjson.values.JsonNonCollection
-import jemzart.kjson.values.JsonObject
-import jemzart.kjson.values.JsonValue
+import jemzart.jsonkraken.parsers.ObjectToStringParser
+import jemzart.jsonkraken.parsers.StringToObjectParser
+import jemzart.jsonkraken.values.JsonArray
+import jemzart.jsonkraken.values.JsonNonCollection
+import jemzart.jsonkraken.values.JsonObject
+import jemzart.jsonkraken.values.JsonValue
 
 val STRING: String = ""
 val INTEGER: Int = 0

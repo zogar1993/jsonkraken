@@ -1,4 +1,4 @@
-package jemzart.kjson.values
+package jemzart.jsonkraken.values
 
 class JsonNonCollection(val value: Any?) : JsonValue(){
 	override val size: Int get() = 1

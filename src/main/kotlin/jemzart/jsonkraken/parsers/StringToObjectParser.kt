@@ -1,10 +1,10 @@
-package jemzart.kjson.parsers
+package jemzart.jsonkraken.parsers
 
-import jemzart.kjson.helpers.isHexa
-import jemzart.kjson.helpers.isISOControlCharacterOtherThanDelete
-import jemzart.kjson.helpers.isWhiteSpace
-import jemzart.kjson.helpers.isWhiteSpaceOtherThanSpace
-import jemzart.kjson.values.*
+import jemzart.jsonkraken.helpers.isHexa
+import jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
+import jemzart.jsonkraken.helpers.isWhiteSpace
+import jemzart.jsonkraken.helpers.isWhiteSpaceOtherThanSpace
+import jemzart.jsonkraken.values.*
 
 class StringToObjectParser internal constructor(private val raw: String) {
 	private val last = raw.length

@@ -1,8 +1,8 @@
-package jemzart.kjson.unit
+package jemzart.jsonkraken.unit
 
-import jemzart.kjson.*
-import jemzart.kjson.helpers.asResourceFile
-import jemzart.kjson.values.JsonNonCollection
+import jemzart.jsonkraken.*
+import jemzart.jsonkraken.helpers.asResourceFile
+import jemzart.jsonkraken.values.JsonNonCollection
 import org.junit.Test
 
 class JsonObjectFromJsonStringTest {

@@ -1,9 +1,9 @@
-package jemzart.kjson.parsers
+package jemzart.jsonkraken.parsers
 
-import jemzart.kjson.values.JsonArray
-import jemzart.kjson.values.JsonNonCollection
-import jemzart.kjson.values.JsonObject
-import jemzart.kjson.values.JsonValue
+import jemzart.jsonkraken.values.JsonArray
+import jemzart.jsonkraken.values.JsonNonCollection
+import jemzart.jsonkraken.values.JsonObject
+import jemzart.jsonkraken.values.JsonValue
 
 class ObjectToStringParser internal constructor(jsonValue: JsonValue){
 	private val stb = StringBuilder()
