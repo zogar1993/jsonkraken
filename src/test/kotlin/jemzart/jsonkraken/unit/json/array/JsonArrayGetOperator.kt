@@ -1,9 +1,7 @@
-package jemzart.jsonkraken.unit
+package jemzart.jsonkraken.unit.json.array
 
-import jemzart.jsonkraken.JSON_OBJECT
 import jemzart.jsonkraken.JSON_VALUE
 import jemzart.jsonkraken.values.JsonArray
-import jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class JsonArrayGetOperator{
