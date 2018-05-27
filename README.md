@@ -16,3 +16,14 @@ There are many reasons:
 * Lightweightness: Is this a word? The thing is it is as light as i could think it to be.
 * Performance: Ok now, not to say other JSON parsers are not optimized, but i have seen only a few take into consideration that Java is a garbage ~~collected~~ language. Object creation needs implicit handling, which may be expensive in extreme cases. The most overused method for parsing i have seen out there is "substring", which unfortunately may create some overheader (as far as i know, this is not necesarily their fault, since the array deep copying behaviour for substring was introduced in Java 7 update 6)
 * Possibility: I could, I did.
+
+## Getting Started
+I will get technical then, but first lets see a quick example.
+
+### Hello world overview
+		val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
+		println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
+		println(json["getting"]["started", STRING]) //prints: Hello World
+That pretty much covers the basics. The rest of the document is for you, dear reader, to better understand the details of JSONKraken, along with some of its design desitions.
+
+## TO DO...
