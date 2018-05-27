@@ -14,6 +14,10 @@ class JsonObject : JsonValue() {
 		map[name] = value
 	}
 
+	override fun get(index: Int): JsonValue = get(index.toString())
+	override fun <T> get(index: Int, shamelessHack: T): T = get(index.toString(), shamelessHack)
+	override fun set(index: Int, value: Any?) = set(index.toString(), value)
+
 	override fun remove(name: String){
 		map.remove(name)
 	}

@@ -1,12 +1,13 @@
 package jemzart.jsonkraken.unit
 
+import jemzart.jsonkraken.JSON_OBJECT
 import jemzart.jsonkraken.JSON_VALUE
 import jemzart.jsonkraken.values.JsonArray
 import jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
-class ArrayItemGetting{
-    private val insertion = JsonObject()
+class JsonArrayGetOperator{
+    private val insertion = JSON_VALUE
 
 	@Test
     fun byInt(){
@@ -29,7 +30,7 @@ class ArrayItemGetting{
 	@Test
 	fun negativeNotation(){
 		val arr = JsonArray()
-		arr.add(JsonArray())
+		arr.add(null)
 		arr.add(insertion)
 
 		assert(arr[-1, JSON_VALUE] == insertion)
