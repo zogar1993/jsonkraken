@@ -14,6 +14,7 @@ val DOUBLE: Double = 0.0
 val JSON_VALUE: JsonValue = JsonNonCollection(null)
 val JSON_OBJECT: JsonObject = JsonObject()
 val JSON_ARRAY: JsonArray = JsonArray()
+val ANY: Any = ""
 val NULLABLE_STRING: String? = null
 val NULLABLE_INTEGER: Int? = null
 val NULLABLE_BOOLEAN: Boolean? = null
@@ -21,6 +22,7 @@ val NULLABLE_DOUBLE: Double? = null
 val NULLABLE_JSON_VALUE: JsonValue? = null
 val NULLABLE_JSON_OBJECT: JsonObject? = null
 val NULLABLE_JSON_ARRAY: JsonArray? = null
+val NULLABLE_ANY: Any? = ""
 
 fun String.toJson(): JsonValue {
 	val obj = StringToObjectParser(this).create()
