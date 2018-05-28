@@ -13,7 +13,6 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	private val first get() = raw[start]
 
 	companion object {
-		private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
 		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
 	}
 
@@ -25,8 +24,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 			't' -> 	deserializeTrue()
 			'f' -> deserializeFalse()
 			'n' -> deserializeNull()
-			in digits -> deserializeNumber()
-			else -> throw UnsupportedOperationException()
+			else -> deserializeNumber()
 		}
 	}
 
