@@ -88,20 +88,38 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	private fun createNumber(): Any {
 		val end = fromStartIndexOf { it.isWhiteSpace() || it == '}' || it == ']' || it == ',' }
 		val literal = raw.substring(start, end)
-
-		val negative = literal[0] == '-'
-		if (negative) assert(literal[1] != '.')
-		if (literal != "0" && literal != "-0")
-			if (literal[if (negative) 1 else 0] == '0')// is not zero but starts with zero
-				assert(literal.contains('.') || literal.contains('e', ignoreCase = true))
-		val indexOfDot = literal.indexOf('.')
-		assert(literal.last() != '.')
-		assert(literal[indexOfDot + 1].toLowerCase() != 'e')
 		start = end
+		skipSpaces()
 
-		return if (literal.contains('.') || literal.contains('e', ignoreCase = true))
-			literal.toDouble()
-		else literal.toInt()
+		var index = 0
+		if (literal[index] == '-') index++ //skip -
+		if (literal[index] == '0'){
+			if (literal.length == index + 1) return 0 //no more to read
+			index++ //skip 0
+			assert(literal[index] == '.')
+		}
+		else
+			while (true){
+				assert(literal[index].isDigit())
+				if (literal.length == index + 1) return literal.toInt() //no more to read
+				index++ //skip digit
+				if (literal[index] == '.') break
+			}
+		index++ //skip .
+		assert(literal[index].isDigit())
+		index++ //skip first decimal digit
+		var foundE = false
+		while (true){
+			if (literal.length == index + 1) return literal.toDouble() //no more to read
+			if (!foundE)
+				if (literal[index] == 'e' || literal[index] == 'E'){
+					index++ //skip e or E
+					foundE = true
+					if (literal[index] == '+' || literal[index] == '-') index++ //skip + or -
+				}
+			assert(literal[index].isDigit())
+			index++ //skip digit
+		}
 	}
 
 	private fun createObject(): JsonObject {
@@ -168,21 +186,21 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		return result
 	}
 
-	fun fromStartIndexOf(occurrence: (Char) -> Boolean): Int {
+	private fun fromStartIndexOf(occurrence: (Char) -> Boolean): Int {
 		for (i in start until last)
 			if (occurrence(raw[i]))
 				return i
 		return last
 	}
 
-	fun fromStartIndexOf(char: Char): Int {
+	private fun fromStartIndexOf(char: Char): Int {
 		for (i in start until last)
 			if (raw[i] == char)
 				return i
 		return -1
 	}
 
-	fun skipSpaces() {
+	private fun skipSpaces() {
 		for (i in start until last) {
 			if (!raw[i].isWhiteSpace()) {
 				start = i
