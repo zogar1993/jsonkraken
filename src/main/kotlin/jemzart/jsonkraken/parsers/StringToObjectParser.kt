@@ -124,57 +124,47 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 	private fun createObject(): JsonObject {
 		val obj = JsonObject()
-		start += 1 //skip '{'
-		skipSpaces()
-		if (first == '}')
-			start += 1 //skip '}'
-		else
+		advanceAndSkipSpaces() //skip '{'
+		if (first != '}')
 			while (true) {
-				start += 1//skip "
-				val end = fromStartIndexOf('\"')
-				val result = raw.substring(start, end)
-				start = end + 1 //skip "
-				val key = result
+			assert(first == '\"')
+			start += 1//skip "
 
-				skipSpaces()
-				assert(first == ':')
-				start += 1//skip :
+			val end = fromStartIndexOf('\"')
+			val key = raw.substring(start, end)
+			advanceAndSkipSpaces() //skip "
 
-				skipSpaces()
-				obj[key] = extractJsonValue()
+			assert(first == ':')
+			advanceAndSkipSpaces() //skip :
 
-				skipSpaces()
-				val delimiter = first
-				start += 1//skip , or }
+			obj[key] = extractJsonValue()
 
-				if (delimiter == ',') skipSpaces()
-				else if (delimiter == '}') break
-				else throw IllegalStateException()
+			skipSpaces()
+
+			if (first == ',') advanceAndSkipSpaces() //skip ,
+			else if (first == '}') break
+			else throw IllegalStateException()
 			}
+		advanceAndSkipSpaces() //skip '}'
 		return obj
 	}
 
 
 	private fun createArray(): JsonArray {
 		val arr = JsonArray()
-		start += 1 //skip '['
-		skipSpaces()
-		if (first == ']')
-			start += 1 //skip ']'
-		else
+		advanceAndSkipSpaces() //skip '['
+		if (first != ']')
 			while (true) {
-				skipSpaces()
 				val jsonValue = extractJsonValue()
 				arr.add(jsonValue)
 
 				skipSpaces()
-				val delimiter = first
-				start += 1//skip , or ]
 
-				if (delimiter == ',') skipSpaces()
-				else if (delimiter == ']') break
+				if (first == ',') advanceAndSkipSpaces() //skip ','
+				else if (first == ']') break
 				else throw IllegalStateException()
 			}
+		advanceAndSkipSpaces() //skip ']'
 		return arr
 	}
 
@@ -207,5 +197,10 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				return
 			}
 		}
+	}
+
+	private fun advanceAndSkipSpaces(value: Int = 1){
+		start += value
+		skipSpaces()
 	}
 }

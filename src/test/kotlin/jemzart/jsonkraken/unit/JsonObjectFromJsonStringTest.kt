@@ -163,6 +163,7 @@ class JsonObjectFromJsonStringTest {
 				if (it.name[0] == 'n')
 					try {
 						text.toJson()
+						println("${it.name} $text")
 						passed++
 					} catch (ex: Throwable) {
 						failed++
