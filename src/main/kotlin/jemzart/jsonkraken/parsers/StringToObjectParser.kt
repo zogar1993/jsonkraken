@@ -19,77 +19,82 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 	private fun extractJsonValue(): Any? {
 		return when (first) {
-			'{' -> createObject()
-			'[' -> createArray()
-			'\"' -> {
-				start += 1//skip "
-				val memoryStart = start
-				val end: Int
-				while (true) {
-					var index = fromStartIndexOf { it == '\\' || it == '"' }
-					if (raw[index] == '\\') {
-						index++ // skip \
-						val escaped = raw[index]
-						if (escaped in oneCharEscaped)
-							index++ // skip 1 char
-						else if (escaped == 'u') {
-							assert(raw[index + 1].isHexa())
-							assert(raw[index + 2].isHexa())
-							assert(raw[index + 3].isHexa())
-							assert(raw[index + 4].isHexa())
-							index += 5 //skip uFFFF
-						} else throw UnsupportedOperationException()
-						start = index
-					} else {
-						start = memoryStart
-						end = index
-						break
-					}
-				}
-
-				for (i in start until end) {
-					assert(!raw[i].isWhiteSpaceOtherThanSpace())
-					assert(!raw[i].isISOControlCharacterOtherThanDelete())
-				}
-
-				val value = raw.substring(start, end)
-				this.start = end + 1 //skip "
-				value
-			}
-			't' -> {
-				assert(raw[start + 1] == 'r')
-				assert(raw[start + 2] == 'u')
-				assert(raw[start + 3] == 'e')
-				start += 4 //skip true
-				true
-			}
-			'f' -> {
-				assert(raw[start + 1] == 'a')
-				assert(raw[start + 2] == 'l')
-				assert(raw[start + 3] == 's')
-				assert(raw[start + 4] == 'e')
-				start += 5 //skip false
-				false
-			}
-			'n' -> {
-				assert(raw[start + 1] == 'u')
-				assert(raw[start + 2] == 'l')
-				assert(raw[start + 3] == 'l')
-				start += 4 //skip true
-				null
-			}
-			in digits -> {
-				createNumber()
-			}
+			'{' -> deserializeObject()
+			'[' -> deserializeArray()
+			'\"' -> deserializeString()
+			't' -> 	deserializeTrue()
+			'f' -> deserializeFalse()
+			'n' -> deserializeNull()
+			in digits -> deserializeNumber()
 			else -> throw UnsupportedOperationException()
 		}
 	}
 
-	private fun createNumber(): Any {
+	private fun deserializeTrue(): Boolean {
+		assert(raw[start + 1] == 'r')
+		assert(raw[start + 2] == 'u')
+		assert(raw[start + 3] == 'e')
+		advance(4) //skip true
+		return true
+	}
+
+	private fun deserializeFalse(): Boolean {
+		assert(raw[start + 1] == 'a')
+		assert(raw[start + 2] == 'l')
+		assert(raw[start + 3] == 's')
+		assert(raw[start + 4] == 'e')
+		advance(5) //skip false
+		return false
+	}
+
+	private fun deserializeNull(): Nothing? {
+		assert(raw[start + 1] == 'u')
+		assert(raw[start + 2] == 'l')
+		assert(raw[start + 3] == 'l')
+		advance(4) //skip true
+		return null
+	}
+
+	private fun deserializeString(): String {
+		start += 1//skip "
+		val memoryStart = start
+		val end: Int
+		while (true) {
+			var index = fromStartIndexOf { it == '\\' || it == '"' }
+			if (raw[index] == '\\') {
+				index++ // skip \
+				val escaped = raw[index]
+				if (escaped in oneCharEscaped)
+					index++ // skip 1 char
+				else if (escaped == 'u') {
+					assert(raw[index + 1].isHexa())
+					assert(raw[index + 2].isHexa())
+					assert(raw[index + 3].isHexa())
+					assert(raw[index + 4].isHexa())
+					index += 5 //skip uFFFF
+				} else throw UnsupportedOperationException()
+				start = index
+			} else {
+				start = memoryStart
+				end = index
+				break
+			}
+		}
+
+		for (i in start until end) {
+			assert(!raw[i].isWhiteSpaceOtherThanSpace())
+			assert(!raw[i].isISOControlCharacterOtherThanDelete())
+		}
+
+		val value = raw.substring(start, end)
+		this.start = end + 1 //skip "
+		return value
+	}
+
+	private fun deserializeNumber(): Any {
 		val end = fromStartIndexOf { it.isWhiteSpace() || it == '}' || it == ']' || it == ',' }
 		val literal = raw.substring(start, end)
-		start = end
-		skipSpaces()
+		advance(literal.length) //skip value
 
 		var index = 0
 		if (literal[index] == '-') index++ //skip -
@@ -122,9 +127,9 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		}
 	}
 
-	private fun createObject(): JsonObject {
+	private fun deserializeObject(): JsonObject {
 		val obj = JsonObject()
-		advanceAndSkipSpaces() //skip '{'
+		advance() //skip '{'
 		if (first != '}')
 			while (true) {
 			assert(first == '\"')
@@ -132,27 +137,28 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 			val end = fromStartIndexOf('\"')
 			val key = raw.substring(start, end)
-			advanceAndSkipSpaces() //skip "
+			advance(key.length, false) //skip key
+			advance() //skip "
 
 			assert(first == ':')
-			advanceAndSkipSpaces() //skip :
+			advance() //skip :
 
 			obj[key] = extractJsonValue()
 
 			skipSpaces()
 
-			if (first == ',') advanceAndSkipSpaces() //skip ,
+			if (first == ',') advance() //skip ,
 			else if (first == '}') break
 			else throw IllegalStateException()
 			}
-		advanceAndSkipSpaces() //skip '}'
+		advance() //skip '}'
 		return obj
 	}
 
 
-	private fun createArray(): JsonArray {
+	private fun deserializeArray(): JsonArray {
 		val arr = JsonArray()
-		advanceAndSkipSpaces() //skip '['
+		advance() //skip '['
 		if (first != ']')
 			while (true) {
 				val jsonValue = extractJsonValue()
@@ -160,11 +166,11 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 				skipSpaces()
 
-				if (first == ',') advanceAndSkipSpaces() //skip ','
+				if (first == ',') advance() //skip ','
 				else if (first == ']') break
 				else throw IllegalStateException()
 			}
-		advanceAndSkipSpaces() //skip ']'
+		advance() //skip ']'
 		return arr
 	}
 
@@ -176,7 +182,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		return result
 	}
 
-	private fun fromStartIndexOf(occurrence: (Char) -> Boolean): Int {
+	private inline fun fromStartIndexOf(occurrence: (Char) -> Boolean): Int {
 		for (i in start until last)
 			if (occurrence(raw[i]))
 				return i
@@ -199,8 +205,8 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		}
 	}
 
-	private fun advanceAndSkipSpaces(value: Int = 1){
+	private inline fun advance(value: Int = 1, advanceFinalWhiteSpaces: Boolean = true){
 		start += value
-		skipSpaces()
+		if (advanceFinalWhiteSpaces) skipSpaces()
 	}
 }
