@@ -16,7 +16,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
 	}
 
-	private fun extractJsonValue(): Any? {
+	private fun deserializeValue(): Any? {
 		return when (first) {
 			'{' -> deserializeObject()
 			'[' -> deserializeArray()
@@ -135,7 +135,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 			assert(first == ':')
 			advance() //skip :
 
-			obj[key] = extractJsonValue()
+			obj[key] = deserializeValue()
 
 			skipSpaces()
 
@@ -153,10 +153,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		advance() //skip '['
 		if (first != ']')
 			while (true) {
-				val jsonValue = extractJsonValue()
-				arr.add(jsonValue)
-
-				skipSpaces()
+				arr.add(deserializeValue())
 
 				if (first == ',') advance() //skip ','
 				else if (first == ']') break
@@ -168,7 +165,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 	internal fun create(): Any? {
 		skipSpaces()
-		val result = extractJsonValue()
+		val result = deserializeValue()
 		assert(start == last)//no text left
 		return result
 	}
@@ -194,6 +191,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				return
 			}
 		}
+		start = last
 	}
 
 	private inline fun advance(value: Int = 1, trim: Boolean = true){

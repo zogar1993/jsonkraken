@@ -9,17 +9,16 @@ class Parsing{
 	fun mustParse() {
 		var passed = 0
 		var failed = 0
-		"/test_parsing".asResourceFile().walk().forEach {
+		"/test_parsing/allowed".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
-				if (it.name[0] == 'y')
-					try {
-						if (text == "[1\r\n]")
-							text.toJson()
-						passed++
-					} catch (ex: Throwable) {
-						failed++
-					}
+				try {
+					if (text == "[1\r\n]")
+						text.toJson()
+					passed++
+				} catch (ex: Throwable) {
+					failed++
+				}
 			}
 		}
 		println("MUST: $passed parsed, $failed not parsed")
@@ -30,17 +29,16 @@ class Parsing{
 	fun mustNotParse() {
 		var passed = 0
 		var failed = 0
-		"/test_parsing".asResourceFile().walk().forEach {
+		"/test_parsing/restricted".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
-				if (it.name[0] == 'n')
-					try {
-						text.toJson()
-						println("${it.name} $text")
-						passed++
-					} catch (ex: Throwable) {
-						failed++
-					}
+				try {
+					text.toJson()
+					println("${it.name} $text")
+					passed++
+				} catch (ex: Throwable) {
+					failed++
+				}
 			}
 		}
 		println("MUST NOT: $passed parsed, $failed not parsed")
@@ -51,17 +49,16 @@ class Parsing{
 	fun mayParse() {
 		var passed = 0
 		var failed = 0
-		"/test_parsing".asResourceFile().walk().forEach {
+		"/test_parsing/optional".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
-				if (it.name[0] == 'i')
-					try {
-						text.toJson()
-						passed++
-					} catch (ex: Throwable) {
-						println("${it.name} $text")
-						failed++
-					}
+				try {
+					text.toJson()
+					passed++
+				} catch (ex: Throwable) {
+					println("${it.name} $text")
+					failed++
+				}
 			}
 		}
 		println("MAY: $passed parsed, $failed not parsed")
