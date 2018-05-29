@@ -10,11 +10,7 @@ import jemzart.jsonkraken.values.JsonObject
 class StringToObjectParser internal constructor(private val raw: String) {
 	private val last = raw.length
 	private var start = 0
-	private val first get() = raw[start]
-
-	companion object {
-		private val oneCharEscaped = arrayOf('\"', '\\', '/', 'b', 'f', 'n', 'r', 't')
-	}
+	private inline val first get() = raw[start]
 
 	private fun deserializeValue(): Any? {
 		return when (first) {
@@ -67,7 +63,14 @@ class StringToObjectParser internal constructor(private val raw: String) {
 					assert(raw[start + 4].isHexadecimal())
 					advance(5,false) //skip uFFFF
 				} else {
-					assert(first in oneCharEscaped)
+					assert(first == '\"' ||
+							first == '\\' ||
+							first == '/' ||
+							first == 'b' ||
+							first == 'f' ||
+							first == 'n' ||
+							first == 'r' ||
+							first == 't')
 					advance(trim = false) //skip 1 char
 				}
 			} else if (first == '"'){
