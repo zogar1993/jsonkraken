@@ -103,10 +103,10 @@ class StringToObjectParser internal constructor(private val raw: String) {
 			}
 		index++ //skip .
 		assert(literal[index].isDecimal())
+		if (literal.length == index + 1) return literal.toDouble() //no more to read
 		index++ //skip first decimal digit
 		var foundE = false
 		while (true){
-			if (literal.length == index + 1) return literal.toDouble() //no more to read
 			if (!foundE)
 				if (literal[index] == 'e' || literal[index] == 'E'){
 					index++ //skip e or E
@@ -114,6 +114,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 					if (literal[index] == '+' || literal[index] == '-') index++ //skip + or -
 				}
 			assert(literal[index].isDecimal())
+			if (literal.length == index + 1) return literal.toDouble() //no more to read
 			index++ //skip digit
 		}
 	}
