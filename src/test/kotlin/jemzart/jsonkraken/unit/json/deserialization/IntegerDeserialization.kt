@@ -43,4 +43,14 @@ class IntegerDeserialization{
 		val json = "[-42]".toJson()
 		assert(json[0, INTEGER] == -42)
 	}
+
+	@Test(expected = Throwable::class)
+	fun zeroStarting() {
+		"[01]".toJson()
+	}
+
+	@Test(expected = Throwable::class)
+	fun zeroStartingNegative() {
+		"[-01]".toJson()
+	}
 }
