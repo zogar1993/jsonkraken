@@ -169,7 +169,6 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	internal fun create(): Any? {
 		skipSpaces()
 		val result = extractJsonValue()
-		skipSpaces()
 		assert(start == last)//no text left
 		return result
 	}

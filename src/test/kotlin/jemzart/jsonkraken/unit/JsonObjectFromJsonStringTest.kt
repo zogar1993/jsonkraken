@@ -1,7 +1,6 @@
 package jemzart.jsonkraken.unit
 
 import jemzart.jsonkraken.*
-import jemzart.jsonkraken.helpers.asResourceFile
 import jemzart.jsonkraken.values.JsonNonCollection
 import org.junit.Test
 
@@ -10,36 +9,6 @@ class JsonObjectFromJsonStringTest {
 	fun simpleString() {
 		val json = "{\"name\":\"Von Chap\"}".toJson()
 		assert(json["name", STRING] == "Von Chap")
-	}
-
-	@Test
-	fun simpleTrue() {
-		val json = "{\"captain\":true}".toJson()
-		assert(json["captain", BOOLEAN])
-	}
-
-	@Test
-	fun simpleFalse() {
-		val json = "{\"captain\":false}".toJson()
-		assert(!json["captain", BOOLEAN])
-	}
-
-	@Test
-	fun simpleNull() {
-		val json = "{\"name\":null}".toJson()
-		assert(json["name", NULLABLE_STRING] == null)
-	}
-
-	@Test
-	fun simpleInt() {
-		val json = "{\"age\":42}".toJson()
-		assert(json["age", INTEGER] == 42)
-	}
-
-	@Test
-	fun simpleNegativeInt() {
-		val json = "{\"age\":-42}".toJson()
-		assert(json["age", INTEGER] == -42)
 	}
 
 	@Test
@@ -82,12 +51,6 @@ class JsonObjectFromJsonStringTest {
 	}
 
 	@Test
-	fun arrayWithInt() {
-		val json = "[2]".toJson()
-		assert(json[0, INTEGER] == 2)
-	}
-
-	@Test
 	fun emptyArray() {
 		val json = "[]".toJson()
 		assert(json.size == 0)
@@ -103,113 +66,5 @@ class JsonObjectFromJsonStringTest {
 	fun backslashedQuotes() {
 		val json = "[\"\\\"\"]".toJson()
 		assert(json[0, STRING] == "\\\"")
-	}
-
-	@Test
-	fun zero() {
-		val json = "0".toJson() as JsonNonCollection
-		assert(json.value == 0)
-	}
-
-	@Test
-	fun minusZero() {
-		val json = "-0".toJson() as JsonNonCollection
-		assert(json.value == 0)
-	}
-
-	@Test(expected = Throwable::class)
-	fun misspelledNull() {
-		"nnnn".toJson()
-	}
-
-	@Test(expected = Throwable::class)
-	fun misspelledTrue() {
-		"tttt".toJson()
-	}
-
-	@Test(expected = Throwable::class)
-	fun misspelledFalse() {
-		"fffff".toJson()
-	}
-
-	@Test
-	fun mustParse() {
-		var passed = 0
-		var failed = 0
-		"/test_parsing".asResourceFile().walk().forEach {
-			if (!it.isDirectory) {
-				val text = it.readText()
-				if (it.name[0] == 'y')
-					try {
-						if (text == "[1\r\n]")
-							text.toJson()
-						passed++
-					} catch (ex: Throwable) {
-						failed++
-					}
-			}
-		}
-		println("MUST: $passed parsed, $failed not parsed")
-		assert(failed == 0)
-	}
-
-	@Test
-	fun mustNotParse() {
-		var passed = 0
-		var failed = 0
-		"/test_parsing".asResourceFile().walk().forEach {
-			if (!it.isDirectory) {
-				val text = it.readText()
-				if (it.name[0] == 'n')
-					try {
-						text.toJson()
-						println("${it.name} $text")
-						passed++
-					} catch (ex: Throwable) {
-						failed++
-					}
-			}
-		}
-		println("MUST NOT: $passed parsed, $failed not parsed")
-		assert(passed == 0)
-	}
-
-	@Test
-	fun mayParse() {
-		var passed = 0
-		var failed = 0
-		"/test_parsing".asResourceFile().walk().forEach {
-			if (!it.isDirectory) {
-				val text = it.readText()
-				if (it.name[0] == 'i')
-					try {
-						text.toJson()
-						passed++
-					} catch (ex: Throwable) {
-						println("${it.name} $text")
-						failed++
-					}
-			}
-		}
-		println("MAY: $passed parsed, $failed not parsed")
-	}
-
-	@Test
-	fun transform() {
-		var passed = 0
-		var failed = 0
-		"/test_transform".asResourceFile().walk().forEach {
-			if (!it.isDirectory) {
-				val text = it.readText()
-				try {
-					text.toJson()
-					passed++
-				} catch (ex: Throwable) {
-					println("${it.name} $text")
-					failed++
-				}
-			}
-		}
-		println("MAY: $passed parsed, $failed not parsed")
 	}
 }
