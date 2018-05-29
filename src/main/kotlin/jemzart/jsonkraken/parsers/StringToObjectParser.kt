@@ -1,9 +1,9 @@
 package jemzart.jsonkraken.parsers
 
-import jemzart.jsonkraken.helpers.isHexa
+import jemzart.jsonkraken.helpers.isDecimal
+import jemzart.jsonkraken.helpers.isHexadecimal
 import jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
 import jemzart.jsonkraken.helpers.isWhiteSpace
-import jemzart.jsonkraken.helpers.isWhiteSpaceOtherThanSpace
 import jemzart.jsonkraken.values.JsonArray
 import jemzart.jsonkraken.values.JsonObject
 
@@ -54,39 +54,32 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	}
 
 	private fun deserializeString(): String {
-		start += 1//skip "
-		val memoryStart = start
-		val end: Int
+		advance(trim = false) //skip "
+		val valueStart = start
 		while (true) {
-			var index = fromStartIndexOf { it == '\\' || it == '"' }
-			if (raw[index] == '\\') {
-				index++ // skip \
-				val escaped = raw[index]
-				if (escaped in oneCharEscaped)
-					index++ // skip 1 char
-				else if (escaped == 'u') {
-					assert(raw[index + 1].isHexa())
-					assert(raw[index + 2].isHexa())
-					assert(raw[index + 3].isHexa())
-					assert(raw[index + 4].isHexa())
-					index += 5 //skip uFFFF
-				} else throw UnsupportedOperationException()
-				start = index
+			if (first == '\\'){
+				advance(trim = false) // skip \
+
+				if (first == 'u') {
+					assert(raw[start + 1].isHexadecimal())
+					assert(raw[start + 2].isHexadecimal())
+					assert(raw[start + 3].isHexadecimal())
+					assert(raw[start + 4].isHexadecimal())
+					advance(5,false) //skip uFFFF
+				} else {
+					assert(first in oneCharEscaped)
+					advance(trim = false) //skip 1 char
+				}
+			} else if (first == '"'){
+				val value = raw.substring(valueStart, start)
+				advance() //skip "
+				return value
 			} else {
-				start = memoryStart
-				end = index
-				break
+				assert(raw[start] != '\n' && raw[start] !=  '\t' && raw[start] !=  '\r')
+				assert(!raw[start].isISOControlCharacterOtherThanDelete())
+				advance(trim = false) //skip 1 char
 			}
 		}
-
-		for (i in start until end) {
-			assert(!raw[i].isWhiteSpaceOtherThanSpace())
-			assert(!raw[i].isISOControlCharacterOtherThanDelete())
-		}
-
-		val value = raw.substring(start, end)
-		this.start = end + 1 //skip "
-		return value
 	}
 
 	private fun deserializeNumber(): Any {
@@ -103,13 +96,13 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		}
 		else
 			while (true){
-				assert(literal[index].isDigit())
+				assert(literal[index].isDecimal())
 				if (literal.length == index + 1) return literal.toInt() //no more to read
 				index++ //skip digit
 				if (literal[index] == '.') break
 			}
 		index++ //skip .
-		assert(literal[index].isDigit())
+		assert(literal[index].isDecimal())
 		index++ //skip first decimal digit
 		var foundE = false
 		while (true){
@@ -120,7 +113,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 					foundE = true
 					if (literal[index] == '+' || literal[index] == '-') index++ //skip + or -
 				}
-			assert(literal[index].isDigit())
+			assert(literal[index].isDecimal())
 			index++ //skip digit
 		}
 	}
@@ -203,8 +196,8 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		}
 	}
 
-	private inline fun advance(value: Int = 1, advanceFinalWhiteSpaces: Boolean = true){
+	private inline fun advance(value: Int = 1, trim: Boolean = true){
 		start += value
-		if (advanceFinalWhiteSpaces) skipSpaces()
+		if (trim) skipSpaces()
 	}
 }
