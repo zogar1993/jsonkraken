@@ -9,7 +9,7 @@ import org.junit.Test
 class ObjectDeserialization{
 	@Test
 	fun empty(){
-		val json = "[]".toJson()
+		val json = "{}".toJson()
 		assert(json.size == 0)
 	}
 
