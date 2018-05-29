@@ -17,7 +17,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 			'{' -> deserializeObject()
 			'[' -> deserializeArray()
 			'\"' -> deserializeString()
-			't' -> 	deserializeTrue()
+			't' -> deserializeTrue()
 			'f' -> deserializeFalse()
 			'n' -> deserializeNull()
 			else -> deserializeNumber()
@@ -53,7 +53,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		advance(trim = false) //skip "
 		val valueStart = start
 		while (true) {
-			if (first == '\\'){
+			if (first == '\\') {
 				advance(trim = false) // skip \
 
 				if (first == 'u') {
@@ -61,7 +61,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 					assert(raw[start + 2].isHexadecimal())
 					assert(raw[start + 3].isHexadecimal())
 					assert(raw[start + 4].isHexadecimal())
-					advance(5,false) //skip uFFFF
+					advance(5, false) //skip uFFFF
 				} else {
 					assert(first == '\"' ||
 							first == '\\' ||
@@ -73,12 +73,12 @@ class StringToObjectParser internal constructor(private val raw: String) {
 							first == 't')
 					advance(trim = false) //skip 1 char
 				}
-			} else if (first == '"'){
+			} else if (first == '"') {
 				val value = raw.substring(valueStart, start)
 				advance() //skip "
 				return value
 			} else {
-				assert(raw[start] != '\n' && raw[start] !=  '\t' && raw[start] !=  '\r')
+				assert(raw[start] != '\n' && raw[start] != '\t' && raw[start] != '\r')
 				assert(!raw[start].isISOControlCharacterOtherThanDelete())
 				advance(trim = false) //skip 1 char
 			}
@@ -92,13 +92,12 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 		var index = 0
 		if (literal[index] == '-') index++ //skip -
-		if (literal[index] == '0'){
+		if (literal[index] == '0') {
 			if (literal.length == index + 1) return 0 //no more to read
 			index++ //skip 0
 			assert(literal[index] == '.')
-		}
-		else
-			while (true){
+		} else
+			while (true) {
 				assert(literal[index].isDecimal())
 				if (literal.length == index + 1) return literal.toInt() //no more to read
 				index++ //skip digit
@@ -109,9 +108,9 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		if (literal.length == index + 1) return literal.toDouble() //no more to read
 		index++ //skip first decimal digit
 		var foundE = false
-		while (true){
+		while (true) {
 			if (!foundE)
-				if (literal[index] == 'e' || literal[index] == 'E'){
+				if (literal[index] == 'e' || literal[index] == 'E') {
 					index++ //skip e or E
 					foundE = true
 					if (literal[index] == '+' || literal[index] == '-') index++ //skip + or -
@@ -127,24 +126,22 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		advance() //skip '{'
 		if (first != '}')
 			while (true) {
-			assert(first == '\"')
-			start += 1//skip "
+				assert(first == '\"')
+				advance(trim = false)//skip "
 
-			val end = fromStartIndexOf('\"')
-			val key = raw.substring(start, end)
-			advance(key.length, false) //skip key
-			advance() //skip "
+				val end = fromStartIndexOf('\"')
+				val key = raw.substring(start, end)
+				advance(key.length, false) //skip key
+				advance() //skip "
 
-			assert(first == ':')
-			advance() //skip :
+				assert(first == ':')
+				advance() //skip :
 
-			obj[key] = deserializeValue()
+				obj[key] = deserializeValue()
 
-			skipSpaces()
-
-			if (first == ',') advance() //skip ,
-			else if (first == '}') break
-			else throw IllegalStateException()
+				if (first == ',') advance() //skip ,
+				else if (first == '}') break
+				else throw IllegalStateException()
 			}
 		advance() //skip '}'
 		return obj
@@ -197,7 +194,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		start = last
 	}
 
-	private inline fun advance(value: Int = 1, trim: Boolean = true){
+	private inline fun advance(value: Int = 1, trim: Boolean = true) {
 		start += value
 		if (trim) skipSpaces()
 	}
