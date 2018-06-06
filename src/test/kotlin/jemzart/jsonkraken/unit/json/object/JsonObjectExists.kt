@@ -3,24 +3,22 @@ package jemzart.jsonkraken.unit.json.`object`
 import jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
-class JsonObjectRemove{
+class JsonObjectExists {
 	@Test
-	fun byString(){
+	fun exists(){
 		val obj = JsonObject()
-		obj["0"] = null
 
-		obj.remove("0")
+		obj["0"] = ""
 
-		assert(obj.size == 0)
+		assert(obj.exists("0"))
+		assert(obj.exists(0))
 	}
 
 	@Test
-	fun byInt(){
+	fun doesNotExist(){
 		val obj = JsonObject()
-		obj["0"] = null
 
-		obj.remove(0)
-
-		assert(obj.size == 0)
+		assert(!obj.exists("0"))
+		assert(!obj.exists(0))
 	}
 }

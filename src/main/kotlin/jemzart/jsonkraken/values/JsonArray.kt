@@ -16,20 +16,26 @@ class JsonArray : JsonValue() {
 		list[if (index < 0) list.size + index else index] = value
 	}
 
-	fun add(item: Any?){
-		list.add(item)
-	}
-
 	override fun remove(index: Int){
 		list.removeAt(index)
+	}
+
+	override fun exists(index: Int): Boolean {
+		return index < list.size
+	}
+
+	fun add(item: Any?){
+		list.add(item)
 	}
 
 	fun insert(index: Int, value: Any?){
 		list.add(index, value)
 	}
 
+
 	override fun <T> get(name: String, shamelessHack: T): T = get(name.toInt(), shamelessHack)
 	override fun get(name: String): JsonValue = get(name.toInt())
 	override fun set(name: String, value: Any?) = set(name.toInt(), value)
 	override fun remove(name: String) = remove(name.toInt())
+	override fun exists(name: String): Boolean = exists(name.toInt())
 }

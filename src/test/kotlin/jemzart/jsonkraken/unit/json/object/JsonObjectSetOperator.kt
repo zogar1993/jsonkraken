@@ -6,19 +6,19 @@ import jemzart.jsonkraken.values.JsonValue
 import org.junit.Test
 
 class JsonObjectSetOperator{
-	val insertion: JsonValue = JSON_VALUE
+	private val insertion: JsonValue = JSON_VALUE
 
 	@Test
 	fun byString(){
-		val arr = JsonObject()
-		arr["0"] = insertion
-		assert(arr["0"] == insertion)
+		val obj = JsonObject()
+		obj["0"] = insertion
+		assert(obj["0"] == insertion)
 	}
 
 	@Test
 	fun byInt(){
-		val arr = JsonObject()
-		arr[0] = insertion
-		assert(arr["0"] == insertion)
+		val obj = JsonObject()
+		obj[0] = insertion
+		assert(obj["0"] == insertion)
 	}
 }
