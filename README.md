@@ -23,7 +23,7 @@ I will get technical then, but first lets see a quick example.
 ### Hello world overview
 		val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
 		println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
-		println(json["getting"]["started", STRING]) //prints: Hello World
+		println(json["getting"]["started"]) //prints: Hello World
 That pretty much covers the basics. The rest of the document is for you, dear reader, to better understand the details of JSONKraken, along with some of its design desitions.
 
 ## TO DO...
