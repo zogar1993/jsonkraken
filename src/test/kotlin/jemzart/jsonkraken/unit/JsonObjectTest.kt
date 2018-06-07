@@ -1,6 +1,5 @@
 package jemzart.jsonkraken.unit
 
-import jemzart.jsonkraken.STRING
 import jemzart.jsonkraken.values.JsonArray
 import jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
@@ -10,14 +9,14 @@ class JsonObjectTest {
 	fun added(){
 		val obj = JsonObject()
 		obj["name"] = "Ragoz"
-		assert(obj["name", STRING] == "Ragoz")
+		assert(obj["name"] == "Ragoz")
 	}
 
 	@Test
 	fun simpleArray() {
 		val arr = JsonArray()
 		arr.add("Ragoz")
-		assert(arr[0, STRING] == "Ragoz")
+		assert(arr[0] == "Ragoz")
 	}
 
 
@@ -27,9 +26,9 @@ class JsonObjectTest {
 		obj.add("Von Chap")
 		obj.add("Ulf")
 		obj.insert(0, "Joelin")
-		assert(obj[0, STRING] == "Joelin")
-		assert(obj[1, STRING] == "Von Chap")
-		assert(obj[2, STRING] == "Ulf")
+		assert(obj[0] == "Joelin")
+		assert(obj[1] == "Von Chap")
+		assert(obj[2] == "Ulf")
 	}
 
 	@Test
@@ -38,9 +37,9 @@ class JsonObjectTest {
 		obj.add("Von Chap")
 		obj.add("Ulf")
 		obj.insert(1, "Joelin")
-		assert(obj[1, STRING] == "Joelin")
-		assert(obj[0, STRING] == "Von Chap")
-		assert(obj[2, STRING] == "Ulf")
+		assert(obj[1] == "Joelin")
+		assert(obj[0] == "Von Chap")
+		assert(obj[2] == "Ulf")
 	}
 
 	@Test
@@ -49,8 +48,8 @@ class JsonObjectTest {
 		obj.add("Von Chap")
 		obj.add("Ulf")
 		obj.insert(2, "Joelin")
-		assert(obj[2, STRING] == "Joelin")
-		assert(obj[0, STRING] == "Von Chap")
-		assert(obj[1, STRING] == "Ulf")
+		assert(obj[2] == "Joelin")
+		assert(obj[0] == "Von Chap")
+		assert(obj[1] == "Ulf")
 	}
 }

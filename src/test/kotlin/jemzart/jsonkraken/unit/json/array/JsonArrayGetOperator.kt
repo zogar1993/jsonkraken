@@ -1,18 +1,16 @@
 package jemzart.jsonkraken.unit.json.array
 
-import jemzart.jsonkraken.JSON_VALUE
 import jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
 class JsonArrayGetOperator{
-    private val insertion = JSON_VALUE
+    private val insertion = JsonArray()
 
 	@Test
     fun byInt(){
         val arr = JsonArray()
 	    arr.add(insertion)
 
-	    assert(arr[0, JSON_VALUE] == insertion)
 	    assert(arr[0] == insertion)
     }
 
@@ -21,7 +19,6 @@ class JsonArrayGetOperator{
 		val arr = JsonArray()
 		arr.add(insertion)
 
-		assert(arr["0", JSON_VALUE] == insertion)
 		assert(arr["0"] == insertion)
 	}
 
@@ -31,7 +28,6 @@ class JsonArrayGetOperator{
 		arr.add(null)
 		arr.add(insertion)
 
-		assert(arr[-1, JSON_VALUE] == insertion)
 		assert(arr[-1] == insertion)
 	}
 }

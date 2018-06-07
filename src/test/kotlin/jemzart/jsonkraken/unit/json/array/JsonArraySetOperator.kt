@@ -1,11 +1,10 @@
 package jemzart.jsonkraken.unit.json.array
 
-import jemzart.jsonkraken.JSON_VALUE
 import jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
 class JsonArraySetOperator{
-    private val insertion = JSON_VALUE
+    private val insertion = JsonArray()
     @Test
     fun existingIndexByInt(){
         val arr = JsonArray()
@@ -56,7 +55,6 @@ class JsonArraySetOperator{
 
 		arr[-2] = insertion
 
-		assert(arr[1, JSON_VALUE] == insertion)
 		assert(arr[1] == insertion)
 	}
 }

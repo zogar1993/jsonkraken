@@ -1,22 +1,15 @@
 package jemzart.jsonkraken.parsers
 
 import jemzart.jsonkraken.values.JsonArray
-import jemzart.jsonkraken.values.JsonNonCollection
 import jemzart.jsonkraken.values.JsonObject
-import jemzart.jsonkraken.values.JsonValue
 
-class ObjectToStringParser internal constructor(jsonValue: JsonValue){
+class ObjectToStringParser internal constructor(private val value: Any?){
 	private val stb = StringBuilder()
-	init {
-		when(jsonValue){
-			is JsonNonCollection -> parsePrimitive(jsonValue.value)
-			is JsonArray -> parseArray(jsonValue)
-			is JsonObject -> parseObject(jsonValue)
-			else -> throw UnsupportedOperationException()
-		}
-	}
 
-	fun create() = stb.toString()
+	fun create(): String {
+		parseValue(value)
+		return stb.toString()
+	}
 
 	private fun parseValue(value: Any?){
 		when(value) {

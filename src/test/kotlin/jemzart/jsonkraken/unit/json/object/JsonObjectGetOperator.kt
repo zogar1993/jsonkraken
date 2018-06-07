@@ -1,12 +1,11 @@
 package jemzart.jsonkraken.unit.json.`object`
 
-import jemzart.jsonkraken.JSON_VALUE
 import jemzart.jsonkraken.values.JsonObject
 import jemzart.jsonkraken.values.JsonValue
 import org.junit.Test
 
 class JsonObjectGetOperator {
-	private val insertion: JsonValue = JSON_VALUE
+	private val insertion: JsonValue = JsonObject()
 
 	@Test
 	fun byString(){
@@ -14,7 +13,7 @@ class JsonObjectGetOperator {
 
 		obj["0"] = insertion
 
-		assert(obj["0", JSON_VALUE] == insertion)
+		assert(obj["0"] == insertion)
 		assert(obj["0"] == insertion)
 	}
 
@@ -24,7 +23,7 @@ class JsonObjectGetOperator {
 
 		obj["0"] = insertion
 
-		assert(obj[0, JSON_VALUE] == insertion)
+		assert(obj[0] == insertion)
 		assert(obj[0] == insertion)
 	}
 }
