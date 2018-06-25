@@ -1,4 +1,4 @@
-group 'jemzart.kjson'
+group 'com.jemzart.kjson'
 version '1.2.0-SNAPSHOT'
 
 buildscript {
