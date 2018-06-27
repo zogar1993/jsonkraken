@@ -1,5 +1,17 @@
-group 'net.jemzart.kjson'
-version '2.0.1-SNAPSHOT'
+group 'net.jemzart.jsonkraken'
+version '2.0.2-SNAPSHOT'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'net.jemzart'
+            artifactId 'jsonkraken'
+            version '2.0.2'
+
+            from components.java
+        }
+    }
+}
 
 buildscript {
     ext.kotlin_version = '1.2.50'
