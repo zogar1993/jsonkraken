@@ -1,6 +1,12 @@
 package net.jemzart.jsonkraken.values
 
-class JsonArray : JsonValue() {
+class JsonArray() : JsonValue {
+
+	constructor(vararg elements: Any?) : this() {
+		for (element in elements)
+			list.add(element)
+	}
+
 	override val size: Int get() = list.size
 	private val list: MutableList<Any?> = mutableListOf()
 
@@ -8,12 +14,13 @@ class JsonArray : JsonValue() {
 
 	@Suppress("UNCHECKED_CAST")
 	override fun get(index: Int): Any? = list[if (index < 0) list.size + index else index]
+
 	override fun set(index: Int, value: Any?) {
-		for (i in list.size..index)	list.add(null)
+		for (i in list.size..index) list.add(null)
 		list[if (index < 0) list.size + index else index] = value
 	}
 
-	override fun remove(index: Int){
+	override fun remove(index: Int) {
 		list.removeAt(index)
 	}
 
@@ -21,11 +28,11 @@ class JsonArray : JsonValue() {
 		return index < list.size
 	}
 
-	fun add(item: Any?){
+	fun add(item: Any?) {
 		list.add(item)
 	}
 
-	fun insert(index: Int, value: Any?){
+	fun insert(index: Int, value: Any?) {
 		list.add(index, value)
 	}
 

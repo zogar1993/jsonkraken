@@ -1,16 +1,22 @@
 package net.jemzart.jsonkraken.values
 
-class JsonObject : JsonValue() {
+class JsonObject() : JsonValue {
+
+	constructor(vararg properties: Pair<String, Any?>) : this() {
+		for (property in properties)
+			map[property.first] = property.second
+	}
+
 	override val size: Int get() = map.size
 	private val map: MutableMap<String, Any?> = mutableMapOf()
 
 	override fun iterator(): Iterator<Pair<String, Any?>> = map.map { it.key to it.value }.iterator()
 	override fun get(name: String): Any? = map[name]
-	override fun set(name: String, value: Any?){
+	override fun set(name: String, value: Any?) {
 		map[name] = value
 	}
 
-	override fun remove(name: String){
+	override fun remove(name: String) {
 		map.remove(name)
 	}
 
