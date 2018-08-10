@@ -6,94 +6,13 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.9"
     }
 }
 
-plugins {
-    id "com.jfrog.bintray" version "1.7.3"
-    id "maven-publish"
-}
-
-apply plugin: 'org.jetbrains.dokka'
 apply plugin: "kotlin"
-
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "javadoc"
-    outputDirectory = "$buildDir/dokkaJavadoc"
-}
-
 
 repositories {
     mavenCentral()
-}
-
-def pomConfig = {
-    licenses {
-        license {
-            name = 'The Apache License, Version 2.0'
-            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-        }
-    }
-    developers {
-        developer {
-            id = "zogar1993"
-            name = "Facundo Garcia"
-            email = "zogar1993@gmail.com"
-        }
-    }
-    scm {
-        url = 'http://github.com/zogar1993/kjson'
-    }
-}
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-
-            groupId 'net.jemzart'
-            artifactId 'jsonkraken'
-            version '2.0.2'
-
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'Idiomatic Json parser for Kotlin')
-                root.appendNode('name', 'Json Kraken')
-                root.appendNode('url', 'https://github.com/zogar1993/kjson')
-                root.children().last() + pomConfig
-            }
-        }
-    }
-}
-
-bintray {
-    user = System.getProperty('bintray.user')
-    key = System.getProperty('bintray.key')
-    publications = ['mavenPublication']
-
-    pkg {
-        repo = 'jsonkraken'
-        name = 'jsonkraken'
-        userOrg = 'jemzart'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'http://github.com/zogar1993/kjson.git'
-        version {
-            name = '2.1.0'
-            desc = '2.1.0'
-            released = new Date()
-        }
-    }
-
 }
 
 dependencies {
