@@ -27,9 +27,9 @@ I will get technical then, but first lets see a quick example.
 
 ### Hello world overview
 
-		val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
-		println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
-		println(json["getting"]["started"]) //prints: Hello World
+	val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
+	println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
+	println(json["getting"]["started"]) //prints: Hello World
 		
 That pretty much covers the basics. The rest of the document is for you, dear reader, to better understand the details of JSONKraken.
 
@@ -53,20 +53,20 @@ Strings are generated without needless blank space, minimizing its size and read
 Both JsonArray and JsonObject can be created by parameterless constructors
 Varargs are supported by creation, which means you could:
 
-        JsonObject(1, "one", true)
-        JsonArray("key1" to 1, "key2" to "one", "key3" to true)
+    JsonArray(1, "one", true)
+    JsonObject("key1" to 1, "key2" to "one", "key3" to true)
         
 Or, if you use the spread operator you could even:
 
-		val pairs = arrayOf("key1" to 1, "key2" to "one", "key3" to true)
-		JsonObject(*pairs)
-		val array = arrayOf(1, "one", true)
-		JsonArray(*array)
+	val pairs = arrayOf("key1" to 1, "key2" to "one", "key3" to true)
+	JsonObject(*pairs)
+	val array = arrayOf(1, "one", true)
+	JsonArray(*array)
 
 If you need to convert a non native Array collection to JsonArray or JsonObject, you have helpers methods for those too.
 
-		val arr: JsonArray = listOf(1, "one", true).toJsonArray()
-		val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
+	val arr: JsonArray = listOf(1, "one", true).toJsonArray()
+	val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
 
 ## Operating with JsonValue
 
