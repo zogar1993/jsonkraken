@@ -43,7 +43,14 @@ class ObjectToStringParser internal constructor(private val value: Any?){
 		val str = when(value) {
 			null -> "null"
 			is String -> "\"$value\""
-			else -> value.toString()
+			is Boolean -> value.toString()
+			is Byte -> value.toString()
+			is Short -> value.toString()
+			is Int -> value.toString()
+			is Long -> value.toString()
+			is Double -> value.toString()
+			is Float -> value.toString()
+			else -> throw Exception()
 		}
 		stb.append(str)
 	}
