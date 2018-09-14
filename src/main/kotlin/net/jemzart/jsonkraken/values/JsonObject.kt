@@ -1,5 +1,7 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.toJsonObject
+
 class JsonObject() : JsonValue {
 
 	constructor(vararg properties: Pair<String, Any?>) : this() {
@@ -23,6 +25,10 @@ class JsonObject() : JsonValue {
 	override fun exists(name: String): Boolean {
 		return map.containsKey(name)
 	}
+
+	override fun clone(): JsonObject = map.map {
+		it.key to if (it.value is JsonValue) (it.value as JsonValue).clone() else it.value
+	}.toMap().toJsonObject()
 
 	override fun get(index: Int): Any? = get(index.toString())
 	override fun set(index: Int, value: Any?) = set(index.toString(), value)

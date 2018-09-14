@@ -1,5 +1,7 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.toJsonArray
+
 class JsonArray() : JsonValue {
 
 	constructor(vararg elements: Any?) : this() {
@@ -36,6 +38,7 @@ class JsonArray() : JsonValue {
 		list.add(index, value)
 	}
 
+	override fun clone(): JsonArray = list.map { if (it is JsonValue) it.clone() else it }.toJsonArray()
 
 	override fun get(name: String): Any? = get(name.toInt())
 	override fun set(name: String, value: Any?) = set(name.toInt(), value)

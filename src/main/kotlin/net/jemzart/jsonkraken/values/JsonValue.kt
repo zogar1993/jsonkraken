@@ -9,5 +9,6 @@ interface JsonValue : Iterable<Any?> {
 	operator fun set(index: Int, value: Any?)
 	fun remove(index: Int)
 	fun exists(index: Int): Boolean
+	fun clone(): JsonValue
 	val size: Int
 }

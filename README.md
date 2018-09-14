@@ -51,7 +51,7 @@ Strings are generated without needless blank space, minimizing its size and read
 ## JsonValue creation from scratch
 
 Both JsonArray and JsonObject can be created by parameterless constructors
-Varargs are supported by creation, which means you could:
+varargs are supported by creation, which means you could:
 
     JsonArray(1, "one", true)
     JsonObject("key1" to 1, "key2" to "one", "key3" to true)
