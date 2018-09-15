@@ -43,6 +43,11 @@ class IsValidJsonType {
 	}
 
 	@Test
+	fun char(){
+		assert('0'.isValidJsonType())
+	}
+
+	@Test
 	fun string(){
 		assert("string".isValidJsonType())
 	}

@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
+import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.toJson
 import org.junit.Test
 
@@ -42,12 +43,12 @@ class IntegerDeserialization{
 		assert(json == -42)
 	}
 
-	@Test(expected = Throwable::class)
+	@Test(expected = TokenExpectationException::class)
 	fun zeroStarting() {
 		"01".toJson()
 	}
 
-	@Test(expected = Throwable::class)
+	@Test(expected = TokenExpectationException::class)
 	fun zeroStartingNegative() {
 		"-01".toJson()
 	}
