@@ -195,6 +195,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		start = last
 	}
 
+	@Suppress("NOTHING_TO_INLINE")//Micro optimization on boolean parameter
 	private inline fun advance(value: Int = 1, trim: Boolean = true) {
 		start += value
 		if (trim) skipSpaces()

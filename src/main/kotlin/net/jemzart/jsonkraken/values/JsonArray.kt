@@ -17,7 +17,6 @@ class JsonArray() : JsonValue {
 
 	override fun iterator(): Iterator<Any?> = list.iterator()
 
-	@Suppress("UNCHECKED_CAST")
 	override fun get(index: Int): Any? = list[if (index < 0) list.size + index else index]
 
 	override fun set(index: Int, value: Any?) {
