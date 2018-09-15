@@ -64,13 +64,13 @@ class StringToObjectParser internal constructor(private val raw: String) {
 					advance(5, false) //skip uFFFF
 				} else {
 					assert(first == '\"' ||
-							first == '\\' ||
-							first == '/' ||
-							first == 'b' ||
-							first == 'f' ||
-							first == 'n' ||
-							first == 'r' ||
-							first == 't')
+						first == '\\' ||
+						first == '/' ||
+						first == 'b' ||
+						first == 'f' ||
+						first == 'n' ||
+						first == 'r' ||
+						first == 't')
 					advance(trim = false) //skip 1 char
 				}
 			} else if (first == '"') {

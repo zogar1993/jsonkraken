@@ -3,7 +3,7 @@ package net.jemzart.jsonkraken.parsers
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 
-class ObjectToStringParser internal constructor(private val value: Any?){
+class ObjectToStringParser internal constructor(private val value: Any?) {
 	private val stb = StringBuilder()
 
 	fun create(): String {
@@ -11,8 +11,8 @@ class ObjectToStringParser internal constructor(private val value: Any?){
 		return stb.toString()
 	}
 
-	private fun parseValue(value: Any?){
-		when(value) {
+	private fun parseValue(value: Any?) {
+		when (value) {
 			is JsonArray -> parseArray(value)
 			is JsonObject -> parseObject(value)
 			else -> parsePrimitive(value)
@@ -29,6 +29,7 @@ class ObjectToStringParser internal constructor(private val value: Any?){
 		}
 		stb.append("}")
 	}
+
 	private fun parseArray(arr: JsonArray) {
 		stb.append("[")
 		var first = true
@@ -39,8 +40,8 @@ class ObjectToStringParser internal constructor(private val value: Any?){
 		stb.append("]")
 	}
 
-	private fun parsePrimitive(value: Any?){
-		val str = when(value) {
+	private fun parsePrimitive(value: Any?) {
+		val str = when (value) {
 			null -> "null"
 			is String -> "\"$value\""
 			is Boolean -> value.toString()

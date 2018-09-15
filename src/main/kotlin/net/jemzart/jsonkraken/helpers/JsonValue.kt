@@ -4,7 +4,7 @@ import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonValue
 
-internal inline fun JsonValue.validateInsert(value: Any?, validateCircularReference: Boolean = true){
+internal inline fun JsonValue.validateInsert(value: Any?, validateCircularReference: Boolean = true) {
 	if (value != null) {
 		if (!value.isValidJsonType()) throw InvalidJsonTypeException(value)
 		if (validateCircularReference)

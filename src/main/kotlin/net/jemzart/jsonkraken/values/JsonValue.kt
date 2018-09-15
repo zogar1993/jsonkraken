@@ -11,5 +11,5 @@ interface JsonValue : Iterable<Any?> {
 	fun exists(index: Int): Boolean
 	fun clone(): JsonValue
 	val size: Int
-	fun references(value: JsonValue) : Boolean
+	fun references(value: JsonValue): Boolean
 }
