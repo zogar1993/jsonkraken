@@ -1,12 +1,15 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.helpers.references
+import net.jemzart.jsonkraken.helpers.validateInsert
 import net.jemzart.jsonkraken.toJsonObject
 
 class JsonObject() : JsonValue {
-
 	constructor(vararg properties: Pair<String, Any?>) : this() {
-		for (property in properties)
+		for (property in properties) {
+			validateInsert(property.second, validateCircularReference = false)
 			map[property.first] = property.second
+		}
 	}
 
 	override val size: Int get() = map.size
@@ -15,6 +18,7 @@ class JsonObject() : JsonValue {
 	override fun iterator(): Iterator<Pair<String, Any?>> = map.map { it.key to it.value }.iterator()
 	override fun get(name: String): Any? = map[name]
 	override fun set(name: String, value: Any?) {
+		validateInsert(value)
 		map[name] = value
 	}
 
@@ -29,6 +33,10 @@ class JsonObject() : JsonValue {
 	override fun clone(): JsonObject = map.map {
 		it.key to if (it.value is JsonValue) (it.value as JsonValue).clone() else it.value
 	}.toMap().toJsonObject()
+
+	internal fun uncheckedSet(name: String, value: Any?) = map.set(name, value)
+
+	override fun references(value: JsonValue): Boolean = map.values.references(value)
 
 	override fun get(index: Int): Any? = get(index.toString())
 	override fun set(index: Int, value: Any?) = set(index.toString(), value)

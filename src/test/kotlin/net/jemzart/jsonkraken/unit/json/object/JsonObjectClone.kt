@@ -7,7 +7,6 @@ import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class JsonObjectClone{
-
 	@Test
 	fun replication(){
 		val arr1 = JsonObject("0" to 1)

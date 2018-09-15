@@ -1,47 +1,52 @@
-package net.jemzart.jsonkraken.unit.json.`object`
+package net.jemzart.jsonkraken.unit.json.array
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
-import net.jemzart.jsonkraken.values.JsonValue
 import org.junit.Test
 
-class JsonObjectSetOperator{
-	private val insertion: JsonValue = JsonObject()
+class JsonArrayInsert{
 
 	@Test
-	fun byString(){
-		val obj = JsonObject()
-		obj["0"] = insertion
-		assert(obj["0"] == insertion)
+	fun insertedBetween(){
+		val arr = JsonArray(0, 1)
+
+		arr.insert(1, "new")
+
+		assert(arr[0] == 0)
+		assert(arr[1] == "new")
+		assert(arr[2] == 1)
 	}
 
 	@Test
-	fun byInt(){
-		val obj = JsonObject()
-		obj[0] = insertion
-		assert(obj["0"] == insertion)
+	fun insertedAfter(){
+		val arr = JsonArray(0)
+
+		arr.insert(1, "new")
+
+		assert(arr[1] == "new")
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
 	fun failsOnInvalidType(){
-		val obj = JsonObject()
-		obj["0"] = Exception()
+		val arr = JsonArray()
+
+		arr.insert(0, Exception())
 	}
 
 	@Test(expected = CircularReferenceException::class)
 	fun circularReferenceNotAllowed(){
-		val obj = JsonObject()
-		val arr = JsonArray(obj)
+		val arr = JsonArray()
+		val obj = JsonObject("0" to arr)
 
-		obj["0"] = arr
+		arr.insert(0, obj)
 	}
 
 	@Test(expected = CircularReferenceException::class)
 	fun selfReferenceNotAllowed(){
-		val obj = JsonObject()
+		val arr = JsonArray()
 
-		obj["0"] = obj
+		arr.insert(0, arr)
 	}
 }

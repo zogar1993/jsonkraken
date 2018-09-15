@@ -124,6 +124,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	private fun deserializeObject(): JsonObject {
 		val obj = JsonObject()
 		advance() //skip '{'
+
 		if (first != '}')
 			while (true) {
 				assert(first == '\"')
@@ -137,7 +138,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				assert(first == ':')
 				advance() //skip :
 
-				obj[key] = deserializeValue()
+				obj.uncheckedSet(key, deserializeValue())
 
 				if (first == ',') advance() //skip ,
 				else if (first == '}') break
@@ -153,7 +154,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		advance() //skip '['
 		if (first != ']')
 			while (true) {
-				arr.add(deserializeValue())
+				arr.uncheckedAdd(deserializeValue())
 
 				if (first == ',') advance() //skip ','
 				else if (first == ']') break
