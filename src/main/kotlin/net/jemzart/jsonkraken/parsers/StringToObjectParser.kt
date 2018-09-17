@@ -13,26 +13,36 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	private val last = raw.length
 	private var start = 0
 	private inline val first get() = raw[start]
+	private val escaped1Chars = arrayOf('\"', '\\', '/', 'b', 'f', 'n','r','t')
+	private val escapeableWhiteSpaceChars = arrayOf('\n', '\t', '\r')
 
-	private val errorLocalization: String get() = "Error while parsing token which starts at character $start.\n" +
-		"A preview of the error has been made.\n" +
-		"Invalid token starts after the pipe | (which is not in the original file).\n" +
-		errorPreview
+    private val parsingTrue = { "parsing true" }
+    private val parsingFalse = { "parsing false" }
+    private val parsingNull = { "parsing null" }
+    private val parsingNumber = { "parsing null" }
+    private val parsingString = { "parsing null" }
+    private val parsingObject = { "parsing object" }
+    private val parsingArray = { "parsing array" }
+    private val verifyingEndOfParse  = { "verifying end of parse" }
+
+	private val errorLocalization: String get() = "at character $start"
+
 	private val errorPreview: String get() {
 		val offsetBack = start - PREVIEW_OFFSET_BACK
 		val offsetForward = start + PREVIEW_OFFSET_FORWARD
 		val leftHorizon = offsetBack >= 0
 		val rightHorizon = offsetForward <= raw.length
-		val left = raw.substring(if (leftHorizon) offsetBack else 0, start)
-		val right = raw.substring(start, if (rightHorizon) offsetForward else raw.length)
-		return (if (leftHorizon) ".. " else "") +	"$left|$right" + (if (rightHorizon) " .." else "")
+		var left = raw.substring(if (leftHorizon) offsetBack else 0, start)
+		var right = raw.substring(start, if (rightHorizon) offsetForward else raw.length)
+		left = (if (leftHorizon) ".. " else "") + left
+		right += if (rightHorizon) " .." else ""
+		val arrow = "^".padStart(left.length + 1)
+		return (left + right + "\n" + arrow)
 	}
 
 	companion object {
 		const val PREVIEW_OFFSET_BACK = 20
 		const val PREVIEW_OFFSET_FORWARD = 20
-		const val SUGGESTION_WRAP_STRINGS_IN_DOUBLE_QUOTES = "Maybe you have a string with missing double quotes?"
-		const val EXPECTED_CHARACTER = "Expected one of the following characters: "
 	}
 
 	private fun deserializeValue(): Any? {
@@ -47,30 +57,28 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		}
 	}
 
-
-
 	private fun deserializeTrue(): Boolean {
-		validateEquality(raw[start + 1], 'r')
-		validateEquality(raw[start + 2], 'u')
-		validateEquality(raw[start + 3], 'e')
-		advance(4) //skip true
+		validateEquality(raw[++start], 'r', parsingTrue)
+		validateEquality(raw[++start], 'u', parsingTrue)
+		validateEquality(raw[++start], 'e', parsingTrue)
+		advance() //skip true
 		return true
 	}
 
 	private fun deserializeFalse(): Boolean {
-		validateEquality(raw[start + 1], 'a')
-		validateEquality(raw[start + 2], 'l')
-		validateEquality(raw[start + 3], 's')
-		validateEquality(raw[start + 4], 'e')
-		advance(5) //skip false
+		validateEquality(raw[++start], 'a', parsingFalse)
+		validateEquality(raw[++start], 'l', parsingFalse)
+		validateEquality(raw[++start], 's', parsingFalse)
+		validateEquality(raw[++start], 'e', parsingFalse)
+		advance() //skip false
 		return false
 	}
 
 	private fun deserializeNull(): Nothing? {
-		validateEquality(raw[start + 1], 'u')
-		validateEquality(raw[start + 2], 'l')
-		validateEquality(raw[start + 3], 'l')
-		advance(4) //skip true
+		validateEquality(raw[++start], 'u', parsingNull)
+		validateEquality(raw[++start], 'l', parsingNull)
+		validateEquality(raw[++start], 'l', parsingNull)
+		advance() //skip null
 		return null
 	}
 
@@ -82,14 +90,13 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				advance(trim = false) // skip \
 
 				if (first == 'u') {
-					validateIsHexadecimal(raw[start + 1])
-					validateIsHexadecimal(raw[start + 2])
-					validateIsHexadecimal(raw[start + 3])
-					validateIsHexadecimal(raw[start + 4])
-					advance(5, false) //skip uFFFF
+					validateIsHexadecimal(raw[++start], parsingString)
+					validateIsHexadecimal(raw[++start], parsingString)
+					validateIsHexadecimal(raw[++start], parsingString)
+					validateIsHexadecimal(raw[++start], parsingString)
+					advance(trim = false) //skip uFFFF
 				} else {
-					//TODO validate if array is created everytime, it should not be.
-					validateInclusion(first, arrayOf('\"', '\\', '/', 'b', 'f', 'n','r','t'))
+					validateInclusion(first, escaped1Chars, parsingString)
 					advance(trim = false) //skip 1 char
 				}
 			} else if (first == '"') {
@@ -98,8 +105,8 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				return value
 			} else {
 				//TODO validate if array is created everytime, it should not be.
-				validateExclusion(raw[start], arrayOf('\n', '\t', '\r'))
-				validateIsISOControlCharacterOtherThanDelete(raw[start])
+				validateExclusion(raw[start], escapeableWhiteSpaceChars, parsingString)
+				validateIsISOControlCharacterOtherThanDelete(raw[start], parsingString)
 				advance(trim = false) //skip 1 char
 			}
 		}
@@ -115,16 +122,16 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		if (literal[index] == '0') {
 			if (literal.length == index + 1) return 0 //no more to read
 			index++ //skip 0
-			validateEquality(literal[index], '.')
+			validateEquality(literal[index], '.', parsingNumber)
 		} else
 			while (true) {
-				validateIsDecimal(literal[index])
+				validateIsDecimal(literal[index], parsingNumber)
 				if (literal.length == index + 1) return literal.toInt() //no more to read
 				index++ //skip digit
 				if (literal[index] == '.') break
 			}
 		index++ //skip .
-		validateIsDecimal(literal[index])
+		validateIsDecimal(literal[index], parsingNumber)
 		if (literal.length == index + 1) return literal.toDouble() //no more to read
 		index++ //skip first decimal digit
 		var foundE = false
@@ -135,7 +142,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 					foundE = true
 					if (literal[index] == '+' || literal[index] == '-') index++ //skip + or -
 				}
-			validateIsDecimal(literal[index])
+			validateIsDecimal(literal[index], parsingNumber)
 			if (literal.length == index + 1) return literal.toDouble() //no more to read
 			index++ //skip digit
 		}
@@ -147,7 +154,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 		if (first != '}')
 			while (true) {
-				validateEquality(first, '\"')
+				validateEquality(first, '\"', parsingObject)
 				advance(trim = false)//skip "
 
 				val end = fromStartIndexOf('\"')
@@ -155,14 +162,14 @@ class StringToObjectParser internal constructor(private val raw: String) {
 				advance(key.length, false) //skip key
 				advance() //skip "
 
-				validateEquality(first, ':')
+				validateEquality(first, ':', parsingObject)
 				advance() //skip :
 
 				obj.uncheckedSet(key, deserializeValue())
 
 				if (first == ',') advance() //skip ,
 				else if (first == '}') break
-				else validateInclusion(first, arrayOf(',', '}'))
+				else validateInclusion(first, arrayOf(',', '}'), parsingObject)
 			}
 		advance() //skip '}'
 		return obj
@@ -178,7 +185,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 				if (first == ',') advance() //skip ','
 				else if (first == ']') break
-				else validateInclusion(first, arrayOf(',', ']'))
+				else validateInclusion(first, arrayOf(',', ']'), parsingArray)
 			}
 		advance() //skip ']'
 		return arr
@@ -187,7 +194,7 @@ class StringToObjectParser internal constructor(private val raw: String) {
 	internal fun create(): Any? {
 		skipSpaces()
 		val result = deserializeValue()
-		validateEOF()//no text left
+		validateEOF(verifyingEndOfParse)//no text left
 		return result
 	}
 
@@ -221,47 +228,50 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		if (trim) skipSpaces()
 	}
 
-	private fun validateEquality(char: Char, expectation: Char) {
-		validateToken(char == expectation) { "Expected the following character: $expectation." }
+	private fun validateEquality(char: Char, expectation: Char, context: () -> String) {
+		validateToken(char == expectation, context) { "Expected \"$expectation\", found \"$char\"." }
 	}
 
-	private fun validateIsHexadecimal(char: Char) {
-		validateToken(char.isHexadecimal()) { "Expected a hexadecimal character." }
+	private fun validateIsHexadecimal(char: Char, context: () -> String) {
+		validateToken(char.isHexadecimal(), context) { "Expected a hexadecimal character, found \"$char\"." }
 	}
 
-	private fun validateIsDecimal(char: Char) {
-		validateToken(char.isDecimal()) { "Expected a decimal character." }
+	private fun validateIsDecimal(char: Char, context: () -> String) {
+		validateToken(char.isDecimal(), context) { "Expected a decimal character, found \"$char\"." }
 	}
 
-	private fun validateIsISOControlCharacterOtherThanDelete(char: Char) {
-		validateToken(!char.isISOControlCharacterOtherThanDelete())
-		{ "Did not expect an ISO control character other than the \"Delete\" one." }
+	private fun validateIsISOControlCharacterOtherThanDelete(char: Char, context: () -> String) {
+		validateToken(!char.isISOControlCharacterOtherThanDelete(), context)
+		{ "\"$char\" is invalid in this context." }
 	}
 
-	private fun validateEOF() {
-		validateToken(start == last)
+	private fun validateEOF(context: () -> String) {
+		validateToken(start == last, context)
 		{ "Invalid characters have been found after the end of the outermost json structure." +
 			"Should they be removed, the parse would succeed." }
 	}
 
-	private fun validateInclusion(char: Char, expectations: Array<Char>) {
+	private fun validateInclusion(char: Char, expectations: Array<Char>, context: () -> String) {
 		for (expectation in expectations)
 			if (char == expectation) return
 		val arr = JsonArray(expectations).toJsonString()
-		validateToken(false) { "Expected one of the following characters: $arr." }
+		validateToken(false, context) { "Expected one of $arr, found \"$char\"." }
 	}
 
-	private fun validateExclusion(char: Char, expectations: Array<Char>) {
+	private fun validateExclusion(char: Char, expectations: Array<Char>, context: () -> String) {
 		for (expectation in expectations)
 			if (char == expectation) {
 				val arr = JsonArray(expectations).toJsonString()
-				validateToken(false) { "Did not expect to find one of the following characters: $arr." }
+				validateToken(false, context) { "None of $arr expected, found \"$char\"." }
 			}
 	}
 
-	private inline fun validateToken(value: Boolean, lazyMessage: () -> Any) {
+	private inline fun validateToken(value: Boolean, context: () -> String, lazyMessage: () -> String) {
 		if (!value) {
-			val message = "$errorLocalization\n${lazyMessage()}"
+			val message =
+				"\nError $errorLocalization while ${context()}." +
+				"\n${lazyMessage()}" +
+				"\n$errorPreview"
 			throw TokenExpectationException(message)
 		}
 	}

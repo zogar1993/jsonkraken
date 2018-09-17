@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.unit
 
+import net.jemzart.jsonkraken.toJson
 import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
