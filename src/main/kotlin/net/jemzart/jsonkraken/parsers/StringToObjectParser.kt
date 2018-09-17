@@ -114,37 +114,52 @@ class StringToObjectParser internal constructor(private val raw: String) {
 
 	private fun deserializeNumber(): Any {
 		val end = fromStartIndexOf { it.isWhiteSpace() || it == '}' || it == ']' || it == ',' }
-		val literal = raw.substring(start, end)
-		advance(literal.length) //skip value
+//		val literal = raw.substring(start, end)
+//		advance(literal.length) //skip value
+		val valueStart = start
 
-		var index = 0
-		if (literal[index] == '-') index++ //skip -
-		if (literal[index] == '0') {
-			if (literal.length == index + 1) return 0 //no more to read
-			index++ //skip 0
-			validateEquality(literal[index], '.', parsingNumber)
+		if (first == '-') advance(trim = false) //skip -
+		if (first == '0') {
+			advance() //skip 0
+			if (start == end) {
+				skipSpaces()
+				return 0 //no more to read
+			} else
+				validateEquality(first, '.', parsingNumber)
+
+
 		} else
 			while (true) {
-				validateIsDecimal(literal[index], parsingNumber)
-				if (literal.length == index + 1) return literal.toInt() //no more to read
-				index++ //skip digit
-				if (literal[index] == '.') break
+				validateIsDecimal(first, parsingNumber)
+				advance(trim = false)//skip digit
+				if (start == end) {
+					skipSpaces()
+					return raw.substring(valueStart, end).toInt()//no more to read
+				}
+				if (first == '.') break
 			}
-		index++ //skip .
-		validateIsDecimal(literal[index], parsingNumber)
-		if (literal.length == index + 1) return literal.toDouble() //no more to read
-		index++ //skip first decimal digit
+		advance(trim = false) //skip .
+		validateIsDecimal(first, parsingNumber)
+		advance(trim = false) //skip first decimal digit
+		if (start == end) {
+			skipSpaces()
+			return raw.substring(valueStart, end).toDouble()
+		} //no more to read
 		var foundE = false
 		while (true) {
 			if (!foundE)
-				if (literal[index] == 'e' || literal[index] == 'E') {
-					index++ //skip e or E
+				if (first == 'e' || first == 'E') {
+					advance(trim = false) //skip e or E
 					foundE = true
-					if (literal[index] == '+' || literal[index] == '-') index++ //skip + or -
+					if (first == '+' || first == '-') advance() //skip + or -
 				}
-			validateIsDecimal(literal[index], parsingNumber)
-			if (literal.length == index + 1) return literal.toDouble() //no more to read
-			index++ //skip digit
+			validateIsDecimal(first, parsingNumber)
+			advance(trim = false)//skip decimal
+			if (start == end) {
+				skipSpaces()
+				return raw.substring(valueStart, end).toDouble() //no more to read
+			}
+			advance(trim = false) //skip digit
 		}
 	}
 
