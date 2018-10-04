@@ -93,7 +93,7 @@ Here are some other auxiliary methods and properties JsonValue has:
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
 - Added an element, its type is valid (JsonValue, Boolean, String, Byte, Short, Int, Long, Float and Double, and they may be null)
-- Added a JsonValue, it does provoke circular reference.
+- Added a JsonValue, it does not provoke a circular reference.
 
 In cases where the validation fails, an exception will be thrown.
 For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
