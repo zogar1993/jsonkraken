@@ -96,17 +96,18 @@ A JsonValue is always a consistent json representation should it be serialized. 
 - Added a JsonValue, it does not provoke a circular reference.
 
 In cases where the validation fails, an exception will be thrown.
+
 For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
 
 ## JsonObject
 
-When iterating over a JsonObject, each element of the iteration is a Pair<String, Any?>
-The *keys* property returns only its keys.
-You can guess on your own what the *values* property does.
+- When iterating over a JsonObject, each element of the iteration is a Pair<String, Any?>
+- The *keys* property returns only its keys.
+- You can guess on your own what the *values* property does.
 
 ## JsonArray
 
-When iterating over a JsonArray you iterate directly into its elements.
-The *add(element)* method allows you to add an element after the last one.
-The *insert(index, element)* method allows you to add an element at designated index, pushing all items from said to the last element, without replacing any.
-The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with null.    
+- When iterating over a JsonArray you iterate directly into its elements.
+- The *add(element)* method allows you to add an element after the last one.
+- The *insert(index, element)* method allows you to add an element at designated index, pushing all items from said to the last element, without replacing any.
+- The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with null.    
