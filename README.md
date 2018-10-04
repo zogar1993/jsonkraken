@@ -83,6 +83,8 @@ Since there is no way to know the type of the return value of the get operator, 
     foo[0][0] = "bar"
 	println(foo[0][0]) //prints: bar
 	
+If you try to get an element which does not exist, an exception will be thrown.
+	
 Here are some other auxiliary methods and properties JsonValue has:
     
 	foo.remove(bar) //removes element at index/key bar
@@ -101,7 +103,7 @@ For your peace of mind, this validations are not performed when not necessary, w
 
 ## JsonObject
 
-- When iterating over a JsonObject, each element of the iteration is a Pair<String, Any?>
+- When iterating over a JsonObject, each element of the iteration is a Pair<String, Any?>.
 - The *keys* property returns only its keys.
 - You can guess on your own what the *values* property does.
 
