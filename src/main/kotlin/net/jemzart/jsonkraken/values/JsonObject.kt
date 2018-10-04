@@ -30,6 +30,10 @@ class JsonObject() : JsonValue {
 		return map.containsKey(name)
 	}
 
+	val keys get() = map.keys
+
+	val values get() = map.values
+
 	override fun clone(): JsonObject = map.map {
 		it.key to if (it.value is JsonValue) (it.value as JsonValue).clone() else it.value
 	}.toMap().toJsonObject()

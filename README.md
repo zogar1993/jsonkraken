@@ -45,7 +45,7 @@ In case of not being able to parse a symbol, an Exception will be thrown.
 
 ## Parsing from Object to String
 
-We use *.toJsonString()* for Object to String conversion. Valid types to convert to String are JsonArray, JsonObject, Boolean, String, Byte, Short, Int, Long, Float and Double, and they may be null. Other conversions will result in an Exception being thrown.
+We use *.toJsonString()* for Object to String conversion.
 Strings are generated without needless blank space, minimizing its size and readability.
 
 ## JsonValue creation from scratch
@@ -63,11 +63,50 @@ Or, if you use the spread operator you could even:
 	val pairs = arrayOf("key1" to 1, "key2" to "one", "key3" to true)
 	JsonObject(*pairs)
 
-If you need to convert a non native Array collection to JsonArray or JsonObject, you have helpers methods for those too.
+If you need to convert a non native Array collection to JsonArray or JsonObject, you have helpers methods for those too:
 
 	val arr: JsonArray = listOf(1, "one", true).toJsonArray()
 	val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
 
+I did not include *toJsonArray* and *toJsonObject* as constructor alternatives because it led to some confusing scenarios.
+
 ## Operating with JsonValue
 
-TODO
+As I have already mentioned, both JsonArray and JsonObject are a JsonValue.
+JsonValues have get and set operators so that you can do the following, provided foo is a JsonValue:
+
+	foo[0] = "foo"
+	println(foo[0]) //prints: bar
+	
+Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import Any? get and set operators the library provides to do the following:
+
+    foo[0][0] = "bar"
+	println(foo[0][0]) //prints: bar
+	
+Here are some other auxiliary methods and properties JsonValue has:
+    
+	foo.remove(bar) //removes element at index/key bar
+	foo.exists(bar) //returns true if there is an element at index/key bar
+	foo.clone() //performs a deep clone of the JsonValue
+	foo.size //returns the amount of elements in the JsonValue
+
+A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
+
+- Added an element, its type is valid (JsonValue, Boolean, String, Byte, Short, Int, Long, Float and Double, and they may be null)
+- Added a JsonValue, it does provoke circular reference.
+
+In cases where the validation fails, an exception will be thrown.
+For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
+
+## JsonObject
+
+When iterating over a JsonObject, each element of the iteration is a Pair<String, Any?>
+The *keys* property returns only its keys.
+You can guess on your own what the *values* property does.
+
+## JsonArray
+
+When iterating over a JsonArray you iterate directly into its elements.
+The *add(element)* method allows you to add an element after the last one.
+The *insert(index, element)* method allows you to add an element at designated index, pushing all items from said to the last element, without replacing any.
+The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with null.    
