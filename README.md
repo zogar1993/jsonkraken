@@ -18,7 +18,7 @@ There are many reasons:
 * Flexibility: Not being focused on mapping JSON to predefined entities but to dinamically access any field is great for some uses. Maybe an entity is too much work for your needs, or like in my case, the entity you are trying to map is a construct which does not exist until runtime.
 * Kotlin Friendly: Using get and set operators in Kotlin is as idiomatic as I can imagine it to be, untainted by verbose semantics.
 * Lightweightness: Is this a word? The thing is it is as light as i could think it to be.
-* Performance: Ok now, ot to say other JSON parsers are not optimized, but i have seen only a few take into consideration that Java is a garbage ~~collected~~ language. Object creation needs implicit handling, which may be expensive when improperly handled.
+* Performance: Ok now, not to say other JSON parsers are not optimized, but i have seen only a few take into consideration that Java is a garbage ~~collected~~ language. Object creation needs implicit handling, which may be expensive when improperly handled.
 * Possibility: I could, I did.
 
 ## Getting Started
@@ -54,7 +54,7 @@ Both JsonArray and JsonObject are a JsonValue.
 
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
-- Added an element, its type is valid (JsonValue, Boolean, String, Char and Number, and they may be null).
+- Added an element, its type is valid (JsonValue, Boolean, String, Char or Number, and they may be null).
 - Added a JsonValue, it does not provoke a circular reference.
 
 In cases where the validation fails, an exception will be thrown.
@@ -68,8 +68,9 @@ Some valid types are altered for consistency:
 
 ## JsonValue creation from scratch
 
-Both JsonArray and JsonObject can be created by parameterless constructors
-varargs are supported by creation, which means you could:
+Both JsonArray and JsonObject can be created by parameterless constructors.
+
+When constructing any of those, varargs are supported, which means you could:
 
     JsonArray(1, "one", true)
     JsonObject("key1" to 1, "key2" to "one", "key3" to true)
@@ -92,7 +93,7 @@ I did not include *toJsonArray* and *toJsonObject* as constructor alternatives b
 
 A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:
 
-	foo[0] = "foo"
+	foo[0] = "bar"
 	println(foo[0]) //prints: bar
 	
 Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import Any? get and set operators the library provides to do the following:
