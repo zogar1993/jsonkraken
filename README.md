@@ -61,7 +61,7 @@ In cases where the validation fails, an exception will be thrown.
 For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
 
 #### Valid Types
-Some valid types are altered for consistency.
+Some valid types are altered for consistency:
 - A Number element (Byte, Short, Int, Long, Float and Double) will be converted to Double. This should not be an issue except in extreme cases such as when you try to convert some Long values higher than 2<sup>53</sup>, which is a rather uncommon number to be handling, more so taking into consideration that it is common practice to write such a value as a String, a habit born from well placed disbelief in json parsers conversion mechanisms.
 - A Char element will be converted to String.
 
