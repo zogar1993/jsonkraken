@@ -123,11 +123,11 @@ Here are some other auxiliary methods and properties JsonValue has:
 - The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with null.
 
 ## Implementation details
-###### (you should not need to know all of this, but maybe you do, it is here for a reason after all)
+###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
 - Double -0.0 will be turned to Double 0.0 to avoid the weird default comparison behaviour they have (they are equal if unboxed, bot not equal if boxed). I do wonder why do they both even exist.
 - Since internally all numbers are handled as Double, be careful with extremely long Long values (higher than 2<sup>53</sup>).
 This is a rather uncommon number to be handling, more so taking into consideration that it is common practice to write such a value as a String, a habit born from well placed disbelief in json parsers conversion mechanisms.
 - There is a method available for JsonValue which I did not talk about before because I wanted to keep things simple. It is called *references(value)*, and it requires value to be a JsonValue.
 I use that method internally to find if value is recursively contained within the caller, but since I found no real reason not to make it public, there it is.
 - Although *references(value)* does not check for self, all JsonValue insertion mechanisms do validate for A -> A circularity.
-- JsonValues get/set operators welcome both Integers and Strings. An Integer will be converted to String in the case of JsonObject, whereas a String will try to be converted to Int in JsonArray, or throw an Exception if the cast fails.
+- JsonValues get/set operators welcome both Integers and Strings as index/key. An Integer will be converted to String in the case of JsonObject, whereas a String will try to be converted to Int in JsonArray, or throw an Exception if the cast fails.
