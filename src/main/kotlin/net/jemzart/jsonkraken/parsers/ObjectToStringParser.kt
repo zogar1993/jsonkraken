@@ -1,7 +1,6 @@
 package net.jemzart.jsonkraken.parsers
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.helpers.isValidJsonType
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 
@@ -46,7 +45,7 @@ class ObjectToStringParser internal constructor(private val value: Any?) {
 		val str = when (value) {
 			null -> "null"
 			is String -> "\"$value\""
-			isValidJsonType() -> value.toString()
+			is Boolean, is Number , is Char -> value.toString()
 			else -> throw InvalidJsonTypeException(value)
 		}
 		stb.append(str)

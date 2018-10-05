@@ -1,14 +1,14 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.helpers.validateInsert
+import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.toJsonArray
 
 class JsonArray() : JsonValue {
 	constructor(vararg items: Any?) : this() {
 		for (item in items) {
-			validateInsert(item, validateCircularReference = false)
-			list.add(item)
+			val purified = purify(item, validateCircularReference = false)
+			list.add(purified)
 		}
 	}
 
@@ -20,9 +20,9 @@ class JsonArray() : JsonValue {
 	override fun get(index: Int): Any? = list[if (index < 0) list.size + index else index]
 
 	override fun set(index: Int, value: Any?) {
-		validateInsert(value)
+		val purified = purify(value)
 		for (i in list.size..index) list.add(null)
-		list[if (index < 0) list.size + index else index] = value
+		list[if (index < 0) list.size + index else index] = purified
 	}
 
 	override fun remove(index: Int) {
@@ -34,13 +34,11 @@ class JsonArray() : JsonValue {
 	}
 
 	fun add(value: Any?) {
-		validateInsert(value)
-		list.add(value)
+		list.add(purify(value))
 	}
 
 	fun insert(index: Int, value: Any?) {
-		validateInsert(value)
-		list.add(index, value)
+		list.add(index, purify(value))
 	}
 
 	override fun clone(): JsonArray = list.map { if (it is JsonValue) it.clone() else it }.toJsonArray()

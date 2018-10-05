@@ -5,13 +5,25 @@ import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonValue
 
 @Suppress("NOTHING_TO_INLINE")//Micro optimization on boolean parameter
-internal inline fun JsonValue.validateInsert(value: Any?, validateCircularReference: Boolean = true) {
-	if (value != null) {
-		if (!value.isValidJsonType()) throw InvalidJsonTypeException(value)
-		if (validateCircularReference)
-			if (value is JsonValue) {
-				if (this == value) throw CircularReferenceException(this, value)
-				if (value.references(this)) throw CircularReferenceException(this, value)
+internal inline fun JsonValue.purify(value: Any?, validateCircularReference: Boolean = true) : Any? {
+	if (value == null) {
+		return null
+	} else {
+		return when(value){
+			is Number -> {
+				val number = value.toDouble()
+				if (number == 0.0) 0.0 else number //turns -0.0 into 0.0 to prevent boxing issues
 			}
+			is String, is Boolean -> value
+			is Char -> value.toString()
+			is JsonValue -> {
+				if (validateCircularReference){
+					if (this == value) throw CircularReferenceException(this, value)
+					if (value.references(this)) throw CircularReferenceException(this, value)
+				}
+				value
+			}
+			else -> throw InvalidJsonTypeException(value)
+		}
 	}
 }

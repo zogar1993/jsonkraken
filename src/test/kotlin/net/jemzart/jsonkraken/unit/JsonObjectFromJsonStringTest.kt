@@ -60,7 +60,7 @@ class JsonObjectFromJsonStringTest {
 	@Test
 	fun lonelyNumber() {
 		val json = "1".toJson()
-		assert(json == 1)
+		assert(json == 1.0)
 	}
 
 	@Test

@@ -123,18 +123,16 @@ class StringToObjectParser internal constructor(private val raw: String) {
 			advance() //skip 0
 			if (start == end) {
 				skipSpaces()
-				return 0 //no more to read
+				return 0.0 //no more to read
 			} else
 				validateEquality(first, '.', parsingNumber)
-
-
 		} else
 			while (true) {
 				validateIsDecimal(first, parsingNumber)
 				advance(trim = false)//skip digit
 				if (start == end) {
 					skipSpaces()
-					return raw.substring(valueStart, end).toInt()//no more to read
+					return raw.substring(valueStart, end).toDouble()//no more to read
 				}
 				if (first == '.') break
 			}
@@ -143,7 +141,8 @@ class StringToObjectParser internal constructor(private val raw: String) {
 		advance(trim = false) //skip first decimal digit
 		if (start == end) {
 			skipSpaces()
-			return raw.substring(valueStart, end).toDouble()
+			val number = raw.substring(valueStart, end).toDouble()
+			return if (number == 0.0) 0.0 else number //turns -0.0 into 0.0 to prevent boxing issues
 		} //no more to read
 		var foundE = false
 		while (true) {

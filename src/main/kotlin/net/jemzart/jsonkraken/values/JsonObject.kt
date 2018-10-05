@@ -1,14 +1,14 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.helpers.validateInsert
+import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.toJsonObject
 
 class JsonObject() : JsonValue {
 	constructor(vararg properties: Pair<String, Any?>) : this() {
 		for (property in properties) {
-			validateInsert(property.second, validateCircularReference = false)
-			map[property.first] = property.second
+			val purified = purify(property.second, validateCircularReference = false)
+			map[property.first] = purified
 		}
 	}
 
@@ -18,8 +18,7 @@ class JsonObject() : JsonValue {
 	override fun iterator(): Iterator<Pair<String, Any?>> = map.map { it.key to it.value }.iterator()
 	override fun get(name: String): Any? = map[name]
 	override fun set(name: String, value: Any?) {
-		validateInsert(value)
-		map[name] = value
+		map[name] = purify(value)
 	}
 
 	override fun remove(name: String) {

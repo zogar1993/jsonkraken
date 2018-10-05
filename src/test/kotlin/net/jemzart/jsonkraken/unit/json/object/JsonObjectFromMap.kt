@@ -6,11 +6,11 @@ import org.junit.Test
 class JsonObjectFromMap{
 	@Test
 	fun listToJsonArray(){
-		val map = mapOf("A" to 10, "B" to "ten")
+		val map = mapOf("A" to 10.0, "B" to "ten")
 
 		val arr = map.toJsonObject()
 
-		assert(arr["A"] == 10)
+		assert(arr["A"] == 10.0)
 		assert(arr["B"] == "ten")
 	}
 }
