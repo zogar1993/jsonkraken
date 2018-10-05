@@ -53,7 +53,7 @@ Both JsonArray and JsonObject are a JsonValue.
 
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
-- Added an element, its type is valid (JsonValue, Boolean, String, Char and Number, and they may be null)
+- Added an element, its type is valid (JsonValue, Boolean, String, Char and Number, and they may be null).
 - Added a JsonValue, it does not provoke a circular reference.
 
 In cases where the validation fails, an exception will be thrown.
