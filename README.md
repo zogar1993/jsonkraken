@@ -48,6 +48,23 @@ In case of not being able to parse a symbol, an Exception will be thrown.
 We use *.toJsonString()* for Object to String conversion.
 Strings are generated without needless blank space, minimizing its size and readability.
 
+## JsonValue
+Both JsonArray and JsonObject are a JsonValue.
+
+A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
+
+- Added an element, its type is valid (JsonValue, Boolean, String, Char and Number, and they may be null)
+- Added a JsonValue, it does not provoke a circular reference.
+
+In cases where the validation fails, an exception will be thrown.
+
+For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
+
+#### Valid Types
+Some valid types are altered for consistency.
+- A Number element (Byte, Short, Int, Long, Float and Double) will be converted to Double. This should not be an issue except in extreme cases such as when you try to convert some Long values higher than 2<sup>53</sup>, which is a rather uncommon number to be handling, more so taking into consideration that it is common practice to write such a value as a String, a habit born from well placed disbelief in json parsers conversion mechanisms.
+- A Char element will be converted to String.
+
 ## JsonValue creation from scratch
 
 Both JsonArray and JsonObject can be created by parameterless constructors
@@ -72,8 +89,8 @@ I did not include *toJsonArray* and *toJsonObject* as constructor alternatives b
 
 ## Operating with JsonValue
 
-As I have already mentioned, both JsonArray and JsonObject are a JsonValue.
-JsonValues have get and set operators so that you can do the following, provided foo is a JsonValue:
+
+A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:
 
 	foo[0] = "foo"
 	println(foo[0]) //prints: bar
@@ -91,15 +108,6 @@ Here are some other auxiliary methods and properties JsonValue has:
 	foo.exists(bar) //returns true if there is an element at index/key bar
 	foo.clone() //performs a deep clone of the JsonValue
 	foo.size //returns the amount of elements in the JsonValue
-
-A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
-
-- Added an element, its type is valid (JsonValue, Boolean, String, Byte, Short, Int, Long, Float and Double, and they may be null)
-- Added a JsonValue, it does not provoke a circular reference.
-
-In cases where the validation fails, an exception will be thrown.
-
-For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
 
 ## JsonObject
 
