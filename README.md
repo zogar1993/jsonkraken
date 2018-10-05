@@ -1,6 +1,6 @@
 # JSONKraken
 
-#### Idiomatic Json parser for Kotlin (Java)
+#### Idiomatic Json parser for Kotlin (JVM)
 
 ## ¿What is JSONKraken?
 
@@ -49,6 +49,7 @@ We use *.toJsonString()* for Object to String conversion.
 Strings are generated without needless blank space, minimizing its size and readability.
 
 ## JsonValue
+
 Both JsonArray and JsonObject are a JsonValue.
 
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
@@ -88,7 +89,6 @@ If you need to convert a non native Array collection to JsonArray or JsonObject,
 I did not include *toJsonArray* and *toJsonObject* as constructor alternatives because it led to some confusing scenarios.
 
 ## Operating with JsonValue
-
 
 A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:
 
@@ -130,5 +130,5 @@ This is a rather uncommon number to be handling, more so taking into considerati
 - There is a method available for JsonValue which I did not talk about before because I wanted to keep things simple. It is called *references(value)*, and it requires value to be a JsonValue.
 I use that method internally to find if value is recursively contained within the caller, but since I found no real reason not to make it public, there it is.
 - Although *references(value)* does not check for self, all JsonValue insertion mechanisms do validate for A -> A circularity.
-- JsonValues get/set operators welcome both Integers and Strings as index/key. An Integer will be converted to String in the case of JsonObject, whereas a String will try to be converted to Int in JsonArray, or throw an Exception if the cast fails.
+- JsonValues get/set operators welcome both Integers and Strings as index/key. An Integer will be converted to String in the case of JsonObject, whereas a String will try to be converted to Int in JsonArray, and will throw an Exception if the cast fails.
 - Although JSON specification for objects does not prohibit duplicate keys, JSONKraken (like every sane parser out there) does not. Only the value of the last duplicate key will be stored when deserializing, but no exception will be thrown.
