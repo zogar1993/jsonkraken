@@ -96,7 +96,7 @@ A JsonValue has get and set operators so that you can do the following, provided
 	foo[0] = "bar"
 	println(foo[0]) //prints: bar
 	
-Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import Any? get and set operators the library provides to do the following:
+Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import the Any? get and set operators the library provides to do the following:
 
     foo[0][0] = "bar"
 	println(foo[0][0]) //prints: bar
