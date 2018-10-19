@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.values
 
-interface JsonValue : Iterable<Any?> {
+interface JsonValue {
 	operator fun get(name: String): Any?
 	operator fun set(name: String, value: Any?)
 	fun remove(name: String)

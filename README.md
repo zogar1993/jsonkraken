@@ -132,4 +132,4 @@ This is a rather uncommon number to be handling, more so taking into considerati
 I use that method internally to find if value is recursively contained within the caller, but since I found no real reason not to make it public, there it is.
 - Although *references(value)* does not check for self, all JsonValue insertion mechanisms do validate for A -> A circularity.
 - JsonValues get/set operators welcome both Integers and Strings as index/key. An Integer will be converted to String in the case of JsonObject, whereas a String will try to be converted to Int in JsonArray, and will throw an Exception if the cast fails.
-- Although JSON specification for objects does not prohibit duplicate keys, JSONKraken (like every sane parser out there) does not. Only the value of the last duplicate key will be stored when deserializing, but no exception will be thrown.
+- Although JSON specification for objects does not prohibit duplicate keys, JSONKraken (like every sane parser out there) does not. Only the value of the last duplicate key will be stored when deserializing, but no Exception will be thrown.

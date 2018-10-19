@@ -4,7 +4,7 @@ import net.jemzart.jsonkraken.helpers.references
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.toJsonObject
 
-class JsonObject() : JsonValue {
+class JsonObject() : JsonValue, Iterable<Pair<String, Any?>> {
 	constructor(vararg properties: Pair<String, Any?>) : this() {
 		for (property in properties) {
 			val purified = purify(property.second, validateCircularReference = false)
