@@ -4,48 +4,69 @@ import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 
-class ObjectToStringParser internal constructor(private val value: Any?) {
+class ObjectToStringParser internal constructor(private val value: Any?,
+                                                formatted: Boolean) {
 	private val stb = StringBuilder()
+	private val indentation = "\t"
+	private var nesting = 0
+	private inline val tabs get() = indentation.repeat(nesting)
+
+	val writeKey =
+		if (formatted) fun (key:String) { stb.append("\"$key\": ") }
+		else fun (key:String) { stb.append("\"$key\":") }
+
+	val writeStart =
+		if (formatted) fun(value:String) { stb.append("$value\n"); ++nesting; stb.append(tabs) }
+		else fun(value:String) { stb.append(value) }
+
+
+	val writeEnd =
+		if (formatted) fun(value:String) { stb.append("\n"); --nesting; stb.append("$tabs$value")  }
+		else fun(value:String) { stb.append(value) }
+
+	val writeDelimiter =
+		if (formatted) fun() { stb.append(",\n$tabs")  }
+		else fun() { stb.append(",") }
 
 	fun create(): String {
-		parseValue(value)
+		writeValue(value)
 		return stb.toString()
 	}
 
-	private fun parseValue(value: Any?) {
+	private fun writeValue(value: Any?) {
 		when (value) {
-			is JsonArray -> parseArray(value)
-			is JsonObject -> parseObject(value)
+			is JsonArray -> writeArray(value)
+			is JsonObject -> writeObject(value)
 			else -> parsePrimitive(value)
 		}
 	}
 
-	private fun parseObject(obj: JsonObject) {
-		stb.append("{")
+	private fun writeObject(obj: JsonObject) {
+		writeStart("{")
 		var first = true
 		for (pair in obj) {
-			if (!first) stb.append(",") else first = false
-			stb.append("\"${pair.first}\":")
-			parseValue(pair.second)
+			if (!first) writeDelimiter() else first = false
+			writeKey(pair.first)
+			writeValue(pair.second)
 		}
-		stb.append("}")
+		writeEnd("}")
 	}
 
-	private fun parseArray(arr: JsonArray) {
-		stb.append("[")
+	private fun writeArray(arr: JsonArray) {
+		writeStart("[")
 		var first = true
 		for (item in arr) {
-			if (!first) stb.append(",") else first = false
-			parseValue(item)
+			if (!first) writeDelimiter() else first = false
+			writeValue(item)
 		}
-		stb.append("]")
+		writeEnd("]")
 	}
 
 	private fun parsePrimitive(value: Any?) {
 		val str = when (value) {
 			null -> "null"
-			is String -> "\"$value\""
-			is Boolean, is Number , is Char -> value.toString()
+			is String, is Char-> "\"$value\""
+			is Boolean, is Number -> value.toString()
 			else -> throw InvalidJsonTypeException(value)
 		}
 		stb.append(str)

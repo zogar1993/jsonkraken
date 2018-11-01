@@ -19,7 +19,7 @@ fun Map<String, *>.toJsonObject(): JsonObject {
 }
 
 fun String.toJson(): Any? = StringToObjectParser(this).create()
-fun Any?.toJsonString(): String = ObjectToStringParser(this).create()
+fun Any?.toJsonString(formatted:Boolean = false): String = ObjectToStringParser(this, formatted).create()
 
 operator fun Any?.get(name: String): Any? =
 	if (this is JsonValue) this[name]
