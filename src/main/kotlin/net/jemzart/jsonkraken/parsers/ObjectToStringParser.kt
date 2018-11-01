@@ -66,7 +66,8 @@ class ObjectToStringParser internal constructor(private val value: Any?,
 		val str = when (value) {
 			null -> "null"
 			is String, is Char-> "\"$value\""
-			is Boolean, is Number -> value.toString()
+			is Boolean -> value.toString()
+			is Number -> (if (value.toDouble() % 1.0 == 0.0) value.toLong() else value).toString()
 			else -> throw InvalidJsonTypeException(value)
 		}
 		stb.append(str)

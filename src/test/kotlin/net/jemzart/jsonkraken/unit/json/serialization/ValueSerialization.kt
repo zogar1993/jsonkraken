@@ -1,41 +1,77 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
 import net.jemzart.jsonkraken.toJsonString
+import net.jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
 class ValueSerialization {
 	@Test
-	fun nullSerialization(){
+	fun lonelyNull(){
 		assert(null.toJsonString() == "null")
 	}
 
 	@Test
-	fun trueSerialization(){
+	fun lonelyTrue(){
 		assert(true.toJsonString() == "true")
 	}
 
 	@Test
-	fun falseSerialization(){
+	fun lonelyFalse(){
 		assert(false.toJsonString() == "false")
 	}
 
 	@Test
-	fun integerSerialization(){
+	fun lonelyInteger(){
 		assert(5.toJsonString() == "5")
 	}
 
 	@Test
-	fun doubleSerialization(){
+	fun lonelyDouble(){
 		assert((5.2).toJsonString() == "5.2")
 	}
 
 	@Test
-	fun charSerialization(){
+	fun lonelyChar(){
 		assert('z'.toJsonString() == "\"z\"")
 	}
 
 	@Test
-	fun stringSerialization(){
+	fun lonelyString(){
 		assert("Rhagost".toJsonString() == "\"Rhagost\"")
+	}
+
+	@Test
+	fun containedNull(){
+		assert(JsonArray(null).toJsonString() == "[null]")
+	}
+
+	@Test
+	fun containedTrue(){
+		assert(JsonArray(true).toJsonString() == "[true]")
+	}
+
+	@Test
+	fun containedFalse(){
+		assert(JsonArray(false).toJsonString() == "[false]")
+	}
+
+	@Test
+	fun containedInteger(){
+		assert(JsonArray(5).toJsonString() == "[5]")
+	}
+
+	@Test
+	fun containedDouble(){
+		assert(JsonArray(5.2).toJsonString() == "[5.2]")
+	}
+
+	@Test
+	fun containedChar(){
+		assert(JsonArray('z').toJsonString() == "[\"z\"]")
+	}
+
+	@Test
+	fun containedString(){
+		assert(JsonArray("Rhagost").toJsonString() == "[\"Rhagost\"]")
 	}
 }
