@@ -36,17 +36,18 @@ That pretty much covers the basics. The rest of the document is for you, dear re
 JsonArray and JsonObject are in package *net.jemzart.jsonkraken.values*.
 All needed extension methods are in package *net.jemzart.jsonkraken*.
 
-## Parsing from String to an Object
+## Parsing from String to an Object (Deserialization)
 
 We use *.toJson()* for String to Object conversion. Expected output comes in three flavours: JsonArray, JsonObject and non-collections.
 While JsonArray and JsonObject are pretty self explanatory conceptually, their behaviour and particularities will be explained in detail later on for the sake of thoroughness.
 Non-collections are not what I would say expected use cases, but for the sake of JSON full compliance I have included such responses. In the context of this parser, a non-collection means every value that we may find in a json other than arrays and objects: strings, numbers, booleans and null.
 In case of not being able to parse a symbol, an Exception will be thrown.
 
-## Parsing from Object to String
+## Parsing from Object to String (Serialization)
 
 We use *.toJsonString()* for Object to String conversion.
 Strings are generated without needless blank space, minimizing its size and readability.
+We instead use *.toJsonString(true)* when we want the serialization to be formatted.
 
 ## JsonValue
 
@@ -125,11 +126,31 @@ Here are some other auxiliary methods and properties JsonValue has:
 
 ## Implementation details
 ###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
-- Double -0.0 will be turned to Double 0.0 to avoid the weird default comparison behaviour they have (they are equal if unboxed, bot not equal if boxed). I do wonder why do they both even exist.
-- Since internally all numbers are handled as Double, be careful with extremely long Long values (higher than 2<sup>53</sup>).
-This is a rather uncommon number to be handling, more so taking into consideration that it is common practice to write such a value as a String, a habit born from well placed disbelief in json parsers conversion mechanisms.
-- There is a method available for JsonValue which I did not talk about before because I wanted to keep things simple. It is called *references(value)*, and it requires value to be a JsonValue.
-I use that method internally to find if value is recursively contained within the caller, but since I found no real reason not to make it public, there it is.
-- Although *references(value)* does not check for self, all JsonValue insertion mechanisms do validate for A -> A circularity.
-- JsonValues get/set operators welcome both Integers and Strings as index/key. An Integer will be converted to String in the case of JsonObject, whereas a String will try to be converted to Int in JsonArray, and will throw an Exception if the cast fails.
-- Although JSON specification for objects does not prohibit duplicate keys, JSONKraken (like every sane parser out there) does not support it. Only the value of the last duplicate key will be stored when deserializing, but no Exception will be thrown.
+- Double -0.0 will be turned to Double 0.0 to avoid the weird default comparison behaviour they have
+(they are equal if unboxed, bot not equal if boxed).
+I do wonder why do they both even exist.
+- Since internally all numbers are handled as Double,
+be careful with extremely long Long values (higher than 2<sup>53</sup>).
+This is a rather uncommon number to be handling,
+more so taking into consideration that it is common practice to write such a value as a String,
+a habit born from well placed disbelief in json parsers conversion mechanisms.
+- There is a method available for JsonValue which I did not talk about before because I wanted to keep things simple.
+It is called *references(value)*, and it requires value to be a JsonValue.
+I use that method internally to find if value is recursively contained within the caller,
+but since I found no real reason not to make it public, there it is.
+- Although *references(value)* does not check for self,
+all JsonValue insertion mechanisms do validate for A -> A circularity.
+- JsonValues get/set operators welcome both Integers and Strings as index/key.
+An Integer will be converted to String in the case of JsonObject,
+whereas a String will try to be converted to Int in JsonArray,
+and will throw an Exception if the cast fails.
+- Although JSON specification for objects does not prohibit duplicate keys,
+JSONKraken (like every sane parser out there) does not support it.
+Only the value of the last duplicate key will be stored when deserializing,
+but no Exception will be thrown.
+- Whole numbers will be written without its decimal part.
+- Formatted serialization is indented with tabs.
+I have thought about allowing custom indentation,
+but if I did, it would be reasonable to add all other custom serialization options,
+and that would make JSONKraken slightly more complex than intended.
+This simple yet standard formatting should suffice.
