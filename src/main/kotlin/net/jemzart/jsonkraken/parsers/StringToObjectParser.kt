@@ -9,7 +9,7 @@ import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 
-class StringToObjectParser internal constructor(private val raw: String) {
+internal class StringToObjectParser constructor(private val raw: String) {
 	private val last = raw.length
 	private var start = 0
 	private inline val first get() = raw[start]

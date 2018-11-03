@@ -4,7 +4,7 @@ import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 
-class ObjectToStringParser internal constructor(private val value: Any?,
+internal class ObjectToStringParser constructor(private val value: Any?,
                                                 formatted: Boolean) {
 	private val stb = StringBuilder()
 	private val indentation = "\t"
