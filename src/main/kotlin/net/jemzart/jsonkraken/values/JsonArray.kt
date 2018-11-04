@@ -4,7 +4,14 @@ import net.jemzart.jsonkraken.helpers.references
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.toJsonArray
 
+/**
+ * @constructor empty json array.
+ */
 class JsonArray() : JsonValue, Iterable<Any?> {
+	/**
+	 * @constructor json array filled with [items].
+	 * Items must be of valid types (JsonValue, null and all primitives are valid types).
+	 */
 	constructor(vararg items: Any?) : this() {
 		for (item in items) {
 			val purified = purify(item, validateCircularReference = false)
@@ -15,6 +22,9 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	override val size: Int get() = list.size
 	private val list: MutableList<Any?> = mutableListOf()
 
+	/**
+	 * @return an iterator over all its items.
+	 */
 	override fun iterator(): Iterator<Any?> = list.iterator()
 
 	override fun get(index: Int): Any? = list[if (index < 0) list.size + index else index]
@@ -33,10 +43,17 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 		return index < list.size
 	}
 
+	/**
+	 * adds [value] after the current end of the array.
+	 */
 	fun add(value: Any?) {
 		list.add(purify(value))
 	}
 
+	/**
+	 * inserts [value] at specified [index].
+	 * all elements from that index to the end are moved one step, and none is replaced.
+	 */
 	fun insert(index: Int, value: Any?) {
 		list.add(index, purify(value))
 	}

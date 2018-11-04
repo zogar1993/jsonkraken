@@ -44,3 +44,8 @@ dokka {
         suffix = "#L"
     }
 }
+
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/javadoc"
+}

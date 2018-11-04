@@ -40,7 +40,7 @@ fun String.toJson(): Any? = StringToObjectParser(this).create()
 fun Any?.toJsonString(formatted: Boolean = false): String = ObjectToStringParser(this, formatted).create()
 
 /**
- * @return Gets the value of the property named [name] in a JsonValue.
+ * @return the value of the property named [name] in a JsonValue.
  * @receiver if JsonArray, [name] works as an index.
  * @exception <UnsupportedOperationException> if receiver is not a JsonValue.
  */
@@ -49,7 +49,7 @@ operator fun Any?.get(name: String): Any? =
 	else throw UnsupportedOperationException()
 
 /**
- * @return Gets the element at index [index] in a JsonValue.
+ * @return the element at index [index] in a JsonValue.
  * @receiver if JsonObject, [index] works as a property name.
  * @exception <UnsupportedOperationException> if receiver is not a JsonValue.
  */
