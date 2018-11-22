@@ -2,7 +2,7 @@ group 'net.jemzart.jsonkraken'
 version '1.0.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.3.0'
+    ext.kotlin_version = '1.3.10'
     ext.dokka_version = '0.9.17'
 
     repositories {
@@ -12,15 +12,15 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
-        classpath 'net.saliman:gradle-cobertura-plugin:2.0.0'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0"
+        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.3.0"
     }
 }
 
+apply plugin: "info.solidsoft.pitest"
 apply plugin: "kotlin"
 apply plugin: "org.jetbrains.dokka"
-apply plugin: 'cobertura'
-apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: "com.github.kt3k.coveralls"
 apply plugin: "maven-publish"
 apply plugin: "signing"
 
@@ -40,7 +40,16 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-cobertura.coverageFormats = ['html', 'xml']
+pitest {
+    timestampedReports = false
+    outputFormats = ['XML', 'HTML']
+}
+/*jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}*/
 /*
 dokka {
     outputFormat = 'html'
