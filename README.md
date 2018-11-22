@@ -1,7 +1,5 @@
 # JSONKraken
 
-#### Idiomatic Json parser for Kotlin (JVM)
-
 [![Maven Central](https://img.shields.io/maven-central/v/net.jemzart/jsonkraken.svg)](http://search.maven.org/#search|ga|1|jsonkraken)
 
 ## ¿What is JSONKraken?
