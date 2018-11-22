@@ -1,5 +1,7 @@
 # JSONKraken
 
+[![Travis CI Build Status](https://travis-ci.org/zogar1993/jsonkraken.svg?branch=master)](https://travis-ci.org/zogar1993/jsonkraken)
+[![Coverage Status](https://coveralls.io/repos/github/zogar1993/jsonkraken/badge.svg?branch=master)](https://coveralls.io/github/zogar1993/jsonkraken?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/net.jemzart/jsonkraken.svg)](http://search.maven.org/#search|ga|1|jsonkraken)
 
 ## ¿What is JSONKraken?
