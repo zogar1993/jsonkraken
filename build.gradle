@@ -40,10 +40,15 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+coveralls {
+    sourceDirs += ['src/main/kotlin']
+}
+
 pitest {
     timestampedReports = false
     outputFormats = ['XML', 'HTML']
 }
+
 /*jacocoTestReport {
     reports {
         xml.enabled = true
