@@ -185,10 +185,14 @@ and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
 
 ## Change Log
+
 ####1.1.0 (Unreleased)
+
 - Added reverse notation support for JsonArray *insert* and *remove* methods.
 - Added json string validation for to all String insertions, since they where only validated when deserialized.
 - Added json string validation for to all JsonObject parity keys.
 - Added json string validation for lonely string serialization.
+
 ####1.0.0
+
 - Release the Kraken!
