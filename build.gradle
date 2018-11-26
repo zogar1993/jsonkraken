@@ -9,11 +9,13 @@ buildscript {
         mavenCentral()
         jcenter()
     }
+//    configurations.maybeCreate("pitest")
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"
         classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.3.0"
+//        pitest "org.pitest:pitest-kotlin-plugin:0.1-SNAPSHOT"
     }
 }
 
@@ -43,8 +45,9 @@ compileTestKotlin {
 coveralls {
     sourceDirs += ['src/main/kotlin']
 }
-
 pitest {
+//    pitestVersion = "1.3.2"
+//    targetClasses = ['our.base.package.*']
     timestampedReports = false
     outputFormats = ['XML', 'HTML']
 }

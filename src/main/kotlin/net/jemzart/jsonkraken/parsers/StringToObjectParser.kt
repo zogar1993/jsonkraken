@@ -104,7 +104,6 @@ internal class StringToObjectParser constructor(private val raw: String) {
 				advance() //skip "
 				return value
 			} else {
-				//TODO validate if array is created everytime, it should not be.
 				validateExclusion(raw[start], escapeableWhiteSpaceChars, parsingString)
 				validateIsISOControlCharacterOtherThanDelete(raw[start], parsingString)
 				advance(trim = false) //skip 1 char
