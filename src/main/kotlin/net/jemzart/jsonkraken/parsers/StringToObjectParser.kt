@@ -165,12 +165,7 @@ internal class StringToObjectParser constructor(private val raw: String) {
 		if (first != '}')
 			while (true) {
 				validateEquality(first, '\"', parsingObject)
-//				advance(trim = false)//skip "
-//
-//				val end = fromStartIndexOf('\"')
-//				val name = raw.substring(start, end)
-//				advance(name.length, false) //skip key
-//				advance() //skip "
+
 				val name = deserializeString()
 
 				validateEquality(first, ':', parsingObject)
@@ -214,13 +209,6 @@ internal class StringToObjectParser constructor(private val raw: String) {
 			if (occurrence(raw[i]))
 				return i
 		return last
-	}
-
-	private fun fromStartIndexOf(char: Char): Int {
-		for (i in start until last)
-			if (raw[i] == char)
-				return i
-		return -1
 	}
 
 	private fun skipSpaces() {
