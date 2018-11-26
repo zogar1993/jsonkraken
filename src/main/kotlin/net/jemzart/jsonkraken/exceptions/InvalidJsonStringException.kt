@@ -1,4 +1,8 @@
 package net.jemzart.jsonkraken.exceptions
 
-//TODO make exception happier
-class InvalidJsonStringException(val value: String, val info: String) : Exception()
+/**
+ * An exception used when the String added to a JsonValue is not compliant with the JSON specification.
+ *
+ * @property value invalid string which triggered the exception.
+ */
+class InvalidJsonStringException(val value: String, message: String) : Exception(message)
