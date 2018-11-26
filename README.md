@@ -84,6 +84,7 @@ A JsonValue is always a consistent json representation should it be serialized. 
 
 - Added an element, its type is valid (JsonValue, Boolean, String, Char or Number, and they may be null).
 - Added a JsonValue, it does not provoke a circular reference.
+- Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 
 In cases where the validation fails, an exception will be thrown.
 
@@ -182,3 +183,12 @@ I have thought about allowing custom indentation,
 but if I did, it would be reasonable to add all other custom serialization options,
 and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
+
+## Change Log
+####1.1.0 (Unreleased)
+- Added reverse notation support for JsonArray *insert* and *remove* methods.
+- Added json string validation for to all String insertions, since they where only validated when deserialized.
+- Added json string validation for to all JsonObject parity keys.
+- Added json string validation for lonely string serialization.
+####1.0.0
+- Release the Kraken!

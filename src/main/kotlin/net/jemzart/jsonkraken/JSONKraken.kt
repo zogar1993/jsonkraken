@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken
 
+import net.jemzart.jsonkraken.helpers.validate
 import net.jemzart.jsonkraken.parsers.ObjectToStringParser
 import net.jemzart.jsonkraken.parsers.StringToObjectParser
 import net.jemzart.jsonkraken.values.JsonArray
@@ -37,7 +38,11 @@ fun String.toJson(): Any? = StringToObjectParser(this).create()
  * @return an json string representation of the receiver.
  * @receiver an object of any valid type (JsonValue, null and all primitives are valid types).
  */
-fun Any?.toJsonString(formatted: Boolean = false): String = ObjectToStringParser(this, formatted).create()
+fun Any?.toJsonString(formatted: Boolean = false): String {
+	if (this is String) validate()
+	else if (this is Char) toString().validate()
+	return ObjectToStringParser(this, formatted).create()
+}
 
 /**
  * @return the value of the property named [name] in a JsonValue.
