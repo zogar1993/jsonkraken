@@ -5,7 +5,7 @@ import org.junit.Test
 
 class JsonArrayFromIterable{
 	@Test
-	fun listToJsonArray(){
+	fun `List to JsonArray`(){
 		val list = listOf("A", 2.0, true)
 
 		val arr = list.toJsonArray()

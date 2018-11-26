@@ -13,7 +13,7 @@ class JsonObjectTest {
 	}
 
 	@Test
-	fun simpleArray() {
+	fun `simple array`() {
 		val arr = JsonArray()
 		arr.add("Ragoz")
 		assert(arr[0] == "Ragoz")
@@ -21,7 +21,7 @@ class JsonObjectTest {
 
 
 	@Test
-	fun insertFirst() {
+	fun `insert first`() {
 		val obj = JsonArray()
 		obj.add("Von Chap")
 		obj.add("Ulf")
@@ -32,7 +32,7 @@ class JsonObjectTest {
 	}
 
 	@Test
-	fun insertInTheMiddle() {
+	fun `insert in the middle`() {
 		val obj = JsonArray()
 		obj.add("Von Chap")
 		obj.add("Ulf")
@@ -43,7 +43,7 @@ class JsonObjectTest {
 	}
 
 	@Test
-	fun insertLast() {
+	fun `insert last`() {
 		val obj = JsonArray()
 		obj.add("Von Chap")
 		obj.add("Ulf")

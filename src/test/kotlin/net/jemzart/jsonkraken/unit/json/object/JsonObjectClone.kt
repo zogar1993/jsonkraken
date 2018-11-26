@@ -16,7 +16,7 @@ class JsonObjectClone{
 	}
 
 	@Test
-	fun deepLiteral(){
+	fun `deep literal`(){
 		val arr1 = JsonObject("0" to 1.0)
 		val arr2 = arr1.clone()
 
@@ -27,7 +27,7 @@ class JsonObjectClone{
 	}
 
 	@Test
-	fun deepJsonObject(){
+	fun `deep JsonObject`(){
 		val arr1 = JsonObject("0" to JsonObject("value" to 1))
 		val arr2 = arr1.clone()
 
@@ -38,7 +38,7 @@ class JsonObjectClone{
 	}
 
 	@Test
-	fun deepJsonArray(){
+	fun `deep JsonArray`(){
 		val arr1 = JsonObject("0" to JsonArray(1.0))
 		val arr2 = arr1.clone()
 

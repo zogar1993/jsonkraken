@@ -15,7 +15,7 @@ class JsonObjectExists {
 	}
 
 	@Test
-	fun doesNotExist(){
+	fun `does not exist`(){
 		val obj = JsonObject()
 
 		assert(!obj.exists("0"))

@@ -13,14 +13,14 @@ class JsonObjectConstruction {
 	}
 
 	@Test
-	fun oneProperty(){
+	fun `one property`(){
 		val obj = JsonObject("Captain" to "Von Chap")
 
 		assert(obj["Captain"] == "Von Chap")
 	}
 
 	@Test
-	fun twoProperties(){
+	fun `two properties`(){
 		val obj = JsonObject("Captain" to "Von Chap", "Hero" to "Joelin")
 
 		assert(obj["Captain"] == "Von Chap")
@@ -28,7 +28,7 @@ class JsonObjectConstruction {
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun failsOnInvalidType(){
+	fun `fails on invalid type`(){
 		JsonObject("0" to Exception())
 	}
 }

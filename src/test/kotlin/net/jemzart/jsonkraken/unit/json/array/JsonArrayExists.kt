@@ -15,7 +15,7 @@ class JsonArrayExists {
 	}
 
 	@Test
-	fun doesNotExist(){
+	fun `does not exist`(){
 		val arr = JsonArray()
 
 		assert(!arr.exists("0"))

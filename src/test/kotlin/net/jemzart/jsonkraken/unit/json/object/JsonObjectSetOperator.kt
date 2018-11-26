@@ -11,27 +11,27 @@ class JsonObjectSetOperator{
 	private val insertion: JsonValue = JsonObject()
 
 	@Test
-	fun byString(){
+	fun `by String`(){
 		val obj = JsonObject()
 		obj["0"] = insertion
 		assert(obj["0"] == insertion)
 	}
 
 	@Test
-	fun byInt(){
+	fun `by Int`(){
 		val obj = JsonObject()
 		obj[0] = insertion
 		assert(obj["0"] == insertion)
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun failsOnInvalidType(){
+	fun `fails on invalid type`(){
 		val obj = JsonObject()
 		obj["0"] = Exception()
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun circularReferenceNotAllowed(){
+	fun `circular reference not allowed`(){
 		val obj = JsonObject()
 		val arr = JsonArray(obj)
 
@@ -39,7 +39,7 @@ class JsonObjectSetOperator{
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun selfReferenceNotAllowed(){
+	fun `self reference not allowed`(){
 		val obj = JsonObject()
 
 		obj["0"] = obj

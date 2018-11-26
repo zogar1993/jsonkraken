@@ -7,7 +7,6 @@ import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class JsonArrayAdd {
-
 	@Test
 	fun first(){
 		val arr = JsonArray()
@@ -27,14 +26,14 @@ class JsonArrayAdd {
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun failsOnInvalidType(){
+	fun `fails on invalid type`(){
 		val arr = JsonArray()
 
 		arr.add(Exception())
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun circularReferenceNotAllowed(){
+	fun `circular reference not allowed`(){
 		val arr = JsonArray()
 		val obj = JsonObject("0" to arr)
 
@@ -42,7 +41,7 @@ class JsonArrayAdd {
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun selfReferenceNotAllowed(){
+	fun `self reference not allowed`(){
 		val arr = JsonArray()
 
 		arr.add(arr)

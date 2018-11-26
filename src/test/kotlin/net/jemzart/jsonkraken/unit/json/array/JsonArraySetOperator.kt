@@ -9,7 +9,7 @@ import org.junit.Test
 class JsonArraySetOperator{
     private val insertion = JsonArray()
     @Test
-    fun existingIndexByInt(){
+    fun `existing index by Int`(){
         val arr = JsonArray()
         arr.add(null)
 
@@ -19,7 +19,7 @@ class JsonArraySetOperator{
     }
 
     @Test
-    fun existingIndexByString(){
+    fun `existing index by String`(){
         val arr = JsonArray()
         arr.add(null)
 
@@ -29,28 +29,28 @@ class JsonArraySetOperator{
     }
 
     @Test
-    fun nonExistingIndexByInt(){
+    fun `non existing index by Int`(){
         val arr = JsonArray()
         arr[0] = insertion
         assert(arr[0] == insertion)
     }
 
     @Test
-    fun nonExistingIndexByString(){
+    fun `non existing index by String`(){
         val arr = JsonArray()
         arr["0"] = insertion
         assert(arr[0] == insertion)
     }
 
 	@Test
-	fun nonExistingIndexGrowsUntilIndex(){
+	fun `non existing index grows until index`(){
 		val arr = JsonArray()
 		arr[6] = insertion
 		assert(arr.size == 7)
 	}
 
 	@Test
-	fun negativeNotation(){
+	fun `negative notation`(){
 		val arr = JsonArray()
 		arr.add(null)
 		arr.add(null)
@@ -62,13 +62,13 @@ class JsonArraySetOperator{
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun failsOnInvalidType(){
+	fun `fails on invalid type`(){
 		val arr = JsonArray()
 		arr["0"] = Exception()
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun circularReferenceNotAllowed(){
+	fun `circular reference not allowed`(){
 		val arr = JsonArray()
 		val obj = JsonObject("0" to arr)
 
@@ -76,7 +76,7 @@ class JsonArraySetOperator{
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun selfReferenceNotAllowed(){
+	fun `self reference not allowed`(){
 		val arr = JsonArray()
 
 		arr[0] = arr

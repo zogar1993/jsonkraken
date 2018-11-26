@@ -5,7 +5,7 @@ import org.junit.Test
 
 class JsonObjectFromMap{
 	@Test
-	fun listToJsonArray(){
+	fun `Map to JsonObject`(){
 		val map = mapOf("A" to 10.0, "B" to "ten")
 
 		val arr = map.toJsonObject()

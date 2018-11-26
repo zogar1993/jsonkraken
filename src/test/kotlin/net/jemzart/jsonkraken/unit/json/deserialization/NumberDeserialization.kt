@@ -5,122 +5,120 @@ import net.jemzart.jsonkraken.toJson
 import org.junit.Test
 
 class NumberDeserialization{
-
-
 	@Test
-	fun zero() {
+	fun zero(){
 		val json = "0".toJson()
 		assert(json == 0.0)
 	}
 
 	@Test
-	fun minusZero() {
+	fun `minus zero`(){
 		val json = "-0".toJson()
 		assert(json == 0.0)
 	}
 
 	@Test
-	fun oneDigit() {
+	fun `one digit`(){
 		val json = "2".toJson()
 		assert(json == 2.0)
 	}
 
 	@Test
-	fun twoDigits() {
+	fun `two digits`(){
 		val json = "42".toJson()
 		assert(json == 42.0)
 	}
 
 	@Test
-	fun oneDigitNegative() {
+	fun `one digit negative`(){
 		val json = "-2".toJson()
 		assert(json == -2.0)
 	}
 
 	@Test
-	fun twoDigitsNegative() {
+	fun `two digits negative`(){
 		val json = "-42".toJson()
 		assert(json == -42.0)
 	}
 
 	@Test
-	fun zeroPointZero() {
+	fun `zero point zero`() {
 		val json = "0.0".toJson()
 		assert(json == 0.0)
 	}
 
 	@Test
-	fun minusZeroPointZero() {
+	fun `minus zero point zero`(){
 		val json = "-0.0".toJson()
 		assert(json == 0.0)
 	}
 
 	@Test
-	fun oneDigitPointZero() {
+	fun `one digit point zero`(){
 		val json = "2.0".toJson()
 		assert(json == 2.0)
 	}
 
 	@Test
-	fun twoDigitsPointZero() {
+	fun `two digits point zero`(){
 		val json = "42.0".toJson()
 		assert(json == 42.0)
 	}
 
 	@Test
-	fun oneDigitNegativePointZero() {
+	fun `one digit negative point zero`(){
 		val json = "-2.0".toJson()
 		assert(json == -2.0)
 	}
 
 	@Test
-	fun twoDigitsNegativePointZero() {
+	fun `two digits negative point zero`(){
 		val json = "-42.0".toJson()
 		assert(json == -42.0)
 	}
 	@Test
-	fun zeroDecimal() {
+	fun `zero decimal`(){
 		val json = "0.5".toJson()
 		assert(json == 0.5)
 	}
 
 	@Test
-	fun minusZeroDecimal() {
+	fun `minus zero decimal`(){
 		val json = "-0.5".toJson()
 		assert(json == -0.5)
 	}
 
 	@Test
-	fun oneDigitDecimal() {
+	fun `one digit decimal`(){
 		val json = "2.5".toJson()
 		assert(json == 2.5)
 	}
 
 	@Test
-	fun twoDigitsDecimal() {
+	fun `two digits decimal`(){
 		val json = "42.5".toJson()
 		assert(json == 42.5)
 	}
 
 	@Test
-	fun oneDigitNegativeDecimal() {
+	fun `one digit negative decimal`(){
 		val json = "-2.5".toJson()
 		assert(json == -2.5)
 	}
 
 	@Test
-	fun twoDigitsNegativeDecimal() {
+	fun `two digits negative decimal`(){
 		val json = "-42.5".toJson()
 		assert(json == -42.5)
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun zeroStarting() {
+	fun `zero starting`(){
 		"01".toJson()
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun zeroStartingNegative() {
+	fun `zero starting negative`(){
 		"-01".toJson()
 	}
 }

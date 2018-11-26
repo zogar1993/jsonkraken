@@ -7,7 +7,7 @@ import org.junit.Test
 class JsonArrayReferences{
 
 	@Test
-	fun noReference(){
+	fun `no reference`(){
 		val obj = JsonObject()
 		val arr = JsonArray()
 
@@ -15,7 +15,7 @@ class JsonArrayReferences{
 	}
 
 	@Test
-	fun firstLevelReference(){
+	fun `first level reference`(){
 		val obj = JsonObject()
 		val arr = JsonArray(obj)
 
@@ -23,7 +23,7 @@ class JsonArrayReferences{
 	}
 
 	@Test
-	fun secondLevelReference(){
+	fun `second level reference`(){
 		val obj = JsonObject()
 		val arr = JsonArray(JsonArray(obj))
 

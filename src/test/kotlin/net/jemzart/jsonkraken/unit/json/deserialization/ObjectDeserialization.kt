@@ -15,7 +15,7 @@ class ObjectDeserialization{
 	}
 
 	@Test
-	fun allowedWhiteSpaces(){
+	fun `allowed white spaces`(){
 		val json = "$WS{$WS${str("0")}$WS:$WS${str("A")}$WS,$WS${str("1")}$WS:$WS${str("B")}$WS}$WS".toJson()
 		assert(json["0"] == "A")
 		assert(json["1"] == "B")

@@ -6,7 +6,7 @@ import org.junit.Test
 
 class Parsing{
 	@Test
-	fun mustParse() {
+	fun `must parse`(){
 		var passed = 0
 		var failed = 0
 		"/test_parsing/allowed".asResourceFile().walk().forEach {
@@ -26,7 +26,7 @@ class Parsing{
 	}
 
 	@Test
-	fun mustNotParse() {
+	fun `must not parse`(){
 		var passed = 0
 		var failed = 0
 		"/test_parsing/restricted".asResourceFile().walk().forEach {
@@ -46,7 +46,7 @@ class Parsing{
 	}
 
 	@Test
-	fun mayParse() {
+	fun `may parse`(){
 		var passed = 0
 		var failed = 0
 		"/test_parsing/optional".asResourceFile().walk().forEach {

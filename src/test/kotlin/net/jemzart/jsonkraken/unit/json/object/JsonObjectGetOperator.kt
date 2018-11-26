@@ -8,7 +8,7 @@ class JsonObjectGetOperator {
 	private val insertion: JsonValue = JsonObject()
 
 	@Test
-	fun byString(){
+	fun `by String`(){
 		val obj = JsonObject()
 
 		obj["0"] = insertion
@@ -18,7 +18,7 @@ class JsonObjectGetOperator {
 	}
 
 	@Test
-	fun byInt(){
+	fun `by Int`(){
 		val obj = JsonObject()
 
 		obj["0"] = insertion

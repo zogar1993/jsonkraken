@@ -6,14 +6,14 @@ import org.junit.Test
 
 class JsonObjectToStringTest {
 	@Test
-	fun simpleObject() {
+	fun `simple object`() {
 		val obj = JsonObject()
 		obj["name"] = "Von Chap"
 		assert(obj.toJsonString() == "{\"name\":\"Von Chap\"}")
 	}
 
 	@Test
-	fun notNullNullableString() {
+	fun `not null String?`() {
 		val obj = JsonObject()
 		val nullableString: String? = "Von Chap"
 		obj["name"] = nullableString

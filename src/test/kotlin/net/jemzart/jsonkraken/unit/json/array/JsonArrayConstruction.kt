@@ -14,14 +14,14 @@ class JsonArrayConstruction {
 	}
 
 	@Test
-	fun oneProperty(){
+	fun `one property`(){
 		val arr = JsonArray("Von Chap")
 
 		assert(arr[0] == "Von Chap")
 	}
 
 	@Test
-	fun twoProperties(){
+	fun `two properties`(){
 		val arr = JsonArray("Von Chap", "Joelin")
 
 		assert(arr[0] == "Von Chap")
@@ -30,7 +30,7 @@ class JsonArrayConstruction {
 
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun failsOnInvalidType(){
+	fun `fails on invalid type`(){
 		JsonArray(Exception())
 	}
 }

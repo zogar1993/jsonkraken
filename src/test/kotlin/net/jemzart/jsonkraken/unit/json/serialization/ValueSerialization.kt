@@ -6,72 +6,72 @@ import org.junit.Test
 
 class ValueSerialization {
 	@Test
-	fun lonelyNull(){
+	fun `lonely Null`(){
 		assert(null.toJsonString() == "null")
 	}
 
 	@Test
-	fun lonelyTrue(){
+	fun `lonely True`(){
 		assert(true.toJsonString() == "true")
 	}
 
 	@Test
-	fun lonelyFalse(){
+	fun `lonely False`(){
 		assert(false.toJsonString() == "false")
 	}
 
 	@Test
-	fun lonelyInteger(){
+	fun `lonely Integer`(){
 		assert(5.toJsonString() == "5")
 	}
 
 	@Test
-	fun lonelyDouble(){
+	fun `lonely Double`(){
 		assert((5.2).toJsonString() == "5.2")
 	}
 
 	@Test
-	fun lonelyChar(){
+	fun `lonely Char`(){
 		assert('z'.toJsonString() == "\"z\"")
 	}
 
 	@Test
-	fun lonelyString(){
+	fun `lonely String`(){
 		assert("Rhagost".toJsonString() == "\"Rhagost\"")
 	}
 
 	@Test
-	fun containedNull(){
+	fun `contained Null`(){
 		assert(JsonArray(null).toJsonString() == "[null]")
 	}
 
 	@Test
-	fun containedTrue(){
+	fun `contained True`(){
 		assert(JsonArray(true).toJsonString() == "[true]")
 	}
 
 	@Test
-	fun containedFalse(){
+	fun `contained False`(){
 		assert(JsonArray(false).toJsonString() == "[false]")
 	}
 
 	@Test
-	fun containedInteger(){
+	fun `contained Integer`(){
 		assert(JsonArray(5).toJsonString() == "[5]")
 	}
 
 	@Test
-	fun containedDouble(){
+	fun `contained Double`(){
 		assert(JsonArray(5.2).toJsonString() == "[5.2]")
 	}
 
 	@Test
-	fun containedChar(){
+	fun `contained Char`(){
 		assert(JsonArray('z').toJsonString() == "[\"z\"]")
 	}
 
 	@Test
-	fun containedString(){
+	fun `contained String`(){
 		assert(JsonArray("Rhagost").toJsonString() == "[\"Rhagost\"]")
 	}
 }

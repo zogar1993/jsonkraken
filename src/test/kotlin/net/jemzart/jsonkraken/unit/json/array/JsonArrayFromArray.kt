@@ -5,7 +5,7 @@ import org.junit.Test
 
 class JsonArrayFromArray{
 	@Test
-	fun arrayToJsonArray(){
+	fun `Array to JsonArray`(){
 		val array = arrayOf("A", 2.0, true)
 
 		val arr = JsonArray(*array)

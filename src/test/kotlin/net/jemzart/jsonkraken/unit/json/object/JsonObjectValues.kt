@@ -5,7 +5,7 @@ import org.junit.Test
 
 class JsonObjectValues {
 	@Test
-	fun values() {
+	fun values(){
 		val obj = JsonObject("one" to 1.0, "two" to 2.0)
 
 		val values = obj.values

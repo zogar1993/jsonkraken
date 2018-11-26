@@ -6,24 +6,24 @@ import org.junit.Test
 
 class BooleanDeserialization{
 	@Test
-	fun trueValue(){
+	fun `true`(){
 		val json = "true".toJson()
 		assert(json == true)
 	}
 
 	@Test
-	fun falseValue(){
+	fun `false`(){
 		val json = "false".toJson()
 		assert(json == false)
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun misspelledTrue() {
+	fun `misspelled true`(){
 		"tttt".toJson()
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun misspelledFalse() {
+	fun `misspelled false`(){
 		"fffff".toJson()
 	}
 }

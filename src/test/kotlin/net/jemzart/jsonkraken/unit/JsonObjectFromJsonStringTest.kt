@@ -7,64 +7,64 @@ import org.junit.Test
 
 class JsonObjectFromJsonStringTest {
 	@Test
-	fun simpleString() {
+	fun `simple String`() {
 		val json = "{\"name\":\"Von Chap\"}".toJson()
 		assert(json["name"] == "Von Chap")
 	}
 
 	@Test
-	fun simpleDouble() {
+	fun `simple Double`() {
 		val json = "{\"age\":13.22}".toJson()
 		assert(json["age"] == 13.22)
 	}
 
 	@Test
-	fun simpleNegativeDouble() {
+	fun `simple negative Double`() {
 		val json = "{\"age\":-13.22}".toJson()
 		assert(json["age"] == -13.22)
 	}
 
 	@Test
-	fun simpleTwoAttributesJson() {
+	fun `simple two attributes json`() {
 		val json = "{\"name\":\"Von Chap\",\"warband\":\"Sworn Brothers\"}".toJson()
 		assert(json["name"] == "Von Chap")
 		assert(json["warband"] == "Sworn Brothers")
 	}
 
 	@Test
-	fun subObjectJson() {
+	fun `sub object json`() {
 		val json = "{\"captain\":{\"name\":\"Von Chap\"}}".toJson()
 		assert((json["captain"]["name"] == "Von Chap"))
 	}
 
 	@Test
-	fun arrayWithObjects() {
+	fun `array with objects`() {
 		val json = "[{\"name\":\"Von Chap\"},{\"name\":\"Ulf\"}]".toJson()
 		assert(json[0]["name"] == "Von Chap")
 		assert(json[1]["name"] == "Ulf")
 	}
 
 	@Test
-	fun objectWithArrayWithObjects() {
+	fun `object with array with objects`() {
 		val json = "{\"characters\":[{\"name\":\"Von Chap\"}, {\"name\":\"Ulf\"}]}".toJson()
 		assert(json["characters"][0]["name"] == "Von Chap")
 		assert(json["characters"][1]["name"] == "Ulf")
 	}
 
 	@Test
-	fun emptyArray() {
+	fun `empty array`() {
 		val json = "[]".toJson() as JsonArray
 		assert(json.size == 0)
 	}
 
 	@Test
-	fun lonelyNumber() {
+	fun `lonely number`() {
 		val json = "1".toJson()
 		assert(json == 1.0)
 	}
 
 	@Test
-	fun backslashedQuotes() {
+	fun `backslashed double quotes`() {
 		val json = "[\"\\\"\"]".toJson()
 		assert(json[0] == "\\\"")
 	}

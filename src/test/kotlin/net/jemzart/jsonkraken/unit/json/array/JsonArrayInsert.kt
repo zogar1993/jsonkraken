@@ -9,7 +9,7 @@ import org.junit.Test
 class JsonArrayInsert{
 
 	@Test
-	fun insertedBetween(){
+	fun `inserted between`(){
 		val arr = JsonArray(0.0, 1.0)
 
 		arr.insert(1, "new")
@@ -20,7 +20,7 @@ class JsonArrayInsert{
 	}
 
 	@Test
-	fun insertedAfter(){
+	fun `inserted after`(){
 		val arr = JsonArray(0)
 
 		arr.insert(1, "new")
@@ -29,14 +29,14 @@ class JsonArrayInsert{
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun failsOnInvalidType(){
+	fun `fails on invalid type`(){
 		val arr = JsonArray()
 
 		arr.insert(0, Exception())
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun circularReferenceNotAllowed(){
+	fun `circular reference not allowed`(){
 		val arr = JsonArray()
 		val obj = JsonObject("0" to arr)
 
@@ -44,7 +44,7 @@ class JsonArrayInsert{
 	}
 
 	@Test(expected = CircularReferenceException::class)
-	fun selfReferenceNotAllowed(){
+	fun `self reference not allowed`(){
 		val arr = JsonArray()
 
 		arr.insert(0, arr)

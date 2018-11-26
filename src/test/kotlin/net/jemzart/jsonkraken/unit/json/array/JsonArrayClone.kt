@@ -7,7 +7,6 @@ import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class JsonArrayClone{
-
 	@Test
 	fun replication(){
 		val arr1 = JsonArray(1.0)
@@ -17,7 +16,7 @@ class JsonArrayClone{
 	}
 
 	@Test
-	fun deepLiteral(){
+	fun `deep literal`(){
 		val arr1 = JsonArray(1.0)
 		val arr2 = arr1.clone()
 
@@ -28,7 +27,7 @@ class JsonArrayClone{
 	}
 
 	@Test
-	fun deepJsonObject(){
+	fun `deep JsonObject`(){
 		val arr1 = JsonArray(JsonObject("value" to 1.0))
 		val arr2 = arr1.clone()
 
@@ -39,7 +38,7 @@ class JsonArrayClone{
 	}
 
 	@Test
-	fun deepJsonArray(){
+	fun `deep JsonArray`(){
 		val arr1 = JsonArray(JsonArray(1.0))
 		val arr2 = arr1.clone()
 

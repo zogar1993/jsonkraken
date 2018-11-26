@@ -6,13 +6,13 @@ import org.junit.Test
 
 class NullDeserialization{
 	@Test
-	fun trueValue(){
+	fun `null`(){
 		val json = "null".toJson()
 		assert(json == null)
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun misspelledNull() {
+	fun `misspelled null`(){
 		"nnnn".toJson()
 	}
 }

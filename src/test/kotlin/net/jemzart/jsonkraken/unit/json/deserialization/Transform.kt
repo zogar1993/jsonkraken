@@ -6,7 +6,7 @@ import org.junit.Test
 
 class Transform{
 	@Test
-	fun transform() {
+	fun transform(){
 		var passed = 0
 		var failed = 0
 		"/test_transform".asResourceFile().walk().forEach {

@@ -5,7 +5,7 @@ import org.junit.Test
 
 class JsonObjectRemove{
 	@Test
-	fun byString(){
+	fun `by String`(){
 		val obj = JsonObject()
 		obj["0"] = null
 
@@ -15,7 +15,7 @@ class JsonObjectRemove{
 	}
 
 	@Test
-	fun byInt(){
+	fun `by Int`(){
 		val obj = JsonObject()
 		obj["0"] = null
 

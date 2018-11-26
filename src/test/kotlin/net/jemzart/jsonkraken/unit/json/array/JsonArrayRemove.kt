@@ -5,7 +5,7 @@ import org.junit.Test
 
 class JsonArrayRemove{
 	@Test
-	fun byInt(){
+	fun `by Int`(){
 		val arr = JsonArray()
 		arr.add(null)
 
@@ -15,7 +15,7 @@ class JsonArrayRemove{
 	}
 
 	@Test
-	fun byString(){
+	fun `by String`(){
 		val arr = JsonArray()
 		arr.add(null)
 

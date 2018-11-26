@@ -7,7 +7,7 @@ class JsonArrayGetOperator{
     private val insertion = JsonArray()
 
 	@Test
-    fun byInt(){
+    fun `by Int`(){
         val arr = JsonArray()
 	    arr.add(insertion)
 
@@ -15,7 +15,7 @@ class JsonArrayGetOperator{
     }
 
 	@Test
-	fun byString(){
+	fun `by String`(){
 		val arr = JsonArray()
 		arr.add(insertion)
 
@@ -23,7 +23,7 @@ class JsonArrayGetOperator{
 	}
 
 	@Test
-	fun negativeNotation(){
+	fun `negative notation`(){
 		val arr = JsonArray()
 		arr.add(null)
 		arr.add(insertion)
