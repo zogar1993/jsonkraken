@@ -8,6 +8,8 @@ import net.jemzart.jsonkraken.toJsonArray
  * @constructor empty json array.
  */
 class JsonArray() : JsonValue, Iterable<Any?> {
+	private fun Int.reversible() = if (this < 0) list.size + this else this
+
 	/**
 	 * @constructor json array filled with [items].
 	 * Items must be of valid types (JsonValue, null and all primitives are valid types).
@@ -27,16 +29,16 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	 */
 	override fun iterator(): Iterator<Any?> = list.iterator()
 
-	override fun get(index: Int): Any? = list[if (index < 0) list.size + index else index]
+	override fun get(index: Int): Any? = list[index.reversible()]
 
 	override fun set(index: Int, value: Any?) {
 		val purified = purify(value)
 		for (i in list.size..index) list.add(null)
-		list[if (index < 0) list.size + index else index] = purified
+		list[index.reversible()] = purified
 	}
 
 	override fun remove(index: Int) {
-		list.removeAt(index)
+		list.removeAt(index.reversible())
 	}
 
 	override fun exists(index: Int): Boolean {
@@ -55,7 +57,7 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	 * all elements from that index to the end are moved one step, and none is replaced.
 	 */
 	fun insert(index: Int, value: Any?) {
-		list.add(index, purify(value))
+		list.add(index.reversible(), purify(value))
 	}
 
 	override fun clone(): JsonArray = list.map { if (it is JsonValue) it.clone() else it }.toJsonArray()

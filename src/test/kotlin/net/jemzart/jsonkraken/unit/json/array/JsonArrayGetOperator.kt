@@ -23,7 +23,7 @@ class JsonArrayGetOperator{
 	}
 
 	@Test
-	fun `negative notation`(){
+	fun `reverse notation`(){
 		val arr = JsonArray()
 		arr.add(null)
 		arr.add(insertion)

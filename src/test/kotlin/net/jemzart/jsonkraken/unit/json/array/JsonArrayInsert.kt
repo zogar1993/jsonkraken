@@ -49,4 +49,15 @@ class JsonArrayInsert{
 
 		arr.insert(0, arr)
 	}
+
+	@Test
+	fun `reverse notation`(){
+		val arr = JsonArray(0.0, 1.0)
+
+		arr.insert(-1, "new")
+
+		assert(arr[0] == 0.0)
+		assert(arr[1] == "new")
+		assert(arr[2] == 1.0)
+	}
 }
