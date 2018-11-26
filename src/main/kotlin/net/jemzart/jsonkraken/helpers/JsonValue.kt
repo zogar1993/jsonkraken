@@ -14,8 +14,16 @@ internal inline fun JsonValue.purify(value: Any?, validateCircularReference: Boo
 				val number = value.toDouble()
 				if (number == 0.0) 0.0 else number //turns -0.0 into 0.0 to prevent boxing issues
 			}
-			is String, is Boolean -> value
-			is Char -> value.toString()
+			is String -> {
+				value.validate()
+				value
+			}
+			is Boolean -> value
+			is Char -> {
+				val result = value.toString()
+				result.validate()
+				result
+			}
 			is JsonValue -> {
 				if (validateCircularReference){
 					if (this == value) throw CircularReferenceException(this, value)

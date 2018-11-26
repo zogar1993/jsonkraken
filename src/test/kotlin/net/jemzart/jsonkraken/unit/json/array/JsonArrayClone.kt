@@ -1,10 +1,10 @@
 package net.jemzart.jsonkraken.unit.json.array
 
 import net.jemzart.jsonkraken.get
+import net.jemzart.jsonkraken.set
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
-import net.jemzart.jsonkraken.set
 
 class JsonArrayClone{
 

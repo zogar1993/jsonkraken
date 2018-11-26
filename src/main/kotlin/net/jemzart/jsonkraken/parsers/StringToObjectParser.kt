@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.parsers
 
+import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.helpers.isDecimal
 import net.jemzart.jsonkraken.helpers.isHexadecimal
@@ -13,8 +14,6 @@ internal class StringToObjectParser constructor(private val raw: String) {
 	private val last = raw.length
 	private var start = 0
 	private inline val first get() = raw[start]
-	private val escaped1Chars = arrayOf('\"', '\\', '/', 'b', 'f', 'n','r','t')
-	private val escapeableWhiteSpaceChars = arrayOf('\n', '\t', '\r')
 
     private val parsingTrue = { "parsing true" }
     private val parsingFalse = { "parsing false" }
@@ -96,7 +95,7 @@ internal class StringToObjectParser constructor(private val raw: String) {
 					validateIsHexadecimal(raw[++start], parsingString)
 					advance(trim = false) //skip uFFFF
 				} else {
-					validateInclusion(first, escaped1Chars, parsingString)
+					validateInclusion(first, Escapable.monoChars, parsingString)
 					advance(trim = false) //skip 1 char
 				}
 			} else if (first == '"') {
@@ -104,7 +103,7 @@ internal class StringToObjectParser constructor(private val raw: String) {
 				advance() //skip "
 				return value
 			} else {
-				validateExclusion(raw[start], escapeableWhiteSpaceChars, parsingString)
+				validateExclusion(raw[start], Escapable.whiteSpaceChars, parsingString)
 				validateIsISOControlCharacterOtherThanDelete(raw[start], parsingString)
 				advance(trim = false) //skip 1 char
 			}
@@ -113,8 +112,6 @@ internal class StringToObjectParser constructor(private val raw: String) {
 
 	private fun deserializeNumber(): Any {
 		val end = fromStartIndexOf { it.isWhiteSpace() || it == '}' || it == ']' || it == ',' }
-//		val literal = raw.substring(start, end)
-//		advance(literal.length) //skip value
 		val valueStart = start
 
 		if (first == '-') advance(trim = false) //skip -

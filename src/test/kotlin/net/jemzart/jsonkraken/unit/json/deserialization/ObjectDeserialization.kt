@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.helpers.WS
 import net.jemzart.jsonkraken.get
+import net.jemzart.jsonkraken.helpers.WS
 import net.jemzart.jsonkraken.helpers.str
 import net.jemzart.jsonkraken.toJson
 import net.jemzart.jsonkraken.values.JsonObject
