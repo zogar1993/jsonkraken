@@ -1,13 +1,13 @@
 package net.jemzart.jsonkraken.helpers
 
 import net.jemzart.jsonkraken.constants.Escapable
-import net.jemzart.jsonkraken.exceptions.InvalidJsonStringException
+import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 
 internal fun String.validate() {
 		var i = 0
 		fun assert (value: Boolean, message: () -> String) {
 			if (!value) {
-				throw InvalidJsonStringException(this, "String is not valid for JSON specification.\n${message()}")
+				throw NonCompliantStringException(this, "String is not valid for JSON specification.\n${message()}")
 			}
 		}
 		while (true) {
