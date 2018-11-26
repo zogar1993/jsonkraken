@@ -18,8 +18,8 @@ internal class StringToObjectParser constructor(private val raw: String) {
     private val parsingTrue = { "parsing true" }
     private val parsingFalse = { "parsing false" }
     private val parsingNull = { "parsing null" }
-    private val parsingNumber = { "parsing null" }
-    private val parsingString = { "parsing null" }
+    private val parsingNumber = { "parsing number" }
+    private val parsingString = { "parsing string" }
     private val parsingObject = { "parsing object" }
     private val parsingArray = { "parsing array" }
     private val verifyingEndOfParse  = { "verifying end of parse" }
@@ -165,17 +165,18 @@ internal class StringToObjectParser constructor(private val raw: String) {
 		if (first != '}')
 			while (true) {
 				validateEquality(first, '\"', parsingObject)
-				advance(trim = false)//skip "
-
-				val end = fromStartIndexOf('\"')
-				val key = raw.substring(start, end)
-				advance(key.length, false) //skip key
-				advance() //skip "
+//				advance(trim = false)//skip "
+//
+//				val end = fromStartIndexOf('\"')
+//				val name = raw.substring(start, end)
+//				advance(name.length, false) //skip key
+//				advance() //skip "
+				val name = deserializeString()
 
 				validateEquality(first, ':', parsingObject)
 				advance() //skip :
 
-				obj.uncheckedSet(key, deserializeValue())
+				obj.uncheckedSet(name, deserializeValue())
 
 				if (first == ',') advance() //skip ,
 				else if (first == '}') break
