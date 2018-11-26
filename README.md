@@ -150,6 +150,7 @@ Here are some other auxiliary methods and properties JsonValue has:
 - The *add(element)* method allows you to add an element after the last one.
 - The *insert(index, element)* method allows you to add an element at designated index, pushing all items from said to the last element, without replacing any.
 - The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with null.
+- Both get and set operations support reverse notation.
 
 ## Implementation details
 ###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
