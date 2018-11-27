@@ -186,13 +186,14 @@ This simple yet standard formatting should suffice.
 
 ## Change Log
 
-####1.1.0 (Unreleased)
+#### 1.1.0 (Unreleased)
 
 - Added reverse notation support for JsonArray *insert* and *remove* methods.
 - Added json string validation for to all String insertions, since they where only validated when deserialized.
 - Added json string validation for to all JsonObject parity keys.
 - Added json string validation for lonely string serialization.
+- Fixed bug when deserializing extreme numbers which would lead into an unwanted Exception.
 
-####1.0.0
+#### 1.0.0
 
 - Release the Kraken!

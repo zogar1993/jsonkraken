@@ -31,19 +31,31 @@ class JsonObjectSetOperator{
 		obj["0"] = Exception()
 	}
 
-	@Test(expected = CircularReferenceException::class)
+	@Test
 	fun `circular reference not allowed`(){
 		val obj = JsonObject()
 		val arr = JsonArray(obj)
 
-		obj["0"] = arr
+		runCatching { obj["0"] = arr }.
+			onSuccess { assert(false) }.
+			onFailure {
+				it as CircularReferenceException
+				assert(it.host == obj)
+				assert(it.intruder == arr)
+			}
 	}
 
-	@Test(expected = CircularReferenceException::class)
+	@Test
 	fun `self reference not allowed`(){
 		val obj = JsonObject()
 
-		obj["0"] = obj
+		runCatching { obj["0"] = obj }.
+			onSuccess { assert(false) }.
+			onFailure {
+				it as CircularReferenceException
+				assert(it.host == obj)
+				assert(it.intruder == obj)
+			}
 	}
 
 	@Test

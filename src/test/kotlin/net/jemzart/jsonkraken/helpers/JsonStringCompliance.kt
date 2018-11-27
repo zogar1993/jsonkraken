@@ -8,11 +8,11 @@ class JsonStringCompliance {
 		fun verify(action: (Any) -> Unit) {
 			val errors = StringBuilder()
 			for (valid in valids) {
-				valid.second.runCatching { action(this) }.
+				runCatching { action(valid.second) }.
 					onFailure { errors.appendln("- \"${valid.first}\" did not pass (should have)") }
 			}
 			for (invalid in invalids) {
-				invalid.second.runCatching { action(this) }.
+				runCatching { action(invalid.second) }.
 					onSuccess { errors.appendln("- \"${invalid.first}\" passed (should not have)") }.
 					onFailure {
 						if (it is NonCompliantStringException) assert(it.value == invalid.second.toString())
@@ -33,14 +33,14 @@ class JsonStringCompliance {
 			"escaped solidus" to "\\/",
 			"escaped double quotes" to "\\\"",
 			"escaped reverse solidus" to "\\\\",
-			"UTF-16" to "\\uAF09")
+			"unicode" to "\\uAF09")
 
 		private val invalids = arrayOf(
-			"incomplete UTF-16" to "\\u000",
-			"invalid UTF-16 Z000" to "\\uZ000",
-			"invalid UTF-16 0Z00" to "\\u0Z00",
-			"invalid UTF-16 00Z0" to "\\u00Z0",
-			"invalid UTF-16 000Z" to "\\u000Z",
+			"incomplete unicode" to "\\u000",
+			"invalid unicode uZ000" to "\\uZ000",
+			"invalid unicode u0Z00" to "\\u0Z00",
+			"invalid unicode u00Z0" to "\\u00Z0",
+			"invalid unicode u000Z" to "\\u000Z",
 			"escaped non escapable character" to "\\z",
 			"unescaped double quotes" to "\"",
 			"unescaped double quotes character" to '\"',
