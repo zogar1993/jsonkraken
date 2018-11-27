@@ -10,7 +10,7 @@ JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is 
 
 ## ¿Why should I care?
 
-- If you are looking to map POJOs, then this may not be for you (at least not yet, since it is not my main goal, but i do not overlook the posibility)
+- If you are looking to map POJOs, then this may not be for you.
 - If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
 - On the other hand, if you prefer *obj["captain"]["name"]* you may want to keep reading.
 
@@ -185,6 +185,10 @@ and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
 
 ## Change Log
+
+#### 1.1.1
+
+- Fixed bug when deserializing non fractional numbers with exponent.
 
 #### 1.1.0
 
