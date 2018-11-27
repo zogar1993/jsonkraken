@@ -1,6 +1,5 @@
 package net.jemzart.jsonkraken
 
-import net.jemzart.jsonkraken.helpers.validate
 import net.jemzart.jsonkraken.parsers.ObjectToStringParser
 import net.jemzart.jsonkraken.parsers.StringToObjectParser
 import net.jemzart.jsonkraken.values.JsonArray

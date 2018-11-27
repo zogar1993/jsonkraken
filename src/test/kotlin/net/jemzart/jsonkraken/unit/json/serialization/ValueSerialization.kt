@@ -1,9 +1,8 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
-import net.jemzart.jsonkraken.helpers.JsonStringCompliance
+import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class ValueSerialization {

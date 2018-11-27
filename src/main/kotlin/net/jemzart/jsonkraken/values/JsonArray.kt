@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.values
 
-import net.jemzart.jsonkraken.helpers.purify
-import net.jemzart.jsonkraken.helpers.references
+import net.jemzart.jsonkraken.utils.purify
+import net.jemzart.jsonkraken.utils.references
 import net.jemzart.jsonkraken.toJsonArray
 
 /**
@@ -16,7 +16,7 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	 */
 	constructor(vararg items: Any?) : this() {
 		for (item in items) {
-			val purified = purify(item, validateCircularReference = false)
+			val purified = item.purify()
 			list.add(purified)
 		}
 	}
@@ -32,7 +32,7 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	override fun get(index: Int): Any? = list[index.reversible()]
 
 	override fun set(index: Int, value: Any?) {
-		val purified = purify(value)
+		val purified = value.purify(this)
 		for (i in list.size..index) list.add(null)
 		list[index.reversible()] = purified
 	}
@@ -49,7 +49,7 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	 * adds [value] after the current end of the array.
 	 */
 	fun add(value: Any?) {
-		list.add(purify(value))
+		list.add(value.purify(this))
 	}
 
 	/**
@@ -57,7 +57,7 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	 * all elements from that index to the end are moved one step, and none is replaced.
 	 */
 	fun insert(index: Int, value: Any?) {
-		list.add(index.reversible(), purify(value))
+		list.add(index.reversible(), value.purify(this))
 	}
 
 	override fun clone(): JsonArray = list.map { if (it is JsonValue) it.clone() else it }.toJsonArray()

@@ -121,4 +121,59 @@ class NumberDeserialization{
 	fun `zero starting negative`(){
 		"-01".toJson()
 	}
+
+	@Test
+	fun `with e`(){
+		"123e65".toJson()
+	}
+
+	@Test
+	fun `with E`(){
+		"1E22".toJson()
+	}
+
+	@Test
+	fun `with E-`(){
+		"1E-2".toJson()
+	}
+
+	@Test
+	fun `with E+`(){
+		"1E+2".toJson()
+	}
+
+	@Test
+	fun `with e+`(){
+		"0e+1".toJson()
+	}
+
+	@Test
+	fun `with e-`(){
+		"0e-1".toJson()
+	}
+
+	@Test
+	fun `fraction and exponent`(){
+		"123.456e78".toJson()
+	}
+
+	@Test
+	fun `after space`(){
+		" 4".toJson()
+	}
+
+	@Test
+	fun `close to zero`(){
+		"-0.000000000000000000000000000000000000000000000000000000000000000000000000000001".toJson()
+	}
+
+	@Test
+	fun `extremely high number`(){
+		assert("1.0e+28".toJson() == 1.0E28)
+	}
+
+	@Test
+	fun `extremely low number`(){
+		assert("-1.0e+28".toJson() == -1.0E28)
+	}
 }

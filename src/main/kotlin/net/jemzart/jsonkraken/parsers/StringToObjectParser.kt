@@ -2,10 +2,10 @@ package net.jemzart.jsonkraken.parsers
 
 import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.TokenExpectationException
-import net.jemzart.jsonkraken.helpers.isDecimal
-import net.jemzart.jsonkraken.helpers.isHexadecimal
-import net.jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
-import net.jemzart.jsonkraken.helpers.isWhiteSpace
+import net.jemzart.jsonkraken.utils.isDecimal
+import net.jemzart.jsonkraken.utils.isHexadecimal
+import net.jemzart.jsonkraken.utils.isISOControlCharacterOtherThanDelete
+import net.jemzart.jsonkraken.utils.isWhiteSpace
 import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
@@ -110,51 +110,87 @@ internal class StringToObjectParser constructor(private val raw: String) {
 		}
 	}
 
-	private fun deserializeNumber(): Any {
-		val end = fromStartIndexOf { it.isWhiteSpace() || it == '}' || it == ']' || it == ',' }
-		val valueStart = start
-
-		if (first == '-') advance(trim = false) //skip -
-		if (first == '0') {
-			advance() //skip 0
-			if (start == end) {
-				skipSpaces()
-				return 0.0 //no more to read
-			} else
-				validateEquality(first, '.', parsingNumber)
-		} else
-			while (true) {
-				validateIsDecimal(first, parsingNumber)
-				advance(trim = false)//skip digit
-				if (start == end) {
-					skipSpaces()
-					return raw.substring(valueStart, end).toDouble()//no more to read
-				}
-				if (first == '.') break
-			}
-		advance(trim = false) //skip .
-		validateIsDecimal(first, parsingNumber)
-		advance(trim = false) //skip first decimal digit
-		if (start == end) {
-			skipSpaces()
-			val number = raw.substring(valueStart, end).toDouble()
-			return if (number == 0.0) 0.0 else number //turns -0.0 into 0.0 to prevent boxing issues
-		} //no more to read
-		var foundE = false
-		while (true) {
-			if (!foundE)
-				if (first == 'e' || first == 'E') {
-					advance(trim = false) //skip e or E
-					foundE = true
-					if (first == '+' || first == '-') advance() //skip + or -
-				}
-			validateIsDecimal(first, parsingNumber)
-			advance(trim = false)//skip digit
-			if (start == end) {
-				skipSpaces()
-				return raw.substring(valueStart, end).toDouble() //no more to read
-			}
+	private fun minus(){
+		advance(trim = false) //skip -
+		when (first){
+			'0' -> zero()
+			in '1'..'9' -> oneToNine()
+			else -> validateIsDecimal(first, parsingNumber)
 		}
+	}
+
+	private fun dot(){
+		advance(trim = false) //skip .
+		when (first){
+			in '0'..'9' -> secondDigitLoop()
+			else -> validateIsDecimal(first, parsingNumber)
+		}
+	}
+
+	private fun e(){
+		advance(trim = false) //skip e or E
+		if (first == '+' || first == '-') advance(trim = false) //skip + or -
+		if (first in '0'..'9') thirdDigitLoop()
+		else validateIsDecimal(first, parsingNumber)
+	}
+
+	private fun zero(){
+		advance(trim = false) //skip 0
+		if (start == last) return
+		when (first){
+			'.' -> dot()
+			'e', 'E' -> e()
+		}
+	}
+	private fun oneToNine(){
+		advance(trim = false) //skip digit
+		if (start == last) return
+		when (first){
+			'.' -> dot()
+			'e', 'E' -> e()
+			in '0'..'9' -> firstDigitLoop()
+		}
+	}
+
+	private fun firstDigitLoop(){
+		advance(trim = false) //skip digit
+		if (start == last) return
+		when (first){
+			'.' -> dot()
+			'e', 'E' -> e()
+			in '0'..'9' -> firstDigitLoop()
+		}
+	}
+
+	private fun secondDigitLoop(){
+		advance(trim = false) //skip digit
+		if (start == last) return
+		when (first){
+			'e', 'E' -> e()
+			in '0'..'9' -> secondDigitLoop()
+		}
+	}
+
+	private fun thirdDigitLoop(){
+		advance(trim = false) //skip digit
+		if (start == last) return
+		when (first){
+			in '0'..'9' -> thirdDigitLoop()
+		}
+	}
+
+
+	private fun deserializeNumber(): Any {
+		val valueStart = start
+		when (first){
+			'-' -> minus()
+			'0' -> zero()
+			in '1'..'9' -> oneToNine()
+			else -> validateIsDecimal(first, parsingNumber)
+		}
+		val value = raw.substring(valueStart, start).toDouble()
+		skipSpaces()
+		return if (value == -0.0) 0.0 else value
 	}
 
 	private fun deserializeObject(): JsonObject {

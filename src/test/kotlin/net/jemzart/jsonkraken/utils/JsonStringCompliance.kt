@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.helpers
+package net.jemzart.jsonkraken.utils
 
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 

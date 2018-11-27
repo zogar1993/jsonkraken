@@ -1,10 +1,12 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.helpers.asResourceFile
 import net.jemzart.jsonkraken.toJson
 import org.junit.Test
+import java.io.File
 
 class Parsing{
+	private fun String.asResourceFile(): File =
+		File(this.javaClass::class.java.getResource(this).toURI())
 	@Test
 	fun `must parse`(){
 		var passed = 0
@@ -13,10 +15,10 @@ class Parsing{
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					if (text == "[1\r\n]")
-						text.toJson()
+					text.toJson()
 					passed++
 				} catch (ex: Throwable) {
+					println("${it.name} $text")
 					failed++
 				}
 			}
@@ -50,6 +52,25 @@ class Parsing{
 		var passed = 0
 		var failed = 0
 		"/test_parsing/optional".asResourceFile().walk().forEach {
+			if (!it.isDirectory) {
+				val text = it.readText()
+				try {
+					text.toJson()
+					passed++
+				} catch (ex: Throwable) {
+					println("${it.name} $text")
+					failed++
+				}
+			}
+		}
+		println("MAY: $passed parsed, $failed not parsed")
+	}
+
+	@Test
+	fun transform(){
+		var passed = 0
+		var failed = 0
+		"/test_transform".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {

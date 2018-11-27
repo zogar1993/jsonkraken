@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.get
-import net.jemzart.jsonkraken.helpers.WS
-import net.jemzart.jsonkraken.helpers.str
+import net.jemzart.jsonkraken.utils.WS
+import net.jemzart.jsonkraken.utils.str
 import net.jemzart.jsonkraken.toJson
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
@@ -51,13 +51,6 @@ class ObjectDeserialization{
 	fun `escaped null in key`(){
 		val json = "{\"foo\\u0000bar\": 42}".toJson() as JsonObject
 		assert(json["foo\\u0000bar"] == 42.0)
-	}
-
-	@Test
-	fun `extreme numbers`(){
-		val json = "{ \"min\": -1.0e+28, \"max\": 1.0e+28 }".toJson() as JsonObject
-		assert(json["min"] == -1.0E28)
-		assert(json["max"] == 1.0E28)
 	}
 
 	@Test
