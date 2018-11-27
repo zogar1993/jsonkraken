@@ -88,8 +88,6 @@ A JsonValue is always a consistent json representation should it be serialized. 
 
 In cases where the validation fails, an exception will be thrown.
 
-For your peace of mind, this validations are not performed when not necessary, which means none when deserializing and only type check (but not circular reference) validation on constructors.
-
 #### Valid Types
 Some valid types are altered for consistency:
 - A Number element (Byte, Short, Int, Long, Float and Double) will be converted to Double. This should not be an issue except in extreme cases.
@@ -183,6 +181,8 @@ I have thought about allowing custom indentation,
 but if I did, it would be reasonable to add all other custom serialization options,
 and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
+- For your peace of mind, validations are not performed when not necessary
+(like circular reference check on construction or type check on deserialization)
 
 ## Change Log
 
