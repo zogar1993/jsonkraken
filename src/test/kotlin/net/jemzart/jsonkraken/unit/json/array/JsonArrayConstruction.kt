@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.array
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.helpers.JsonStringCompliance
 import net.jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
@@ -32,5 +33,10 @@ class JsonArrayConstruction {
 	@Test(expected = InvalidJsonTypeException::class)
 	fun `fails on invalid type`(){
 		JsonArray(Exception())
+	}
+
+	@Test
+	fun `json string compliance`() {
+		JsonStringCompliance.verify { value: Any -> JsonArray(value) }
 	}
 }

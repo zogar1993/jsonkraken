@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken.unit.json.`object`
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.helpers.JsonStringCompliance
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonValue
@@ -43,5 +44,10 @@ class JsonObjectSetOperator{
 		val obj = JsonObject()
 
 		obj["0"] = obj
+	}
+
+	@Test
+	fun `json string compliance`() {
+		JsonStringCompliance.verify { value: Any -> JsonObject()["0"] = value }
 	}
 }

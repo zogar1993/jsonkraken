@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.`object`
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.helpers.JsonStringCompliance
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
@@ -30,5 +31,10 @@ class JsonObjectConstruction {
 	@Test(expected = InvalidJsonTypeException::class)
 	fun `fails on invalid type`(){
 		JsonObject("0" to Exception())
+	}
+
+	@Test
+	fun `json string compliance`() {
+		JsonStringCompliance.verify { value: Any -> JsonObject("0" to value) }
 	}
 }

@@ -149,12 +149,11 @@ internal class StringToObjectParser constructor(private val raw: String) {
 					if (first == '+' || first == '-') advance() //skip + or -
 				}
 			validateIsDecimal(first, parsingNumber)
-			advance(trim = false)//skip decimal
+			advance(trim = false)//skip digit
 			if (start == end) {
 				skipSpaces()
 				return raw.substring(valueStart, end).toDouble() //no more to read
 			}
-			advance(trim = false) //skip digit
 		}
 	}
 

@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken.unit.json.array
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.helpers.JsonStringCompliance
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
@@ -59,5 +60,10 @@ class JsonArrayInsert{
 		assert(arr[0] == 0.0)
 		assert(arr[1] == "new")
 		assert(arr[2] == 1.0)
+	}
+
+	@Test
+	fun `json string compliance`() {
+		JsonStringCompliance.verify { value: Any -> JsonArray().insert(0, value) }
 	}
 }
