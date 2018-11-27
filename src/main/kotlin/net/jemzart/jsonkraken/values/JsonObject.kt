@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.values
 
-import net.jemzart.jsonkraken.utils.purify
-import net.jemzart.jsonkraken.utils.references
-import net.jemzart.jsonkraken.validate
+import net.jemzart.jsonkraken.helpers.purify
+import net.jemzart.jsonkraken.helpers.references
+import net.jemzart.jsonkraken.helpers.validate
 import net.jemzart.jsonkraken.toJsonObject
 
 /**

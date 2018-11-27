@@ -2,12 +2,12 @@ package net.jemzart.jsonkraken.unit.purification
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
-import net.jemzart.jsonkraken.utils.purify
+import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
-class ValuePurification{
+class Purification{
 	@Test
 	fun `json string compliance`() = JsonStringCompliance.verify { value: Any -> value.purify() }
 

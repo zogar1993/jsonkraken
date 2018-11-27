@@ -1,9 +1,7 @@
-package net.jemzart.jsonkraken
+package net.jemzart.jsonkraken.helpers
 
 import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
-import net.jemzart.jsonkraken.utils.isHexadecimal
-import net.jemzart.jsonkraken.utils.isISOControlCharacterOtherThanDelete
 
 internal fun String.validate(){
 	var i = 0

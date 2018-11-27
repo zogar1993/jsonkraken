@@ -1,8 +1,7 @@
-package net.jemzart.jsonkraken.utils
+package net.jemzart.jsonkraken.helpers
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.validate
 import net.jemzart.jsonkraken.values.JsonValue
 
 @Suppress("NOTHING_TO_INLINE")//Micro optimization on boolean condition

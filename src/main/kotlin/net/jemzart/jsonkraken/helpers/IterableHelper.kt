@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.utils
+package net.jemzart.jsonkraken.helpers
 
 import net.jemzart.jsonkraken.values.JsonValue
 

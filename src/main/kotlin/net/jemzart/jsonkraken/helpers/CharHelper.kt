@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.utils
+package net.jemzart.jsonkraken.helpers
 
 internal fun Char.isWhiteSpace(): Boolean {
 	return this == ' ' || this == '\n' || this == '\t' || this == '\r'
