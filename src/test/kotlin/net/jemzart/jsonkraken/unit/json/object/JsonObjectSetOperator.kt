@@ -59,7 +59,12 @@ class JsonObjectSetOperator{
 	}
 
 	@Test
-	fun `json string compliance`() {
+	fun `json string compliance for keys`() {
+		JsonStringCompliance.verify { value: Any -> JsonObject()[value.toString()] = null }
+	}
+
+	@Test
+	fun `json string compliance for values`() {
 		JsonStringCompliance.verify { value: Any -> JsonObject()["0"] = value }
 	}
 }

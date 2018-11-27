@@ -186,7 +186,7 @@ This simple yet standard formatting should suffice.
 
 ## Change Log
 
-#### 1.1.0 (Unreleased)
+#### 1.1.0
 
 - Added reverse notation support for JsonArray *insert* and *remove* methods.
 - Added json string validation for to all String insertions, since they where only validated when deserialized.

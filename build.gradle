@@ -84,8 +84,6 @@ artifacts {
     archives sourceJar
     archives javadocJar
 }
-
-
 /*
 signing {
     sign configurations.archives
@@ -157,7 +155,7 @@ def customizePom(pom) {
             resolveStrategy = Closure.DELEGATE_FIRST
 
             description 'Idiomatic Json parser for Kotlin'
-            name 'Json Kraken'
+            name 'JSONKraken'
             url 'https://github.com/zogar1993/jsonkraken'
             organization {
                 name 'net.jemzart'
@@ -198,5 +196,4 @@ model {
     tasks.publishMavenJavaPublicationToMavenRepository {
         dependsOn project.tasks.signArchives
     }
-}
-*/
+}*/
