@@ -4,8 +4,7 @@ import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonValue
 
-@Suppress("NOTHING_TO_INLINE")//Micro optimization on boolean condition
-internal inline fun Any?.purify(container: JsonValue? = null) : Any? {
+internal fun Any?.purify() : Any? {
 	if (this == null) {
 		return null
 	} else {
@@ -24,14 +23,16 @@ internal inline fun Any?.purify(container: JsonValue? = null) : Any? {
 				result
 			}
 			is Boolean -> this
-			is JsonValue -> {
-				if (container != null){
-					if (container == this) throw CircularReferenceException(container, this)
-					if (this.references(container)) throw CircularReferenceException(container, this)
-				}
-				this
-			}
+			is JsonValue -> this
 			else -> throw InvalidJsonTypeException(this)
 		}
 	}
+}
+
+internal fun Any?.purify(container: JsonValue) : Any? {
+	if (this is JsonValue) {
+		if (container == this) throw CircularReferenceException(container, this)
+		if (this.references(container)) throw CircularReferenceException(container, this)
+	}
+	return this.purify()
 }
