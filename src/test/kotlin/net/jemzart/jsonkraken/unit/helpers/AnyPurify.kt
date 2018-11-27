@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.unit.purification
+package net.jemzart.jsonkraken.unit.helpers
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
@@ -7,27 +7,36 @@ import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
-class Purification{
+class AnyPurify {
 	@Test
-	fun `json string compliance`() = JsonStringCompliance.verify { value: Any -> value.purify() }
+	fun `negative zero to zero`(){
+		assert((-0.0).purify() == 0.0)
+	}
 
 	@Test
-	fun `negative zero to zero`() =	assert((-0.0).purify() == 0.0)
+	fun `Char to String`(){
+		assert('s'.purify() == "s")
+	}
 
 	@Test
-	fun `Char to String`() = assert('s'.purify() == "s")
+	fun `Int to Double`(){
+		assert(13.purify() == 13.0)
+	}
 
 	@Test
-	fun `Int to Double`() =	assert(13.purify() == 13.0)
+	fun `null`(){
+		assert(null.purify() == null)
+	}
 
 	@Test
-	fun `null`() =	assert(null.purify() == null)
+	fun `true`(){
+		assert(true.purify() == true)
+	}
 
 	@Test
-	fun `true`() =	assert(true.purify() == true)
-
-	@Test
-	fun `false`() =	assert(false.purify() == false)
+	fun `false`(){
+		assert(false.purify() == false)
+	}
 
 	@Test
 	fun `self circularity`(){
@@ -52,5 +61,10 @@ class Purification{
 				assert(it.host == obj)
 				assert(it.intruder == arr)
 			}
+	}
+
+	@Test
+	fun `json string compliance`() {
+		JsonStringCompliance.verify { value: Any -> value.purify() }
 	}
 }

@@ -49,8 +49,7 @@ coveralls {
     sourceDirs += ['src/main/kotlin']
 }
 pitest {
-//    pitestVersion = "1.3.2"
-//    targetClasses = ['our.base.package.*']
+    targetClasses = ['net.jemzart.jsonkraken.*']
     timestampedReports = false
     outputFormats = ['XML', 'HTML']
 }
