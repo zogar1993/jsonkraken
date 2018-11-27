@@ -40,7 +40,7 @@ internal class StringToObjectParser constructor(private val raw: String) {
 		const val PARSING_NUMBER = "parsing number"
 		const val PARSING_STRING = "parsing string"
 		const val PARSING_OBJECT = "parsing object"
-		const val PARSING_ARAY = "parsing array"
+		const val PARSING_ARRAY = "parsing array"
 		const val VERIFYING_END_OF_PARSE  = "verifying end of parse"
 	}
 
@@ -226,7 +226,7 @@ internal class StringToObjectParser constructor(private val raw: String) {
 
 				if (first == ',') advance() //skip ','
 				else if (first == ']') break
-				else validateInclusion(first, arrayOf(',', ']'), PARSING_ARAY)
+				else validateInclusion(first, arrayOf(',', ']'), PARSING_ARRAY)
 			}
 		advance() //skip ']'
 		return arr
