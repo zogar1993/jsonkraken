@@ -182,7 +182,7 @@ but if I did, it would be reasonable to add all other custom serialization optio
 and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
 - For your peace of mind, validations are not performed when not necessary
-(like circular reference check on construction or type check on deserialization)
+(like circular reference check on construction or type check on deserialization).
 
 ## Change Log
 

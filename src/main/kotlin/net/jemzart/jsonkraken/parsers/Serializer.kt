@@ -4,29 +4,34 @@ import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 
-internal class ObjectToStringParser constructor(private val value: Any?,
-                                                formatted: Boolean) {
+internal class Serializer constructor(private val value: Any?, formatted: Boolean) {
 	private val stb = StringBuilder()
+	private operator fun StringBuilder.plusAssign(value: String) { this.append(value) }
+
 	private val indentation = "\t"
 	private var nesting = 0
 	private inline val tabs get() = indentation.repeat(nesting)
 
-	val writeKey =
-		if (formatted) fun (key:String) { stb.append("\"$key\": ") }
-		else fun (key:String) { stb.append("\"$key\":") }
+	private val writeKey =
+		if (formatted) { key:String -> stb += "\"$key\": " }
+		else { key:String -> stb += "\"$key\":" }
 
-	val writeStart =
-		if (formatted) fun(value:String) { stb.append("$value\n"); ++nesting; stb.append(tabs) }
-		else fun(value:String) { stb.append(value) }
+	private val writeStart =
+		if (formatted) { value:String -> stb += "$value\n"; ++nesting; Unit }
+		else { value:String -> stb += value }
 
 
-	val writeEnd =
-		if (formatted) fun(value:String) { stb.append("\n"); --nesting; stb.append("$tabs$value")  }
-		else fun(value:String) { stb.append(value) }
+	private val writeEnd =
+		if (formatted) { value:String -> stb += "\n"; --nesting; stb  += "$tabs$value"  }
+		else { value:String -> stb += value }
 
-	val writeDelimiter =
-		if (formatted) fun() { stb.append(",\n$tabs")  }
-		else fun() { stb.append(",") }
+	private val writeDelimiter =
+		if (formatted){{ stb += ",\n$tabs" }}
+		else {{ stb += "," }}
+
+	private val writeTabs =
+		if (formatted){{ stb += tabs }}
+		else {{ stb += "" }}
 
 	fun create(): String {
 		writeValue(value)
@@ -45,7 +50,7 @@ internal class ObjectToStringParser constructor(private val value: Any?,
 		writeStart("{")
 		var first = true
 		for (pair in obj) {
-			if (!first) writeDelimiter() else first = false
+			if (first) { writeTabs(); first = false } else writeDelimiter()
 			writeKey(pair.first)
 			writeValue(pair.second)
 		}
@@ -56,7 +61,7 @@ internal class ObjectToStringParser constructor(private val value: Any?,
 		writeStart("[")
 		var first = true
 		for (item in arr) {
-			if (!first) writeDelimiter() else first = false
+			if (first) { writeTabs(); first = false } else writeDelimiter()
 			writeValue(item)
 		}
 		writeEnd("]")

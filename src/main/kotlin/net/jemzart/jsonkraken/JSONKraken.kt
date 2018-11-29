@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken
 
-import net.jemzart.jsonkraken.parsers.ObjectToStringParser
-import net.jemzart.jsonkraken.parsers.StringToObjectParser
+import net.jemzart.jsonkraken.parsers.Serializer
+import net.jemzart.jsonkraken.parsers.Deserializer
 import net.jemzart.jsonkraken.helpers.validate
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
@@ -31,7 +31,7 @@ fun Map<String, *>.toJsonObject(): JsonObject {
  * @return an object representation of the receiver.
  * @receiver raw json data.
  */
-fun String.toJson(): Any? = StringToObjectParser(this).create()
+fun String.toJson(): Any? = Deserializer(this).create()
 
 /**
  * @param formatted if false, needless blank spaces will be removed, if true, the result will be more human readable.
@@ -41,7 +41,7 @@ fun String.toJson(): Any? = StringToObjectParser(this).create()
 fun Any?.toJsonString(formatted: Boolean = false): String {
 	if (this is String) validate()
 	else if (this is Char) toString().validate()
-	return ObjectToStringParser(this, formatted).create()
+	return Serializer(this, formatted).create()
 }
 
 /**

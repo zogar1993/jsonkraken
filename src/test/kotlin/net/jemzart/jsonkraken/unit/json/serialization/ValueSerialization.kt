@@ -1,8 +1,10 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
+import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonArray
+import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
 class ValueSerialization {
@@ -77,7 +79,24 @@ class ValueSerialization {
 	}
 
 	@Test
+	fun `array with two items`(){
+		assert(JsonArray(true, false).toJsonString() == "[true,false]")
+	}
+
+	@Test
+	fun `object with two items`(){
+		val key1 = "\"a\""
+		val key2 = "\"b\""
+		assert(JsonObject("a" to true, "b" to false).toJsonString() == "{$key1:true,$key2:false}")
+	}
+
+	@Test
 	fun `json string compliance`() {
 		JsonStringCompliance.verify { value: Any -> value.toJsonString() }
+	}
+
+	@Test(expected = InvalidJsonTypeException::class)
+	fun `invalid type`(){
+		Exception().toJsonString()
 	}
 }
