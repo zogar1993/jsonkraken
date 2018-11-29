@@ -152,7 +152,7 @@ internal class Deserializer constructor(private val raw: String) {
 		}
 	}
 
-	private fun firstDigitLoop(){
+	private tailrec fun firstDigitLoop(){
 		advance(trim = false) //skip digit
 		if (start == last) return
 		when (first){
@@ -162,7 +162,7 @@ internal class Deserializer constructor(private val raw: String) {
 		}
 	}
 
-	private fun secondDigitLoop(){
+	private tailrec fun secondDigitLoop(){
 		advance(trim = false) //skip digit
 		if (start == last) return
 		when (first){
@@ -171,7 +171,7 @@ internal class Deserializer constructor(private val raw: String) {
 		}
 	}
 
-	private fun thirdDigitLoop(){
+	private tailrec fun thirdDigitLoop(){
 		advance(trim = false) //skip digit
 		if (start == last) return
 		when (first){

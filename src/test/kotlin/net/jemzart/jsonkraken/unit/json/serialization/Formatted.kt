@@ -12,7 +12,6 @@ class Formatted {
 
 	@Test
 	fun `empty array`(){
-		println("[true]".toJson().toJsonString(true))
 		assert("[]".toJson().toJsonString(true) == "[\n\n]")
 	}
 
