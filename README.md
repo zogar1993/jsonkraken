@@ -41,14 +41,14 @@ I will get technical then, but first lets see a quick example.
         <dependency>
             <groupId>net.jemzart</groupId>
             <artifactId>jsonkraken</artifactId>    
-            <version>1.0.0</version>
+            <version>1.1.1</version>
         </dependency>
     </dependencies>
 
 #### Gradle
     
     dependencies {
-        compile "net.jemzart:jsonkraken:1.0.0"
+        compile "net.jemzart:jsonkraken:1.1.1"
     }
 
 ### Imports
