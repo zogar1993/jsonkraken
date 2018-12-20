@@ -1,5 +1,6 @@
 # JSONKraken
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2140baac76d94b34ae73618c789e5084)](https://app.codacy.com/app/zogar1993/jsonkraken?utm_source=github.com&utm_medium=referral&utm_content=zogar1993/jsonkraken&utm_campaign=Badge_Grade_Settings)
 [![Travis CI Build Status](https://travis-ci.org/zogar1993/jsonkraken.svg?branch=master)](https://travis-ci.org/zogar1993/jsonkraken)
 [![Coverage Status](https://img.shields.io/coveralls/github/zogar1993/jsonkraken.svg)](https://coveralls.io/github/zogar1993/jsonkraken?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0cca720125e2453bb02f06d230fac62c)](https://www.codacy.com/app/zogar1993/jsonkraken?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zogar1993/jsonkraken&amp;utm_campaign=Badge_Grade)
