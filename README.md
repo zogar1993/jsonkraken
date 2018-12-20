@@ -2,6 +2,7 @@
 
 [![Travis CI Build Status](https://travis-ci.org/zogar1993/jsonkraken.svg?branch=master)](https://travis-ci.org/zogar1993/jsonkraken)
 [![Coverage Status](https://img.shields.io/coveralls/github/zogar1993/jsonkraken.svg)](https://coveralls.io/github/zogar1993/jsonkraken?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0cca720125e2453bb02f06d230fac62c)](https://www.codacy.com/app/zogar1993/jsonkraken?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zogar1993/jsonkraken&amp;utm_campaign=Badge_Grade)
 [![Maven Central](https://img.shields.io/maven-central/v/net.jemzart/jsonkraken.svg)](http://search.maven.org/#search|ga|1|jsonkraken)
 
 ## What is JSONKraken?
