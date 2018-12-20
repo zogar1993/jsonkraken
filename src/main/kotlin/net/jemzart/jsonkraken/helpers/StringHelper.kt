@@ -6,9 +6,7 @@ import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 internal fun String.validate(){
 	var i = 0
 	fun assert (value: Boolean, message: () -> String) {
-		if (!value) {
-			throw NonCompliantStringException(this, "String is not valid for JSON specification.\n${message()}")
-		}
+		if (!value)	throw NonCompliantStringException(this, message())
 	}
 	while (true) {
 		if (i == length) return
@@ -17,10 +15,7 @@ internal fun String.validate(){
 			assert(i < length) { "Unescaped \\ at index ${i - 1}" }
 			if (this[i] == 'u') {
 				assert(i + 4 < length) { "Premature end of file encountered while parsing \\uFFFF" }
-				assert(this[++i].isHexadecimal()) { "Invalid hexadecimal character ${this[i]} at index $i" }
-				assert(this[++i].isHexadecimal()) { "Invalid hexadecimal character ${this[i]} at index $i" }
-				assert(this[++i].isHexadecimal()) { "Invalid hexadecimal character ${this[i]} at index $i" }
-				assert(this[++i].isHexadecimal()) { "Invalid hexadecimal character ${this[i]} at index $i" }
+				repeat(4){assert(this[++i].isHexadecimal()) { "Invalid hexadecimal character ${this[i]} at index $i" }}
 			} else {
 				assert(this[i] in Escapable.monoChars) { "Cant escape ${this[i]}" }
 			}

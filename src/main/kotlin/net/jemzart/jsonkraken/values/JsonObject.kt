@@ -53,7 +53,8 @@ class JsonObject() : JsonValue, Iterable<Pair<String, Any?>> {
 	val values get() = map.values
 
 	override fun clone(): JsonObject = map.map {
-		it.key to if (it.value is JsonValue) (it.value as JsonValue).clone() else it.value
+		val value = it.value
+		it.key to if (value is JsonValue) value.clone() else value
 	}.toMap().toJsonObject()
 
 	internal fun uncheckedSet(name: String, value: Any?) = map.set(name, value)
