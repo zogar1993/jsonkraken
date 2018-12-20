@@ -9,6 +9,7 @@ import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
+import normalize
 
 internal class Deserializer constructor(private val raw: String) {
 	private val last = raw.length
@@ -190,7 +191,7 @@ internal class Deserializer constructor(private val raw: String) {
 		}
 		val value = raw.substring(valueStart, start).toDouble()
 		skipSpaces()
-		return if (value == -0.0) 0.0 else value
+		return value.normalize()
 	}
 
 	private fun deserializeObject(): JsonObject {

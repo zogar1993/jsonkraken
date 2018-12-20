@@ -3,13 +3,13 @@ package net.jemzart.jsonkraken.helpers
 import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 
-internal fun String.validate(){
+internal fun String.validate(): String{
 	var i = 0
 	fun assert (value: Boolean, message: () -> String) {
 		if (!value)	throw NonCompliantStringException(this, message())
 	}
 	while (true) {
-		if (i == length) return
+		if (i == length) return this
 		if (this[i] == '\\') {
 			i++ // skip \
 			assert(i < length) { "Unescaped \\ at index ${i - 1}" }

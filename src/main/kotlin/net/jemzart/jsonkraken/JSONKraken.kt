@@ -40,7 +40,7 @@ fun String.toJson(): Any? = Deserializer(this).create()
  */
 fun Any?.toJsonString(formatted: Boolean = false): String {
 	if (this is String) validate()
-	else if (this is Char) toString().validate()
+	else if (this is Char) validate()
 	return Serializer(this, formatted).create()
 }
 
