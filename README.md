@@ -4,17 +4,17 @@
 [![Coverage Status](https://img.shields.io/coveralls/github/zogar1993/jsonkraken.svg)](https://coveralls.io/github/zogar1993/jsonkraken?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/net.jemzart/jsonkraken.svg)](http://search.maven.org/#search|ga|1|jsonkraken)
 
-## ¿What is JSONKraken?
+## What is JSONKraken?
 
 JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is written in Kotlin for the Java Virtual Machine.
 
-## ¿Why should I care?
+## Why should I care?
 
 - If you are looking to map POJOs, then this may not be for you.
 - If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
 - On the other hand, if you prefer *obj["captain"]["name"]* you may want to keep reading.
 
-## ¿Why another JSON parsing library?
+## Why another JSON parsing library?
 
 * Flexibility: Not being focused on mapping JSON to predefined entities but to dinamically access any field is great for some uses. Maybe an entity is too much work for your needs, or like in my case, the entity you are trying to map is a construct which does not exist until runtime.
 * Kotlin Friendly: Using get and set operators in Kotlin is as idiomatic as I can imagine it to be, untainted by verbose semantics.
