@@ -30,27 +30,31 @@ I will get technical then, but first lets see a quick example.
 
 ### Hello world overview
 
-	val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
-	println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
-	println(json["getting"]["started"]) //prints: Hello World
-
+```kotlin
+val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
+println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
+println(json["getting"]["started"]) //prints: Hello World
+```
 ### Dependency management
 
 #### Maven
 
-    <dependencies>
-        <dependency>
-            <groupId>net.jemzart</groupId>
-            <artifactId>jsonkraken</artifactId>    
-            <version>1.1.1</version>
-        </dependency>
-    </dependencies>
-
+```maven
+<dependencies>
+    <dependency>
+        <groupId>net.jemzart</groupId>
+        <artifactId>jsonkraken</artifactId>    
+        <version>1.1.1</version>
+    </dependency>
+</dependencies>
+```
 #### Gradle
-    
-    dependencies {
-        compile "net.jemzart:jsonkraken:1.1.1"
-    }
+**`build.gradle`**:
+```gradle    
+dependencies {
+    compile "net.jemzart:jsonkraken:1.1.1"
+}
+```
 
 ### Imports
 
@@ -100,43 +104,54 @@ Both JsonArray and JsonObject can be created by parameterless constructors.
 
 When constructing any of those, varargs are supported, which means you could:
 
-    JsonArray(1, "one", true)
-    JsonObject("key1" to 1, "key2" to "one", "key3" to true)
-        
+```kotlin
+JsonArray(1, "one", true)
+JsonObject("key1" to 1, "key2" to "one", "key3" to true)
+```
+
 Or, if you use the spread operator you could even:
 
-	val array = arrayOf(1, "one", true)
-	JsonArray(*array)
-	val pairs = arrayOf("key1" to 1, "key2" to "one", "key3" to true)
-	JsonObject(*pairs)
+```kotlin
+val array = arrayOf(1, "one", true)
+JsonArray(*array)
+val pairs = arrayOf("key1" to 1, "key2" to "one", "key3" to true)
+JsonObject(*pairs)
+```
 
 If you need to convert a non native Array collection to JsonArray or JsonObject, you have helpers methods for those too:
 
-	val arr: JsonArray = listOf(1, "one", true).toJsonArray()
-	val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
-
+```kotlin
+val arr: JsonArray = listOf(1, "one", true).toJsonArray()
+val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
+```
 I did not include *toJsonArray* and *toJsonObject* as constructor alternatives because it led to some confusing scenarios.
 
 ## Operating with JsonValue
 
 A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:
 
-	foo[0] = "bar"
-	println(foo[0]) //prints: bar
+```kotlin
+foo[0] = "bar"
+println(foo[0]) //prints: bar
+```
 	
 Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import the Any? get and set operators the library provides to do the following:
 
-    foo[0][0] = "bar"
-	println(foo[0][0]) //prints: bar
-	
+```kotlin
+foo[0][0] = "bar"
+println(foo[0][0]) //prints: bar
+```
+
 If you try to get an element which does not exist, an exception will be thrown.
 	
 Here are some other auxiliary methods and properties JsonValue has:
-    
-	foo.remove(bar) //removes element at index/key bar
-	foo.exists(bar) //returns true if there is an element at index/key bar
-	foo.clone() //performs a deep clone of the JsonValue
-	foo.size //returns the amount of elements in the JsonValue
+
+```kotlin
+foo.remove(bar) //removes element at index/key bar
+foo.exists(bar) //returns true if there is an element at index/key bar
+foo.clone() //performs a deep clone of the JsonValue
+foo.size //returns the amount of elements in the JsonValue
+```
 
 ## JsonObject
 
