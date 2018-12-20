@@ -190,6 +190,10 @@ succintness have proven quite elegant. This is but a warning: "use, do not abuse
 
 ## Change Log
 
+### 1.1.2 (unreleased)
+
+- removed empty spaces on formatted serialized empty collections 
+
 #### 1.1.1
 
 - Fixed bug when deserializing non fractional numbers with exponent.
