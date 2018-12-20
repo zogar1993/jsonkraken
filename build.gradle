@@ -54,21 +54,21 @@ pitest {
     outputFormats = ['XML', 'HTML']
 }
 dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
-    
-    linkMapping {
-        dir = "src/main/kotlin"
-        url = "https://github.com/zogar1993/jsonkraken"
-        suffix = "#L"
-    }
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+
+        linkMapping {
+            dir = "src/main/kotlin"
+            url = "https://github.com/zogar1993/jsonkraken"
+            suffix = "#L"
+        }
 }
+
 
 task sourceJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
-
 task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = 'javadoc'
     outputDirectory = "$buildDir/javadoc"

@@ -155,7 +155,7 @@ Here are some other auxiliary methods and properties JsonValue has:
 ###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
 - Double -0.0 will be turned to Double 0.0 to avoid the weird default comparison behaviour they have
 (they are equal if unboxed, bot not equal if boxed).
-I do wonder why do they both even exist.
+I wonder why both even exist.
 - Since internally all numbers are handled as Double,
 be careful with extremely long Long values (higher than 2<sup>53</sup>).
 This is a rather uncommon number to be handling,
@@ -175,7 +175,7 @@ and will throw an Exception if the cast fails.
 JSONKraken (like every sane parser out there) does not support it.
 Only the value of the last duplicate key will be stored when deserializing,
 but no Exception will be thrown.
-- Whole numbers will be written without its decimal part.
+- Whole numbers will be serialized without its decimal part.
 - Formatted serialization is indented with tabs.
 I have thought about allowing custom indentation,
 but if I did, it would be reasonable to add all other custom serialization options,
@@ -183,6 +183,10 @@ and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
 - For your peace of mind, validations are not performed when not necessary
 (like circular reference check on construction or type check on deserialization).
+- get and set extension operators for Any? is something I am not fond of,
+but the truth is I found no other way to offer JavaScript like semantics.
+In practice I try to avoid their use, but there are times when their convenience and
+succintness have proven quite elegant. This is but a warning: "use, do not abuse".
 
 ## Change Log
 
