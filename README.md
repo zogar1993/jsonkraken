@@ -38,7 +38,7 @@ println(json["getting"]["started"]) //prints: Hello World
 ### Dependency management
 
 #### Maven
-
+**`pom.xml`**:
 ```maven
 <dependencies>
     <dependency>
@@ -202,12 +202,19 @@ This simple yet standard formatting should suffice.
 but the truth is I found no other way to offer JavaScript like semantics.
 In practice I try to avoid their use, but there are times when their convenience and
 succintness have proven quite elegant. This is but a warning: "use, do not abuse".
-- I did not include *toJsonArray* and *toJsonObject* as constructor alternatives
+- *toJsonArray* and *toJsonObject* were not included as constructor alternatives
 because it led to some confusing scenarios. Suppose you have *JsonArray(listOf(null))*,
-should it create *[null]* or *[[null]]*? *[null]* seems more intuitive but i find *[[null]]*
-a more sensible approach, since I could then do things like *JsonArray(listOf(1), listOf(2))*,
+should it create *[null]* or *[[null]]*? *[null]* seems more intuitive but *[[null]]* may be
+a more sensible approach, since you could then do things like *JsonArray(listOf(1), listOf(2))*,
 which would translate as *[[1][2]]*. Since I found no way to make implicit behaviour intuitive
 enough I chose to force you to make an explicit call.
+- I had to make a choice between convenience and compliance, and I reluctantly chose compliance.
+This can be seen when deserializing, since I return *Any?* instead of *JsonValue*. Most of the
+times, presumably at least, you wont deal with lonely values, but you may since the
+[JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
+allows it. That philosophy it to blame also for the existence of *toJsonString* instead of
+simply overriding *toString* in JsonValue.
+
 
 ## Change Log
 
