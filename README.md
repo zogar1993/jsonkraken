@@ -1,9 +1,8 @@
 # JSONKraken
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2140baac76d94b34ae73618c789e5084)](https://app.codacy.com/app/zogar1993/jsonkraken?utm_source=github.com&utm_medium=referral&utm_content=zogar1993/jsonkraken&utm_campaign=Badge_Grade_Settings)
 [![Travis CI Build Status](https://travis-ci.org/zogar1993/jsonkraken.svg?branch=master)](https://travis-ci.org/zogar1993/jsonkraken)
 [![Coverage Status](https://img.shields.io/coveralls/github/zogar1993/jsonkraken.svg)](https://coveralls.io/github/zogar1993/jsonkraken?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0cca720125e2453bb02f06d230fac62c)](https://www.codacy.com/app/zogar1993/jsonkraken?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zogar1993/jsonkraken&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2140baac76d94b34ae73618c789e5084)](https://app.codacy.com/app/zogar1993/jsonkraken?utm_source=github.com&utm_medium=referral&utm_content=zogar1993/jsonkraken&utm_campaign=Badge_Grade_Settings)
 [![Maven Central](https://img.shields.io/maven-central/v/net.jemzart/jsonkraken.svg)](http://search.maven.org/#search|ga|1|jsonkraken)
 
 ## What is JSONKraken?
@@ -125,7 +124,6 @@ If you need to convert a non native Array collection to JsonArray or JsonObject,
 val arr: JsonArray = listOf(1, "one", true).toJsonArray()
 val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
 ```
-I did not include *toJsonArray* and *toJsonObject* as constructor alternatives because it led to some confusing scenarios.
 
 ## Operating with JsonValue
 
@@ -204,6 +202,12 @@ This simple yet standard formatting should suffice.
 but the truth is I found no other way to offer JavaScript like semantics.
 In practice I try to avoid their use, but there are times when their convenience and
 succintness have proven quite elegant. This is but a warning: "use, do not abuse".
+- I did not include *toJsonArray* and *toJsonObject* as constructor alternatives
+because it led to some confusing scenarios. Suppose you have *JsonArray(listOf(null))*,
+should it create *[null]* or *[[null]]*? *[null]* seems more intuitive but i find *[[null]]*
+a more sensible approach, since I could then do things like *JsonArray(listOf(1), listOf(2))*,
+which would translate as *[[1][2]]*. Since I found no way to make implicit behaviour intuitive
+enough I chose to force you to make an explicit call.
 
 ## Change Log
 
