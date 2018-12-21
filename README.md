@@ -39,7 +39,7 @@ println(json["getting"]["started"]) //prints: Hello World
 
 #### Maven
 **`pom.xml`**:
-```maven
+```xml
 <dependencies>
     <dependency>
         <groupId>net.jemzart</groupId>
