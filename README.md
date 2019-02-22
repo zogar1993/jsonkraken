@@ -35,6 +35,7 @@ val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
 println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
 println(json["getting"]["started"]) //prints: Hello World
 ```
+
 ### Dependency management
 
 #### Maven

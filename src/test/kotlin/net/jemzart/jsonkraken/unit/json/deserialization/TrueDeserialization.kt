@@ -4,17 +4,11 @@ import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.toJson
 import org.junit.Test
 
-class BooleanDeserialization{
+class TrueDeserialization{
 	@Test
 	fun `true`(){
 		val json = "true".toJson()
 		assert(json == true)
-	}
-
-	@Test
-	fun `false`(){
-		val json = "false".toJson()
-		assert(json == false)
 	}
 
 	@Test(expected = TokenExpectationException::class)
@@ -23,7 +17,7 @@ class BooleanDeserialization{
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun `misspelled false`(){
-		"fffff".toJson()
+	fun `unexpected EOF`(){
+		"tru".toJson()
 	}
 }

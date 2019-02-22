@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
+import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.get
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
@@ -58,5 +59,10 @@ class ObjectDeserialization{
 		val json = "$WS{$WS${str("0")}$WS:$WS${str("A")}$WS,$WS${str("1")}$WS:$WS${str("B")}$WS}$WS".toJson()
 		assert(json["0"] == "A")
 		assert(json["1"] == "B")
+	}
+
+	@Test(expected = TokenExpectationException::class)
+	fun `unexpected EOF`(){
+		"{".toJson()
 	}
 }

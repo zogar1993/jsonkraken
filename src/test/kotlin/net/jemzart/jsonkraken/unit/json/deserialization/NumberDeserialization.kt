@@ -176,4 +176,9 @@ class NumberDeserialization{
 	fun `extremely low number`(){
 		assert("-1.0e+28".toJson() == -1.0E28)
 	}
+
+	@Test(expected = TokenExpectationException::class)
+	fun `unexpected EOF`(){
+		"0.".toJson()
+	}
 }

@@ -9,9 +9,11 @@ import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.toJsonString
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
+import net.jemzart.jsonkraken.wrappers.BoundedString
 import normalize
 
-internal class Deserializer constructor(private val raw: String) {
+internal class Deserializer constructor(raw: String) {
+	private val raw = BoundedString(raw)
 	private val last = raw.length
 	private var start = 0
 	private inline val first get() = raw[start]
@@ -22,9 +24,9 @@ internal class Deserializer constructor(private val raw: String) {
 		val offsetBack = start - PREVIEW_OFFSET_BACK
 		val offsetForward = start + PREVIEW_OFFSET_FORWARD
 		val leftHorizon = offsetBack >= 0
-		val rightHorizon = offsetForward <= raw.length
+		val rightHorizon = offsetForward <= last
 		var left = raw.substring(if (leftHorizon) offsetBack else 0, start)
-		var right = raw.substring(start, if (rightHorizon) offsetForward else raw.length)
+		var right = raw.substring(start, if (rightHorizon) offsetForward else last)
 		left = (if (leftHorizon) ".. " else "") + left
 		right += if (rightHorizon) " .." else ""
 		val arrow = "^".padStart(left.length + 1)
