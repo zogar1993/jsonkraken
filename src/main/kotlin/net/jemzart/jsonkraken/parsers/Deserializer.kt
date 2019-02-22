@@ -16,7 +16,7 @@ internal class Deserializer constructor(raw: String) {
 	private val raw = BoundedString(raw)
 	private val last = raw.length
 	private var start = 0
-	private inline val first get() = raw[start]
+	private val first get() = raw[start]
 
 	private val errorLocalization: String get() = "at character $start"
 

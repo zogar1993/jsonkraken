@@ -1,4 +1,4 @@
-# JSONKraken
+<img src="JSONKraken.png" width="350px" alt="JSONKraken Logo" />
 
 [![Travis CI Build Status](https://travis-ci.org/zogar1993/jsonkraken.svg?branch=master)](https://travis-ci.org/zogar1993/jsonkraken)
 [![Coverage Status](https://img.shields.io/coveralls/github/zogar1993/jsonkraken.svg)](https://coveralls.io/github/zogar1993/jsonkraken?branch=master)
