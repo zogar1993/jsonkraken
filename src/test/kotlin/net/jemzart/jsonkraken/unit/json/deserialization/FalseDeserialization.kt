@@ -15,7 +15,7 @@ class FalseDeserialization{
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun `unexpected EOF`(){
+	fun `premature end`(){
 		"fals".toJson()
 	}
 }

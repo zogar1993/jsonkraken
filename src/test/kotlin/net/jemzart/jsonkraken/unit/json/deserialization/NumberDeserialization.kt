@@ -178,7 +178,7 @@ class NumberDeserialization{
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun `unexpected EOF`(){
+	fun `premature end`(){
 		"0.".toJson()
 	}
 }

@@ -17,7 +17,7 @@ class TrueDeserialization{
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun `unexpected EOF`(){
+	fun `premature end`(){
 		"tru".toJson()
 	}
 }

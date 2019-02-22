@@ -62,7 +62,7 @@ class ObjectDeserialization{
 	}
 
 	@Test(expected = TokenExpectationException::class)
-	fun `unexpected EOF`(){
+	fun `premature end`(){
 		"{".toJson()
 	}
 }
