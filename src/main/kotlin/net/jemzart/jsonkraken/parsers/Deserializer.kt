@@ -64,7 +64,7 @@ internal class Deserializer constructor(raw: String) {
 		validateEquality(raw[++start], 'r', PARSING_TRUE)
 		validateEquality(raw[++start], 'u', PARSING_TRUE)
 		validateEquality(raw[++start], 'e', PARSING_TRUE)
-		advance() //skip true
+		advanceAndTrim() //skip true
 		return true
 	}
 
@@ -73,7 +73,7 @@ internal class Deserializer constructor(raw: String) {
 		validateEquality(raw[++start], 'l', PARSING_FALSE)
 		validateEquality(raw[++start], 's', PARSING_FALSE)
 		validateEquality(raw[++start], 'e', PARSING_FALSE)
-		advance() //skip false
+		advanceAndTrim() //skip false
 		return false
 	}
 
@@ -81,41 +81,41 @@ internal class Deserializer constructor(raw: String) {
 		validateEquality(raw[++start], 'u', PARSING_NULL)
 		validateEquality(raw[++start], 'l', PARSING_NULL)
 		validateEquality(raw[++start], 'l', PARSING_NULL)
-		advance() //skip null
+		advanceAndTrim() //skip null
 		return null
 	}
 
 	private fun deserializeString(): String {
-		advance(trim = false) //skip "
+		advance() //skip "
 		val valueStart = start
 		while (true) {
 			if (first == '\\') {
-				advance(trim = false) // skip \
+				advance() // skip \
 
 				if (first == 'u') {
 					validateIsHexadecimal(raw[++start], PARSING_STRING)
 					validateIsHexadecimal(raw[++start], PARSING_STRING)
 					validateIsHexadecimal(raw[++start], PARSING_STRING)
 					validateIsHexadecimal(raw[++start], PARSING_STRING)
-					advance(trim = false) //skip uFFFF
+					advance() //skip uFFFF
 				} else {
 					validateInclusion(first, Escapable.monoChars, PARSING_STRING)
-					advance(trim = false) //skip 1 char
+					advance() //skip 1 char
 				}
 			} else if (first == '"') {
 				val value = raw.substring(valueStart, start)
-				advance() //skip "
+				advanceAndTrim() //skip "
 				return value
 			} else {
 				validateExclusion(raw[start], Escapable.whiteSpaceChars, PARSING_STRING)
 				validateIsNotISOControlCharacterOtherThanDelete(raw[start], PARSING_STRING)
-				advance(trim = false) //skip 1 char
+				advance() //skip 1 char
 			}
 		}
 	}
 
 	private fun minus() {
-		advance(trim = false) //skip -
+		advance() //skip -
 		when (first) {
 			'0' -> zero()
 			in '1'..'9' -> oneToNine()
@@ -124,7 +124,7 @@ internal class Deserializer constructor(raw: String) {
 	}
 
 	private fun dot() {
-		advance(trim = false) //skip .
+		advance() //skip .
 		when (first) {
 			in '0'..'9' -> secondDigitLoop()
 			else -> validateIsDecimal(first, PARSING_NUMBER)
@@ -132,14 +132,14 @@ internal class Deserializer constructor(raw: String) {
 	}
 
 	private fun e() {
-		advance(trim = false) //skip e or E
-		if (first == '+' || first == '-') advance(trim = false) //skip + or -
+		advance() //skip e or E
+		if (first == '+' || first == '-') advance() //skip + or -
 		if (first in '0'..'9') thirdDigitLoop()
 		else validateIsDecimal(first, PARSING_NUMBER)
 	}
 
 	private fun zero() {
-		advance(trim = false) //skip 0
+		advance() //skip 0
 		if (start == last) return
 		when (first) {
 			'.' -> dot()
@@ -148,7 +148,7 @@ internal class Deserializer constructor(raw: String) {
 	}
 
 	private fun oneToNine() {
-		advance(trim = false) //skip digit
+		advance() //skip digit
 		if (start == last) return
 		when (first) {
 			'.' -> dot()
@@ -158,7 +158,7 @@ internal class Deserializer constructor(raw: String) {
 	}
 
 	private tailrec fun firstDigitLoop() {
-		advance(trim = false) //skip digit
+		advance() //skip digit
 		if (start == last) return
 		when (first) {
 			'.' -> dot()
@@ -168,7 +168,7 @@ internal class Deserializer constructor(raw: String) {
 	}
 
 	private tailrec fun secondDigitLoop() {
-		advance(trim = false) //skip digit
+		advance() //skip digit
 		if (start == last) return
 		when (first) {
 			'e', 'E' -> e()
@@ -177,7 +177,7 @@ internal class Deserializer constructor(raw: String) {
 	}
 
 	private tailrec fun thirdDigitLoop() {
-		advance(trim = false) //skip digit
+		advance() //skip digit
 		if (start == last) return
 		when (first) {
 			in '0'..'9' -> thirdDigitLoop()
@@ -199,7 +199,7 @@ internal class Deserializer constructor(raw: String) {
 
 	private fun deserializeObject(): JsonObject {
 		val obj = JsonObject()
-		advance() //skip '{'
+		advanceAndTrim() //skip '{'
 
 		if (first != '}')
 			while (true) {
@@ -208,31 +208,31 @@ internal class Deserializer constructor(raw: String) {
 				val name = deserializeString()
 
 				validateEquality(first, ':', PARSING_OBJECT)
-				advance() //skip :
+				advanceAndTrim() //skip :
 
 				obj.uncheckedSet(name, deserializeValue())
 
-				if (first == ',') advance() //skip ,
+				if (first == ',') advanceAndTrim() //skip ,
 				else if (first == '}') break
 				else validateInclusion(first, arrayOf(',', '}'), PARSING_OBJECT)
 			}
-		advance() //skip '}'
+		advanceAndTrim() //skip '}'
 		return obj
 	}
 
 
 	private fun deserializeArray(): JsonArray {
 		val arr = JsonArray()
-		advance() //skip '['
+		advanceAndTrim() //skip '['
 		if (first != ']')
 			while (true) {
 				arr.uncheckedAdd(deserializeValue())
 
-				if (first == ',') advance() //skip ','
+				if (first == ',') advanceAndTrim() //skip ','
 				else if (first == ']') break
 				else validateInclusion(first, arrayOf(',', ']'), PARSING_ARRAY)
 			}
-		advance() //skip ']'
+		advanceAndTrim() //skip ']'
 		return arr
 	}
 
@@ -253,10 +253,13 @@ internal class Deserializer constructor(raw: String) {
 		start = last
 	}
 
-	@Suppress("NOTHING_TO_INLINE")//Micro optimization on boolean parameter
-	private inline fun advance(value: Int = 1, trim: Boolean = true) {
-		start += value
-		if (trim) skipSpaces()
+	private fun advanceAndTrim() {
+		start += 1
+		skipSpaces()
+	}
+
+	private fun advance() {
+		start += 1
 	}
 
 	private fun validateEquality(char: Char, expectation: Char, context: String) {
