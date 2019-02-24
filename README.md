@@ -88,16 +88,32 @@ Both JsonArray and JsonObject are a JsonValue.
 
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
-- Added an element, its type is valid (JsonValue, Boolean, String, Char or Number, and they may be null).
+- Added an element, its type is valid (See 'Valid Types').
 - Added a JsonValue, it does not provoke a circular reference.
 - Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 
 In cases where the validation fails, an exception will be thrown.
 
 #### Valid Types
-Some valid types are altered for consistency:
-- A Number element (Byte, Short, Int, Long, Float and Double) will be converted to Double. This should not be an issue except in extreme cases.
+
+- Boolean
+- String
+- Char
+- Number
+- JsonValue
+- Map<\*,*>
+- Iterable<\*>
+- Array<\*>
+- null
+
+Some valid types shall be altered for consistency:
+- A Number element (Byte, Short, Int, Long, Float and Double) will be converted to Double.
+This should not be an issue except in extreme cases.
 - A Char element will be converted to String.
+- Map will be converted to JsonObject
+- Iterable will be converted to JsonArray
+- Array will be converted to JsonArray
+
 
 ## JsonValue creation from scratch
 
@@ -219,10 +235,11 @@ simply overriding *toString* in JsonValue.
 
 ## Change Log
 
-### 1.1.2 (unreleased)
+### 1.2.0 (unreleased)
 
 - Removed empty spaces on formatted serialized empty collections.
 - Now returns TokenExpectationException when deserialization finds premature end of String.
+- Valid types now include Map, Iterable and Array.
 
 #### 1.1.1
 

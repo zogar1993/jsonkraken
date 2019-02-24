@@ -12,7 +12,7 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 
 	/**
 	 * @constructor json array filled with [items].
-	 * Items must be of valid types (JsonValue, null and all primitives are valid types).
+	 * Items must be of valid types (See 'Valid Types').
 	 */
 	constructor(vararg items: Any?) : this() {
 		for (item in items) {

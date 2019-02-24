@@ -11,7 +11,7 @@ import net.jemzart.jsonkraken.toJsonObject
 class JsonObject() : JsonValue, Iterable<Pair<String, Any?>> {
 	/**
 	 * @constructor json object filled with [properties].
-	 * Pair second values must be of valid types (JsonValue, null and all primitives are valid types).
+	 * Pair second values must be of valid types (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
 		for (property in properties) {

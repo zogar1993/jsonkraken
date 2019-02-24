@@ -9,7 +9,7 @@ import net.jemzart.jsonkraken.values.JsonValue
 
 /**
  * @return easy way to convert an Iterable to a JsonArray.
- * @receiver an iterable containing only valid types (JsonValue, null and all primitives are valid types).
+ * @receiver an iterable containing only valid types (See 'Valid Types').
  */
 fun Iterable<*>.toJsonArray(): JsonArray {
 	val jsonArray = JsonArray()
@@ -19,7 +19,7 @@ fun Iterable<*>.toJsonArray(): JsonArray {
 
 /**
  * @return easy way to convert a map to a JsonObject.
- * @receiver a map containing only valid types (JsonValue, null and all primitives are valid types).
+ * @receiver a map containing only valid types (See 'Valid Types').
  */
 fun Map<String, *>.toJsonObject(): JsonObject {
 	val jsonObject = JsonObject()
@@ -36,7 +36,7 @@ fun String.toJson(): Any? = Deserializer(this).create()
 /**
  * @param formatted if false, needless blank spaces will be removed, if true, the result will be more human readable.
  * @return an json string representation of the receiver.
- * @receiver an object of any valid type (JsonValue, null and all primitives are valid types).
+ * @receiver an object of any valid type (See 'Valid Types').
  */
 fun Any?.toJsonString(formatted: Boolean = false): String {
 	if (this is String) validate()
