@@ -20,5 +20,3 @@ internal fun Char.isDecimal(): Boolean {
 	val codePoint = this.toByte()
 	return codePoint in 48..57 // 0-9
 }
-
-internal fun Char.validate() = this.toString().validate()

@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken
 
-import net.jemzart.jsonkraken.helpers.validate
+import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.parsers.Deserializer
 import net.jemzart.jsonkraken.parsers.Serializer
 import net.jemzart.jsonkraken.values.JsonArray
@@ -39,9 +39,7 @@ fun String.toJson(): Any? = Deserializer(this).create()
  * @receiver an object of any valid type (See 'Valid Types').
  */
 fun Any?.toJsonString(formatted: Boolean = false): String {
-	if (this is String) validate()
-	else if (this is Char) validate()
-	return Serializer(this, formatted).create()
+	return Serializer(this.purify(), formatted).create()
 }
 
 /**

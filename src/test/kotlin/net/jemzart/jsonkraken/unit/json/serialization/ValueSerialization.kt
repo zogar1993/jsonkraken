@@ -95,6 +95,23 @@ class ValueSerialization {
 		JsonStringCompliance.verify { value: Any -> value.toJsonString() }
 	}
 
+	@Test
+	fun map() {
+		val key1 = "\"a\""
+		val key2 = "\"b\""
+		assert(mapOf("a" to true, "b" to false).toJsonString() == "{$key1:true,$key2:false}")
+	}
+
+	@Test
+	fun iterable() {
+		assert(listOf(true, false).toJsonString() == "[true,false]")
+	}
+
+	@Test
+	fun array() {
+		assert(arrayOf(true, false).toJsonString() == "[true,false]")
+	}
+
 	@Test(expected = InvalidJsonTypeException::class)
 	fun `invalid type`(){
 		Exception().toJsonString()
