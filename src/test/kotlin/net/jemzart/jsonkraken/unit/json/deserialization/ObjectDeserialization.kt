@@ -2,9 +2,9 @@ package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.get
+import net.jemzart.jsonkraken.toJson
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
-import net.jemzart.jsonkraken.toJson
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 

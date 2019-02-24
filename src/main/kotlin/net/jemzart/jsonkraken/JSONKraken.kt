@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken
 
-import net.jemzart.jsonkraken.parsers.Serializer
-import net.jemzart.jsonkraken.parsers.Deserializer
 import net.jemzart.jsonkraken.helpers.validate
+import net.jemzart.jsonkraken.parsers.Deserializer
+import net.jemzart.jsonkraken.parsers.Serializer
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonValue

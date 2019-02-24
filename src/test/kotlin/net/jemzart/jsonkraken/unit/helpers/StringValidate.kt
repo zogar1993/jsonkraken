@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.helpers
 
-import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.helpers.validate
+import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Test
 
 class StringValidate {
