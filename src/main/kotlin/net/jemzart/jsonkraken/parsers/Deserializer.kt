@@ -184,7 +184,6 @@ internal class Deserializer constructor(raw: String) {
 		}
 	}
 
-
 	private fun deserializeNumber(): Any {
 		val valueStart = start
 		when (first) {

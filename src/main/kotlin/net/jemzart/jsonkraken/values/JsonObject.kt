@@ -60,9 +60,4 @@ class JsonObject() : JsonValue, Iterable<Pair<String, Any?>> {
 	internal fun uncheckedSet(name: String, value: Any?) = map.set(name, value)
 
 	override fun references(value: JsonValue): Boolean = map.values.references(value)
-
-	override fun get(index: Int): Any? = get(index.toString())
-	override fun set(index: Int, value: Any?) = set(index.toString(), value)
-	override fun remove(index: Int) = remove(index.toString())
-	override fun exists(index: Int): Boolean = exists(index.toString())
 }

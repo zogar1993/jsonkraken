@@ -38,6 +38,13 @@ println(json["getting"]["started"]) //prints: Hello World
 
 ### Dependency management
 
+#### Gradle
+**`build.gradle`**:
+```gradle    
+dependencies {
+    compile "net.jemzart:jsonkraken:1.1.1"
+}
+```
 #### Maven
 **`pom.xml`**:
 ```xml
@@ -48,13 +55,6 @@ println(json["getting"]["started"]) //prints: Hello World
         <version>1.1.1</version>
     </dependency>
 </dependencies>
-```
-#### Gradle
-**`build.gradle`**:
-```gradle    
-dependencies {
-    compile "net.jemzart:jsonkraken:1.1.1"
-}
 ```
 
 ### Imports
@@ -225,7 +225,6 @@ times, presumably at least, you wont deal with lonely values, but you may since 
 [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 allows it. That philosophy it to blame also for the existence of *toJsonString* instead of
 simply overriding *toString* in JsonValue.
-
 
 ## Change Log
 

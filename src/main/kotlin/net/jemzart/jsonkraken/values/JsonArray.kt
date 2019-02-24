@@ -65,9 +65,4 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	internal fun uncheckedAdd(value: Any?) = list.add(value)
 
 	override fun references(value: JsonValue): Boolean = list.references(value)
-
-	override fun get(name: String): Any? = get(name.toInt())
-	override fun set(name: String, value: Any?) = set(name.toInt(), value)
-	override fun remove(name: String) = remove(name.toInt())
-	override fun exists(name: String): Boolean = exists(name.toInt())
 }
