@@ -228,7 +228,7 @@ simply overriding *toString* in JsonValue.
 
 ## Change Log
 
-### 1.2.0 (unreleased)
+### 1.2.0
 
 - Removed empty spaces on formatted serialized empty collections.
 - Now returns TokenExpectationException when deserialization finds premature end of String.
