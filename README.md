@@ -42,7 +42,7 @@ println(json["getting"]["started"]) //prints: Hello World
 **`build.gradle`**:
 ```gradle    
 dependencies {
-    compile "net.jemzart:jsonkraken:1.1.1"
+    compile "net.jemzart:jsonkraken:1.2.0"
 }
 ```
 #### Maven
@@ -52,7 +52,7 @@ dependencies {
     <dependency>
         <groupId>net.jemzart</groupId>
         <artifactId>jsonkraken</artifactId>    
-        <version>1.1.1</version>
+        <version>1.2.0</version>
     </dependency>
 </dependencies>
 ```
