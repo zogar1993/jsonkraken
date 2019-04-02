@@ -72,7 +72,7 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 			null -> "null"
 			is String, is Char-> "\"$value\""
 			is Boolean -> value.toString()
-			is Number -> (if (value.toDouble() % 1.0 == 0.0) value.toLong() else value).toString()
+			is Double -> (if (value % 1.0 == 0.0) value.toLong() else value).toString()
 			else -> throw InvalidJsonTypeException(value)
 		}
 		stb.append(str)

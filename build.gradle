@@ -85,9 +85,9 @@ artifacts {
     archives javadocJar
 }
 
-signing {
-    sign configurations.archives
-}
+//signing {
+//    sign configurations.archives
+//}
 
 //publishing {
 //    publications {
