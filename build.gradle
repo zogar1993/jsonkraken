@@ -34,8 +34,8 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    testCompile "junit:junit:$junit_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation"junit:junit:$junit_version"
 }
 
 compileKotlin {
@@ -64,7 +64,6 @@ dokka {
             suffix = "#L"
         }
 }
-
 
 task sourceJar(type: Jar) {
     classifier = 'sources'
