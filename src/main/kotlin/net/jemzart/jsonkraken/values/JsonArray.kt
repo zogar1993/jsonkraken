@@ -2,12 +2,12 @@ package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.toJsonArray
+import net.jemzart.jsonkraken.toJsonValue
 
 /**
  * @constructor empty json array.
  */
-class JsonArray() : JsonValue, Iterable<Any?> {
+class JsonArray() : JsonContainer, Iterable<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -22,26 +22,26 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 	}
 
 	override val size: Int get() = list.size
-	private val list: MutableList<Any?> = mutableListOf()
+	private val list: MutableList<JsonValue> = mutableListOf()
 
 	/**
 	 * @return an iterator over all its items.
 	 */
-	override fun iterator(): Iterator<Any?> = list.iterator()
+	override fun iterator(): Iterator<JsonValue> = list.iterator()
 
-	override fun get(index: Int): Any? = list[index.reversible()]
+	override fun get(index: Int): JsonValue = list[index.reversible()]
 
 	override fun set(index: Int, value: Any?) {
 		val purified = value.purify(this)
-		for (i in list.size..index) list.add(null)
+		for (i in list.size..index) list.add(JsonNull)
 		list[index.reversible()] = purified
 	}
 
-	override fun remove(index: Int) {
+	fun remove(index: Int) {
 		list.removeAt(index.reversible())
 	}
 
-	override fun exists(index: Int): Boolean {
+	fun exists(index: Int): Boolean {
 		return index < list.size
 	}
 
@@ -60,9 +60,10 @@ class JsonArray() : JsonValue, Iterable<Any?> {
 		list.add(index.reversible(), value.purify(this))
 	}
 
-	override fun clone(): JsonArray = list.map { if (it is JsonValue) it.clone() else it }.toJsonArray()
+	override fun clone(): JsonArray =
+		list.map { if (it is JsonContainer) it.clone() else it }.toJsonValue() as JsonArray
 
-	internal fun uncheckedAdd(value: Any?) = list.add(value)
+	internal fun uncheckedAdd(value: JsonValue) = list.add(value)
 
-	override fun references(value: JsonValue): Boolean = list.references(value)
+	override fun references(value: JsonContainer): Boolean = list.references(value)
 }

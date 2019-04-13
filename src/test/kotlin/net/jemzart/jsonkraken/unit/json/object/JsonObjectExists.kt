@@ -5,20 +5,18 @@ import org.junit.Test
 
 class JsonObjectExists {
 	@Test
-	fun exists(){
+	fun exists() {
 		val obj = JsonObject()
 
 		obj["0"] = ""
 
 		assert(obj.exists("0"))
-		assert(obj.exists(0))
 	}
 
 	@Test
-	fun `does not exist`(){
+	fun `does not exist`() {
 		val obj = JsonObject()
 
 		assert(!obj.exists("0"))
-		assert(!obj.exists(0))
 	}
 }

@@ -2,44 +2,39 @@ package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.helpers.validate
-import net.jemzart.jsonkraken.toJsonObject
+import net.jemzart.jsonkraken.toJsonValue
 
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonValue, Iterable<Pair<String, Any?>> {
+class JsonObject() : JsonContainer, Iterable<Pair<JsonString, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
-		for (property in properties) {
-			property.first.validate()
-			val purified = property.second.purify()
-			map[property.first] = purified
-		}
+		properties.forEach { map[JsonString(it.first)] = it.second.purify() }
 	}
 
 	override val size: Int get() = map.size
-	private val map: MutableMap<String, Any?> = mutableMapOf()
+	private val map: MutableMap<JsonString, JsonValue> = mutableMapOf()
 
 	/**
 	 * @return an iterator over all its properties.
 	 */
-	override fun iterator(): Iterator<Pair<String, Any?>> = map.map { it.key to it.value }.iterator()
-	override fun get(name: String): Any? = map[name]
+	override fun iterator(): Iterator<Pair<JsonString, JsonValue>> = map.map { it.key to it.value }.iterator()
+
+	override fun get(name: String): JsonValue = map[JsonString(name)] ?: throw Exception()//TODO ver si no da bronce
 	override fun set(name: String, value: Any?) {
-		name.validate()
-		map[name] = value.purify(this)
+		map[JsonString(name)] = value.purify(this)
 	}
 
-	override fun remove(name: String) {
-		map.remove(name)
+	fun remove(name: String) {
+		map.remove(JsonString(name))
 	}
 
-	override fun exists(name: String): Boolean {
-		return map.containsKey(name)
+	fun exists(name: String): Boolean {
+		return map.containsKey(JsonString(name))
 	}
 
 	/**
@@ -54,10 +49,10 @@ class JsonObject() : JsonValue, Iterable<Pair<String, Any?>> {
 
 	override fun clone(): JsonObject = map.map {
 		val value = it.value
-		it.key to if (value is JsonValue) value.clone() else value
-	}.toMap().toJsonObject()
+		it.key to (if (value is JsonContainer) value.clone() else value)
+	}.toMap().toJsonValue() as JsonObject
 
-	internal fun uncheckedSet(name: String, value: Any?) = map.set(name, value)
+	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name, value.purify())
 
-	override fun references(value: JsonValue): Boolean = map.values.references(value)
+	override fun references(value: JsonContainer): Boolean = map.values.references(value)
 }

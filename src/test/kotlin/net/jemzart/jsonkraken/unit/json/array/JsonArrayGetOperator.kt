@@ -3,19 +3,19 @@ package net.jemzart.jsonkraken.unit.json.array
 import net.jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
-class JsonArrayGetOperator{
-    private val insertion = JsonArray()
+class JsonArrayGetOperator {
+	private val insertion = JsonArray()
 
 	@Test
-    fun `by Int`(){
-        val arr = JsonArray()
-	    arr.add(insertion)
+	fun `by Int`() {
+		val arr = JsonArray()
+		arr.add(insertion)
 
-	    assert(arr[0] == insertion)
-    }
+		assert(arr[0] == insertion)
+	}
 
 	@Test
-	fun `by String`(){
+	fun `by String`() {
 		val arr = JsonArray()
 		arr.add(insertion)
 
@@ -23,7 +23,7 @@ class JsonArrayGetOperator{
 	}
 
 	@Test
-	fun `reverse notation`(){
+	fun `reverse notation`() {
 		val arr = JsonArray()
 		arr.add(null)
 		arr.add(insertion)

@@ -8,16 +8,13 @@ class JsonStringCompliance {
 		fun verify(action: (Any) -> Unit) {
 			val errors = StringBuilder()
 			for (valid in valids) {
-				runCatching { action(valid.second) }.
-					onFailure { errors.appendln("- \"${valid.first}\" did not pass (should have)") }
+				runCatching { action(valid.second) }.onFailure { errors.appendln("- \"${valid.first}\" did not pass (should have)") }
 			}
 			for (invalid in invalids) {
-				runCatching { action(invalid.second) }.
-					onSuccess { errors.appendln("- \"${invalid.first}\" passed (should not have)") }.
-					onFailure {
-						if (it is NonCompliantStringException) assert(it.value == invalid.second.toString())
-						else errors.appendln("- \"${invalid.first}\" threw unexpected exception)")
-					}
+				runCatching { action(invalid.second) }.onSuccess { errors.appendln("- \"${invalid.first}\" passed (should not have)") }.onFailure {
+					if (it is NonCompliantStringException) assert(it.value == invalid.second.toString())
+					else errors.appendln("- \"${invalid.first}\" threw unexpected exception)")
+				}
 			}
 			if (errors.isNotEmpty()) assert(false) { errors }
 		}

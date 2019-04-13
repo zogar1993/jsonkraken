@@ -32,7 +32,7 @@ I will get technical then, but first lets see a quick example.
 
 ```kotlin
 val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
-println(json.toJsonString()) //prints: {"getting":{"started":"Hello World"}}
+println(json.jsonSerialize()) //prints: {"getting":{"started":"Hello World"}}
 println(json["getting"]["started"]) //prints: Hello World
 ```
 
@@ -78,9 +78,9 @@ In case of not being able to parse a symbol, an Exception will be thrown.
 
 ## Parsing from Object to String (Serialization)
 
-We use *.toJsonString()* for Object to String conversion.
+We use *.jsonSerialize()* for Object to String conversion.
 Strings are generated without needless blank space, minimizing its size and readability.
-We instead use *.toJsonString(true)* when we want the serialization to be formatted.
+We instead use *.jsonSerialize(true)* when we want the serialization to be formatted.
 
 ## JsonValue
 
@@ -223,7 +223,7 @@ succintness have proven quite elegant. This is but a warning: "use, do not abuse
 This can be seen when deserializing, since I return *Any?* instead of *JsonValue*. Most of the
 times, presumably at least, you wont deal with lonely values, but you may since the
 [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
-allows it. That philosophy it to blame also for the existence of *toJsonString* instead of
+allows it. That philosophy it to blame also for the existence of *jsonSerialize* instead of
 simply overriding *toString* in JsonValue.
 
 ## Change Log

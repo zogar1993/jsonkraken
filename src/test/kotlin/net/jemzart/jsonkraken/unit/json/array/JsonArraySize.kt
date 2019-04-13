@@ -3,23 +3,23 @@ package net.jemzart.jsonkraken.unit.json.array
 import net.jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
-class JsonArraySize{
+class JsonArraySize {
 	@Test
-	fun zero(){
+	fun zero() {
 		val arr = JsonArray()
 
 		assert(arr.size == 0)
 	}
 
 	@Test
-	fun one(){
+	fun one() {
 		val arr = JsonArray(null)
 
 		assert(arr.size == 1)
 	}
 
 	@Test
-	fun two(){
+	fun two() {
 		val arr = JsonArray(null, null)
 
 		assert(arr.size == 2)

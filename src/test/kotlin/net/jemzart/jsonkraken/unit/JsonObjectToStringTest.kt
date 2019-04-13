@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.unit
 
-import net.jemzart.jsonkraken.toJsonString
+import net.jemzart.jsonkraken.jsonSerialize
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
@@ -9,7 +9,7 @@ class JsonObjectToStringTest {
 	fun `simple object`() {
 		val obj = JsonObject()
 		obj["name"] = "Von Chap"
-		assert(obj.toJsonString() == "{\"name\":\"Von Chap\"}")
+		assert(obj.jsonSerialize() == "{\"name\":\"Von Chap\"}")
 	}
 
 	@Test
@@ -17,6 +17,6 @@ class JsonObjectToStringTest {
 		val obj = JsonObject()
 		val nullableString: String? = "Von Chap"
 		obj["name"] = nullableString
-		assert(obj.toJsonString() == "{\"name\":\"Von Chap\"}")
+		assert(obj.jsonSerialize() == "{\"name\":\"Von Chap\"}")
 	}
 }

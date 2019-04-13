@@ -6,11 +6,8 @@ import net.jemzart.jsonkraken.helpers.isDecimal
 import net.jemzart.jsonkraken.helpers.isHexadecimal
 import net.jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
-import net.jemzart.jsonkraken.toJsonString
-import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonObject
+import net.jemzart.jsonkraken.values.*
 import net.jemzart.jsonkraken.wrappers.BoundedString
-import normalize
 
 internal class Deserializer constructor(raw: String) {
 	private val raw = BoundedString(raw)
@@ -48,7 +45,7 @@ internal class Deserializer constructor(raw: String) {
 		const val VERIFYING_END_OF_PARSE = "verifying end of parse"
 	}
 
-	private fun deserializeValue(): Any? {
+	private fun deserializeValue(): JsonValue {
 		return when (first) {
 			'{' -> deserializeObject()
 			'[' -> deserializeArray()
@@ -60,32 +57,32 @@ internal class Deserializer constructor(raw: String) {
 		}
 	}
 
-	private fun deserializeTrue(): Boolean {
+	private fun deserializeTrue(): JsonTrue {
 		validateEquality(raw[++start], 'r', PARSING_TRUE)
 		validateEquality(raw[++start], 'u', PARSING_TRUE)
 		validateEquality(raw[++start], 'e', PARSING_TRUE)
 		advanceAndTrim() //skip true
-		return true
+		return JsonTrue
 	}
 
-	private fun deserializeFalse(): Boolean {
+	private fun deserializeFalse(): JsonFalse {
 		validateEquality(raw[++start], 'a', PARSING_FALSE)
 		validateEquality(raw[++start], 'l', PARSING_FALSE)
 		validateEquality(raw[++start], 's', PARSING_FALSE)
 		validateEquality(raw[++start], 'e', PARSING_FALSE)
 		advanceAndTrim() //skip false
-		return false
+		return JsonFalse
 	}
 
-	private fun deserializeNull(): Nothing? {
+	private fun deserializeNull(): JsonNull {
 		validateEquality(raw[++start], 'u', PARSING_NULL)
 		validateEquality(raw[++start], 'l', PARSING_NULL)
 		validateEquality(raw[++start], 'l', PARSING_NULL)
 		advanceAndTrim() //skip null
-		return null
+		return JsonNull
 	}
 
-	private fun deserializeString(): String {
+	private fun deserializeString(): JsonString {
 		advance() //skip "
 		val valueStart = start
 		while (true) {
@@ -105,7 +102,7 @@ internal class Deserializer constructor(raw: String) {
 			} else if (first == '"') {
 				val value = raw.substring(valueStart, start)
 				advanceAndTrim() //skip "
-				return value
+				return JsonString(value)//TODO duplicada validación
 			} else {
 				validateExclusion(raw[start], Escapable.whiteSpaceChars, PARSING_STRING)
 				validateIsNotISOControlCharacterOtherThanDelete(raw[start], PARSING_STRING)
@@ -184,7 +181,7 @@ internal class Deserializer constructor(raw: String) {
 		}
 	}
 
-	private fun deserializeNumber(): Any {
+	private fun deserializeNumber(): JsonNumber {
 		val valueStart = start
 		when (first) {
 			'-' -> minus()
@@ -194,7 +191,7 @@ internal class Deserializer constructor(raw: String) {
 		}
 		val value = raw.substring(valueStart, start).toDouble()
 		skipSpaces()
-		return value.normalize()
+		return JsonNumber(value)
 	}
 
 	private fun deserializeObject(): JsonObject {
@@ -236,7 +233,7 @@ internal class Deserializer constructor(raw: String) {
 		return arr
 	}
 
-	internal fun create(): Any? {
+	internal fun create(): JsonValue {
 		skipSpaces()
 		val result = deserializeValue()
 		validateEOF() //no text left
@@ -292,14 +289,14 @@ internal class Deserializer constructor(raw: String) {
 	private fun validateInclusion(char: Char, expectations: Array<Char>, context: String) {
 		for (expectation in expectations)
 			if (char == expectation) return
-		val arr = JsonArray(expectations).toJsonString()
+		val arr = JsonArray(expectations).toString()
 		throwError(context, "Expected one of $arr, found \"$char\".")
 	}
 
 	private fun validateExclusion(char: Char, expectations: Array<Char>, context: String) {
 		for (expectation in expectations)
 			if (char == expectation) {
-				val arr = JsonArray(expectations).toJsonString()
+				val arr = JsonArray(expectations).toString()
 				throwError(context, "None of $arr expected, found \"$char\".")
 			}
 	}

@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.exceptions
 
-import net.jemzart.jsonkraken.values.JsonValue
+import net.jemzart.jsonkraken.values.JsonContainer
+
 /**
  * An exception used for operations that would incur in a circular reference.
  *
@@ -9,6 +10,6 @@ import net.jemzart.jsonkraken.values.JsonValue
  * @property host the name of this group.
  * @property intruder the name of this group.
  */
-class CircularReferenceException(val host: JsonValue,
-                                 val intruder: JsonValue)
+class CircularReferenceException(val host: JsonContainer,
+                                 val intruder: JsonContainer)
 	: Exception("Performing the operation would incur in a circular reference.")

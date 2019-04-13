@@ -1,53 +1,49 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
-import net.jemzart.jsonkraken.toJson
-import net.jemzart.jsonkraken.toJsonString
+import net.jemzart.jsonkraken.jsonDeserialize
+import net.jemzart.jsonkraken.jsonSerialize
 import org.junit.Test
 
 class Formatted {
 	@Test
-	fun lonely(){
-		assert("true".toJson().toJsonString(true) == "true")
+	fun lonely() {
+		assert("true".jsonDeserialize().jsonSerialize(true) == "true")
 	}
 
 	@Test
-	fun `empty array`(){
-		assert("[]".toJson().toJsonString(true) == "[\n\n]")
+	fun `empty array`() {
+		assert("[]".jsonDeserialize().jsonSerialize(true) == "[\n\n]")
 	}
 
 	@Test
-	fun `empty object`(){
-		assert("{}".toJson().toJsonString(true) == "{\n\n}")
+	fun `empty object`() {
+		assert("{}".jsonDeserialize().jsonSerialize(true) == "{\n\n}")
 	}
 
 	@Test
-	fun `array 1 element`(){
-		assert("[true]".
-			toJson().toJsonString(true)
+	fun `array 1 element`() {
+		assert("[true]".jsonDeserialize().jsonSerialize(true)
 			== "[\n\ttrue\n]")
 	}
 
 	@Test
-	fun `array 2 elements`(){
-		assert("[true,false]".
-			toJson().toJsonString(true)
+	fun `array 2 elements`() {
+		assert("[true,false]".jsonDeserialize().jsonSerialize(true)
 			== "[\n\ttrue,\n\tfalse\n]")
 	}
 
 	@Test
-	fun `object 1 element`(){
+	fun `object 1 element`() {
 		val key1 = "\"a\""
-		assert("{\"a\":true}".
-			toJson().toJsonString(true)
+		assert("{\"a\":true}".jsonDeserialize().jsonSerialize(true)
 			== "{\n\t$key1: true\n}")
 	}
 
 	@Test
-	fun `object 2 elements`(){
+	fun `object 2 elements`() {
 		val key1 = "\"a\""
 		val key2 = "\"b\""
-		assert("{$key1:true,$key2:false}".
-			toJson().toJsonString(true)
+		assert("{$key1:true,$key2:false}".jsonDeserialize().jsonSerialize(true)
 			== "{\n\t$key1: true,\n\t$key2: false\n}")
 	}
 }

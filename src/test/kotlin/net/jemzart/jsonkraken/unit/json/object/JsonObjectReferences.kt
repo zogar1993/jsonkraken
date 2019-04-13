@@ -4,9 +4,9 @@ import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Test
 
-class JsonObjectReferences{
+class JsonObjectReferences {
 	@Test
-	fun `no reference`(){
+	fun `no reference`() {
 		val arr = JsonArray()
 		val obj = JsonObject()
 
@@ -14,7 +14,7 @@ class JsonObjectReferences{
 	}
 
 	@Test
-	fun `first level reference`(){
+	fun `first level reference`() {
 		val arr = JsonArray()
 		val obj = JsonObject("0" to arr)
 
@@ -22,7 +22,7 @@ class JsonObjectReferences{
 	}
 
 	@Test
-	fun `second level reference`(){
+	fun `second level reference`() {
 		val arr = JsonArray()
 		val obj = JsonObject("0" to JsonArray(arr))
 

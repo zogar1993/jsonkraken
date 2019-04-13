@@ -6,32 +6,40 @@ import net.jemzart.jsonkraken.values.JsonObject
 
 internal class Serializer constructor(private val value: Any?, formatted: Boolean) {
 	private val stb = StringBuilder()
-	private operator fun StringBuilder.plusAssign(value: String) { this.append(value) }
+	private operator fun StringBuilder.plusAssign(value: String) {
+		this.append(value)
+	}
 
 	private val indentation = "\t"
 	private var nesting = 0
 	private inline val tabs get() = indentation.repeat(nesting)
 
 	private val writeKey =
-		if (formatted) { key:String -> stb += "\"$key\": " }
-		else { key:String -> stb += "\"$key\":" }
+		if (formatted) { key: String -> stb += "\"$key\": " }
+		else { key: String -> stb += "\"$key\":" }
 
 	private val writeStart =
-		if (formatted) { value:String -> stb += "$value\n"; ++nesting; Unit }
-		else { value:String -> stb += value }
+		if (formatted) { value: String -> stb += "$value\n"; ++nesting; Unit }
+		else { value: String -> stb += value }
 
 
 	private val writeEnd =
-		if (formatted) { value:String -> stb += "\n"; --nesting; stb  += "$tabs$value"  }
-		else { value:String -> stb += value }
+		if (formatted) { value: String -> stb += "\n"; --nesting; stb += "$tabs$value" }
+		else { value: String -> stb += value }
 
 	private val writeDelimiter =
-		if (formatted){{ stb += ",\n$tabs" }}
-		else {{ stb += "," }}
+		if (formatted) {
+			{ stb += ",\n$tabs" }
+		} else {
+			{ stb += "," }
+		}
 
 	private val writeTabs =
-		if (formatted){{ stb += tabs }}
-		else {{ stb += "" }}
+		if (formatted) {
+			{ stb += tabs }
+		} else {
+			{ stb += "" }
+		}
 
 	fun create(): String {
 		writeValue(value)
@@ -50,8 +58,10 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 		writeStart("{")
 		var first = true
 		for (pair in obj) {
-			if (first) { writeTabs(); first = false } else writeDelimiter()
-			writeKey(pair.first)
+			if (first) {
+				writeTabs(); first = false
+			} else writeDelimiter()
+			writeKey(pair.first.value)
 			writeValue(pair.second)
 		}
 		writeEnd("}")
@@ -61,7 +71,9 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 		writeStart("[")
 		var first = true
 		for (item in arr) {
-			if (first) { writeTabs(); first = false } else writeDelimiter()
+			if (first) {
+				writeTabs(); first = false
+			} else writeDelimiter()
 			writeValue(item)
 		}
 		writeEnd("]")
@@ -70,7 +82,7 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 	private fun parsePrimitive(value: Any?) {
 		val str = when (value) {
 			null -> "null"
-			is String, is Char-> "\"$value\""
+			is String, is Char -> "\"$value\""
 			is Boolean -> value.toString()
 			is Double -> (if (value % 1.0 == 0.0) value.toLong() else value).toString()
 			else -> throw InvalidJsonTypeException(value)
