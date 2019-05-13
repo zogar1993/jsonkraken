@@ -1,11 +1,60 @@
 package net.jemzart.jsonkraken.unit.json.number
 
-import net.jemzart.jsonkraken.toJsonValue
 import net.jemzart.jsonkraken.values.JsonNumber
 import net.jemzart.jsonkraken.values.JsonValue
 import org.junit.Test
 
 class JsonNumberCast {
+
+	@Test
+	fun `Byte cast`() {
+		val byte = 13.toByte()
+		val value = JsonNumber(byte)
+		assert(value.cast<Byte>() == byte)
+	}
+
+	@Test
+	fun `Short cast`() {
+		val short = 13.toShort()
+		val value = JsonNumber(short)
+		assert(value.cast<Short>() == short)
+	}
+
+	@Test
+	fun `Int cast`() {
+		val int = 13
+		val value = JsonNumber(int)
+		assert(value.cast<Int>() == int)
+	}
+
+	@Test
+	fun `Long cast`() {
+		val long = 13.toLong()
+		val value = JsonNumber(long)
+		assert(value.cast<Long>() == long)
+	}
+
+	@Test
+	fun `Float cast`() {
+		val float = 13.toFloat()
+		val value = JsonNumber(float)
+		assert(value.cast<Float>() == float)
+	}
+
+	@Test
+	fun `Double cast`() {
+		val double = 13.toDouble()
+		val value = JsonNumber(double)
+		assert(value.cast<Double>() == double)
+	}
+
+	@Test
+	fun `Char cast`() {
+		val char = 'K'
+		val value = JsonNumber(char.toByte())
+		assert(value.cast<Char>() == char)
+	}
+
 	@Test
 	fun `zero stays zero`() {
 		val value = JsonNumber(0.0)
