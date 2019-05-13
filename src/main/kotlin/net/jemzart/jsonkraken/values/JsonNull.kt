@@ -1,5 +1,9 @@
 package net.jemzart.jsonkraken.values
 
-object JsonNull : JsonValue {
+import kotlin.reflect.KClass
 
+object JsonNull : JsonValue() {
+	override fun <T> cast(klass: KClass<*>): T {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	}
 }

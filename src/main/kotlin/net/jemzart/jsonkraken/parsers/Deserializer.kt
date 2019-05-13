@@ -217,7 +217,6 @@ internal class Deserializer constructor(raw: String) {
 		return obj
 	}
 
-
 	private fun deserializeArray(): JsonArray {
 		val arr = JsonArray()
 		advanceAndTrim() //skip '['

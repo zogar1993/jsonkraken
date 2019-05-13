@@ -41,9 +41,8 @@ class AnyPurify {
 	fun `map is converted to JsonObject`() {
 		val map = mapOf("A" to null)
 
-		val obj = map.purify()
+		val obj = map.purify().cast<JsonObject>()
 
-		obj as JsonObject
 		assert(obj["A"] == JsonNull)
 	}
 

@@ -2,7 +2,6 @@ package net.jemzart.jsonkraken.helpers
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.toJsonValue
 import net.jemzart.jsonkraken.values.*
 
 internal fun Any?.purify(): JsonValue {
@@ -15,11 +14,20 @@ internal fun Any?.purify(): JsonValue {
 		false -> JsonFalse
 		is JsonValue -> this
 		is Array<*> -> this.asIterable().purify()
-		is Map<*, *> -> this.map {
-			val key = it.key?.toString() ?: throw NullPointerException("Why are you using null as a key for a map?")
-			key to it.value
-		}.toMap().toJsonValue()
-		is Iterable<*> -> this.toJsonValue()
+		is Map<*, *> -> {
+			val jsonObject = JsonObject()
+			this.forEach {
+				val key = it.key?.toString()
+				key ?: throw NullPointerException("Why are you using null as a key for a map?")//TODO better this
+				jsonObject[key] = it.value
+			}
+			jsonObject
+		}
+		is Iterable<*> -> {
+			val jsonArray = JsonArray()
+			this.forEach { jsonArray.add(it) }
+			jsonArray
+		}
 		else -> throw InvalidJsonTypeException(this)
 	}
 }

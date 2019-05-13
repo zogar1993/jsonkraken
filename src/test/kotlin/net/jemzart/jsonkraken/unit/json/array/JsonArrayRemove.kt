@@ -6,7 +6,7 @@ import org.junit.Test
 
 class JsonArrayRemove {
 	@Test
-	fun `by Int`() {
+	fun simple() {
 		val arr = JsonArray()
 		arr.add(null)
 
@@ -14,7 +14,6 @@ class JsonArrayRemove {
 
 		assert(arr.size == 0)
 	}
-
 
 	@Test
 	fun `reverse notation`() {
@@ -25,7 +24,7 @@ class JsonArrayRemove {
 
 		arr.remove(-2)
 
-		assert(arr[0] == JsonNumber(1.0))
-		assert(arr[1] == JsonNumber(3.0))
+		assert(arr[0].cast<Int>() == 1)
+		assert(arr[1].cast<Int>() == 3)
 	}
 }

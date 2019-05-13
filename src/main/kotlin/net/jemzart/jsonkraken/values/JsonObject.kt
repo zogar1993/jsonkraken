@@ -3,11 +3,12 @@ package net.jemzart.jsonkraken.values
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
 import net.jemzart.jsonkraken.toJsonValue
+import kotlin.reflect.KClass
 
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonContainer, Iterable<Pair<JsonString, JsonValue>> {
+class JsonObject() : JsonContainer(), Iterable<Pair<JsonString, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
@@ -55,4 +56,15 @@ class JsonObject() : JsonContainer, Iterable<Pair<JsonString, JsonValue>> {
 	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name, value.purify())
 
 	override fun references(value: JsonContainer): Boolean = map.values.references(value)
+
+	@Suppress("UNCHECKED_CAST")
+	override fun <T> cast(klass: KClass<*>): T {
+		return when(klass) {
+			JsonObject::class -> this as T
+			JsonValue::class -> this as T
+			JsonContainer::class -> this as T
+			Any::class -> this as T
+			else -> throw NotImplementedError(klass.toString())
+		}
+	}
 }

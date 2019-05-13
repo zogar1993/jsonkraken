@@ -2,14 +2,10 @@ package net.jemzart.jsonkraken.utils
 
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 
-
 class JsonStringCompliance {
 	companion object {
 		fun verify(action: (Any) -> Unit) {
 			val errors = StringBuilder()
-			for (valid in valids) {
-				runCatching { action(valid.second) }.onFailure { errors.appendln("- \"${valid.first}\" did not pass (should have)") }
-			}
 			for (invalid in invalids) {
 				runCatching { action(invalid.second) }.onSuccess { errors.appendln("- \"${invalid.first}\" passed (should not have)") }.onFailure {
 					if (it is NonCompliantStringException) assert(it.value == invalid.second.toString())
@@ -18,19 +14,6 @@ class JsonStringCompliance {
 			}
 			if (errors.isNotEmpty()) assert(false) { errors }
 		}
-
-		private val valids = arrayOf(
-			"empty" to "",
-			"word" to "kraken",
-			"escaped r" to "\\r",
-			"escaped n" to "\\n",
-			"escaped t" to "\\t",
-			"escaped b" to "\\b",
-			"escaped f" to "\\f",
-			"escaped solidus" to "\\/",
-			"escaped double quotes" to "\\\"",
-			"escaped reverse solidus" to "\\\\",
-			"unicode" to "\\uAF09")
 
 		private val invalids = arrayOf(
 			"incomplete unicode" to "\\u000",
