@@ -3,7 +3,13 @@ package net.jemzart.jsonkraken.values
 import kotlin.reflect.KClass
 
 object JsonNull : JsonValue() {
+	@Suppress("UNCHECKED_CAST")
 	override fun <T> cast(klass: KClass<*>): T {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		return when(klass){
+			JsonNull::class -> this as T
+			JsonValue::class -> this as T
+			Any::class -> this as T
+			else -> null as T
+		}
 	}
 }

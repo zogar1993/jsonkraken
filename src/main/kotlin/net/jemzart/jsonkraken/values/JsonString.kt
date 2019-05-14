@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 import net.jemzart.jsonkraken.helpers.isHexadecimal
 import net.jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
+import java.lang.Exception
 import kotlin.reflect.KClass
 
 class JsonString(string: String) : JsonValue() {
@@ -36,14 +37,20 @@ class JsonString(string: String) : JsonValue() {
 
 	@Suppress("UNCHECKED_CAST")
 	override fun <T> cast(klass: KClass<*>): T {
-		when(klass){
-			String::class -> return value as T
-			else -> throw NotImplementedError()
+		return when(klass){
+			JsonString::class -> this as T
+			JsonValue::class -> this as T
+			Any::class -> this as T
+			CharSequence::class -> value as T
+			String::class -> value as T
+			else -> throw NotImplementedError(klass.toString())
 		}
 	}
 
 	override fun equals(other: Any?): Boolean {
-		return value == other
+		val jsonOther = other as? JsonString
+			?: throw Exception()//TODO Mejorar
+		return value == jsonOther.cast<JsonString>().value
 	}
 
 	override fun hashCode(): Int {

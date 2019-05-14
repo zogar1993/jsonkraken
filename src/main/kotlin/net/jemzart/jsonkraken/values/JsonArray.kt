@@ -68,7 +68,14 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 
 	override fun references(value: JsonContainer): Boolean = list.references(value)
 
+	@Suppress("UNCHECKED_CAST")
 	override fun <T> cast(klass: KClass<*>): T {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+		return when(klass) {
+			JsonArray::class -> this as T
+			JsonValue::class -> this as T
+			JsonContainer::class -> this as T
+			Any::class -> this as T
+			else -> throw NotImplementedError(klass.toString())
+		}
 	}
 }
