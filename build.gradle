@@ -46,40 +46,40 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-coveralls {
-    sourceDirs += ['src/main/kotlin']
-}
-pitest {
-    targetClasses = ['net.jemzart.jsonkraken.*']
-    timestampedReports = false
-    outputFormats = ['XML', 'HTML']
-}
-dokka {
-        outputFormat = 'html'
-        outputDirectory = "$buildDir/javadoc"
-
-        linkMapping {
-            dir = "src/main/kotlin"
-            url = "https://github.com/zogar1993/jsonkraken"
-            suffix = "#L"
-        }
-}
+//coveralls {
+//    sourceDirs += ['src/main/kotlin']
+//}
+//pitest {
+//    targetClasses = ['net.jemzart.jsonkraken.*']
+//    timestampedReports = false
+//    outputFormats = ['XML', 'HTML']
+//}
+//dokka {
+//        outputFormat = 'html'
+//        outputDirectory = "$buildDir/javadoc"
+//
+//        linkMapping {
+//            dir = "src/main/kotlin"
+//            url = "https://github.com/zogar1993/jsonkraken"
+//            suffix = "#L"
+//        }
+//}
 
 task sourceJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
-}
-task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+//task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+//    outputFormat = 'javadoc'
+//    outputDirectory = "$buildDir/javadoc"
+//}
+//task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
 
-artifacts {
-    archives jar
-    archives sourceJar
-    archives javadocJar
-}
+//artifacts {
+//    archives jar
+//    archives sourceJar
+//    archives javadocJar
+//}
