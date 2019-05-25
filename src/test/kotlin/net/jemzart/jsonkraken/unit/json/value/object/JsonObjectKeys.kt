@@ -6,13 +6,13 @@ import org.junit.Test
 
 class JsonObjectKeys {
 	@Test
-	fun values() {
+	fun keys() {
 		val obj = JsonObject("one" to 1, "two" to 2)
 
-		val values = obj.keys
+		val keys = obj.keys
 
-		assert(JsonString("one") in values)
-		assert(JsonString("two") in values)
-		assert(values.size == 2)
+		assert("one" in keys)
+		assert("two" in keys)
+		assert(keys.size == 2)
 	}
 }

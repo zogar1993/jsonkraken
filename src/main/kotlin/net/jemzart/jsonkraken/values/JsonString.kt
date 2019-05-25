@@ -48,9 +48,8 @@ class JsonString(string: String) : JsonValue() {
 	}
 
 	override fun equals(other: Any?): Boolean {
-		val jsonOther = other as? JsonString
-			?: throw Exception()//TODO Mejorar
-		return value == jsonOther.cast<JsonString>().value
+		if (other !is JsonString) return false
+		return value == other.value
 	}
 
 	override fun hashCode(): Int {

@@ -1,10 +1,10 @@
 package net.jemzart.jsonkraken.parsers
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonObject
+import net.jemzart.jsonkraken.toJsonValue
+import net.jemzart.jsonkraken.values.*
 
-internal class Serializer constructor(private val value: Any?, formatted: Boolean) {
+internal class Serializer constructor(private val value: JsonValue, formatted: Boolean) {
 	private val stb = StringBuilder()
 	private operator fun StringBuilder.plusAssign(value: String) {
 		this.append(value)
@@ -46,7 +46,7 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 		return stb.toString()
 	}
 
-	private fun writeValue(value: Any?) {
+	private fun writeValue(value: JsonValue) {
 		when (value) {
 			is JsonArray -> writeArray(value)
 			is JsonObject -> writeObject(value)
@@ -61,7 +61,7 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 			if (first) {
 				writeTabs(); first = false
 			} else writeDelimiter()
-			writeKey(pair.first.value)
+			writeKey(pair.first)
 			writeValue(pair.second)
 		}
 		writeEnd("}")
@@ -79,12 +79,15 @@ internal class Serializer constructor(private val value: Any?, formatted: Boolea
 		writeEnd("]")
 	}
 
-	private fun parsePrimitive(value: Any?) {
+	private fun parsePrimitive(value: JsonValue) {
 		val str = when (value) {
-			null -> "null"
-			is String, is Char -> "\"$value\""
-			is Boolean -> value.toString()
-			is Double -> (if (value % 1.0 == 0.0) value.toLong() else value).toString()
+			is JsonNull -> "null"
+			is JsonString -> "\"${value.value}\""
+			is JsonBoolean -> value.cast<Boolean>().toString()
+			is JsonNumber -> {
+				val double = value.cast<Double>()
+				if (double % 1.0 == 0.0) double.toLong().toString() else double.toString()
+			}
 			else -> throw InvalidJsonTypeException(value)
 		}
 		stb.append(str)

@@ -28,9 +28,8 @@ class JsonNumber(number: Number) : JsonValue() {
 	}
 
 	override fun equals(other: Any?): Boolean {
-		val jsonOther = other as? JsonNumber
-			?: throw Exception()//TODO Mejorar
-		return value == jsonOther.cast<JsonNumber>().value
+		if (other !is JsonNumber) return false
+		return value == other.value
 	}
 
 	override fun hashCode(): Int {

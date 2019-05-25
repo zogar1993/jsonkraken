@@ -23,4 +23,4 @@ fun String.jsonDeserialize(): JsonValue = Deserializer(this).create()
  * @return a JsonValue representation of the receiver.
  * @receiver raw json data.
  */
-fun Any?.jsonSerialize(formatted: Boolean = false): String = Serializer(this, formatted).create()
+fun JsonValue.jsonSerialize(formatted: Boolean = false): String = Serializer(this, formatted).create()

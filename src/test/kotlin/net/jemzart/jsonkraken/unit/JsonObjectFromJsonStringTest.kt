@@ -35,7 +35,7 @@ class JsonObjectFromJsonStringTest {
 	@Test
 	fun `sub object json`() {
 		val json = "{\"captain\":{\"name\":\"Von Chap\"}}".jsonDeserialize()
-		assert((json["captain"]["name"] == JsonString("Von Chap")))
+		assert((json["captain"]["name"].cast<String>() == "Von Chap"))
 	}
 
 	@Test

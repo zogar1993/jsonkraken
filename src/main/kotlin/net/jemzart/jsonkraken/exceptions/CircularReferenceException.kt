@@ -12,4 +12,4 @@ import net.jemzart.jsonkraken.values.JsonContainer
  */
 class CircularReferenceException(val host: JsonContainer,
                                  val intruder: JsonContainer)
-	: Exception("Performing the operation would incur in a circular reference.")
+	: JsonKrakenException("Performing the operation would incur in a circular reference.")

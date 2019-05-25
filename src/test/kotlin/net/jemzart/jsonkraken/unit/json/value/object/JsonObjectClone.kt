@@ -8,7 +8,7 @@ import org.junit.Test
 class JsonObjectClone {
 	@Test
 	fun replication() {
-		val original = JsonObject("0" to 1.0)
+		val original = JsonObject("0" to 1)
 		val clone = original.clone()
 
 		assert(clone["0"].cast<Int>() == 1)
@@ -16,13 +16,13 @@ class JsonObjectClone {
 
 	@Test
 	fun `deep literal`() {
-		val original = JsonObject("0" to 1.0)
+		val original = JsonObject("0" to 1)
 		val clone = original.clone()
 
-		clone["0"] = 2.0
+		clone["0"] = 2
 
-		assert(original["0"] == JsonNumber(1.0))
-		assert(clone["0"] == JsonNumber(2.0))
+		assert(original["0"].cast<Int>() == 1)
+		assert(clone["0"].cast<Int>() == 2)
 	}
 
 	@Test
@@ -30,20 +30,20 @@ class JsonObjectClone {
 		val original = JsonObject("0" to JsonObject("value" to 1))
 		val clone = original.clone()
 
-		clone["0"]["value"] = 2.0
+		clone["0"]["value"] = 2
 
-		assert(original["0"]["value"] == JsonNumber(1.0))
-		assert(clone["0"]["value"] == JsonNumber(2.0))
+		assert(original["0"]["value"].cast<Int>() == 1)
+		assert(clone["0"]["value"].cast<Int>() == 2)
 	}
 
 	@Test
 	fun `deep JsonArray`() {
-		val original = JsonObject("0" to JsonArray(1.0))
+		val original = JsonObject("0" to JsonArray(1))
 		val clone = original.clone()
 
 		clone["0"][0] = 2
 
-		assert(original["0"][0] == JsonNumber(1.0))
-		assert(clone["0"][0] == JsonNumber(2.0))
+		assert(original["0"][0].cast<Int>() == 1)
+		assert(clone["0"][0].cast<Int>() == 2)
 	}
 }

@@ -6,4 +6,4 @@ package net.jemzart.jsonkraken.exceptions
  *
  * @property message description of the unexpected token.
  */
-class TokenExpectationException(message: String) : Exception(message)
+class TokenExpectationException(message: String) : JsonKrakenException(message)

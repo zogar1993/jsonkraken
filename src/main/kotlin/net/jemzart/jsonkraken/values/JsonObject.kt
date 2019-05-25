@@ -3,39 +3,40 @@ package net.jemzart.jsonkraken.values
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
 import net.jemzart.jsonkraken.toJsonValue
+import net.jemzart.jsonkraken.wrappers.JsonValueMap
 import kotlin.reflect.KClass
 
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonContainer(), Iterable<Pair<JsonString, JsonValue>> {
+class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
-		properties.forEach { map[JsonString(it.first)] = it.second.purify() }
+		properties.forEach { map[it.first] = it.second.purify() }
 	}
 
 	override val size: Int get() = map.size
-	private val map: MutableMap<JsonString, JsonValue> = mutableMapOf()
+	private val map: JsonValueMap = JsonValueMap()
 
 	/**
 	 * @return an iterator over all its properties.
 	 */
-	override fun iterator(): Iterator<Pair<JsonString, JsonValue>> = map.map { it.key to it.value }.iterator()
+	override fun iterator(): Iterator<Pair<String, JsonValue>> = map.iterator()
 
-	override fun get(name: String): JsonValue = map[JsonString(name)] ?: throw Exception()//TODO ver si no da bronce
+	override fun get(name: String): JsonValue = map[name]
 	override fun set(name: String, value: Any?) {
-		map[JsonString(name)] = value.purify(this)
+		map[name] = value.purify(this)
 	}
 
 	fun remove(name: String) {
-		map.remove(JsonString(name))
+		map.remove(name)
 	}
 
 	fun exists(name: String): Boolean {
-		return map.containsKey(JsonString(name))
+		return map.containsKey(name)
 	}
 
 	/**
@@ -49,11 +50,11 @@ class JsonObject() : JsonContainer(), Iterable<Pair<JsonString, JsonValue>> {
 	val values get() = map.values
 
 	override fun clone(): JsonObject = map.map {
-		val value = it.value
-		it.key to (if (value is JsonContainer) value.clone() else value)
+		val value = it.second
+		it.first to (if (value is JsonContainer) value.clone() else value)
 	}.toMap().toJsonValue() as JsonObject
 
-	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name, value.purify())
+	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name.value, value.purify())
 
 	override fun references(value: JsonContainer): Boolean = map.values.references(value)
 

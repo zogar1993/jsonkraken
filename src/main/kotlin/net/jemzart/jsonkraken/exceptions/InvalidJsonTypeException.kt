@@ -7,4 +7,4 @@ package net.jemzart.jsonkraken.exceptions
  * @property value the value of a non permitted type.
  */
 class InvalidJsonTypeException(val value: Any)
-	: Exception("${value::class} is not among the permitted types.")
+	: JsonKrakenException("${value::class} is not among the permitted types.")
