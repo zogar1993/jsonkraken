@@ -78,8 +78,8 @@ task sourceJar(type: Jar) {
 //    from javadoc.destinationDir
 //}
 
-//artifacts {
+artifacts {
 //    archives jar
-//    archives sourceJar
+    archives sourceJar
 //    archives javadocJar
-//}
+}
