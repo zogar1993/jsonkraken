@@ -35,10 +35,6 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 		map.remove(name)
 	}
 
-	fun exists(name: String): Boolean {
-		return map.containsKey(name)
-	}
-
 	/**
 	 * @return a collection with all its property keys.
 	 */

@@ -42,10 +42,6 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 		list.removeAt(index.reversible())
 	}
 
-	fun exists(index: Int): Boolean {
-		return index < list.size
-	}
-
 	/**
 	 * adds [value] after the current end of the array.
 	 */
