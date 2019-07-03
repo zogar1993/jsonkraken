@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import kotlin.reflect.KClass
 
 abstract class JsonValue {
@@ -35,10 +36,10 @@ abstract class JsonValue {
 		if (casts.containsKey(T::class))
 			return casts.getValue(T::class)(this) as T
 		else
-			throw NotImplementedError(T::class.toString())
+			throw InvalidCastException(from = this::class, to = T::class)
 	}
 
-	open val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts;
+	open val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts
 
 	protected companion object {
 		val casts = mapOf(

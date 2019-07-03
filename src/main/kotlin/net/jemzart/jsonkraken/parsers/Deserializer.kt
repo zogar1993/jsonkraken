@@ -9,7 +9,7 @@ import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.*
 import net.jemzart.jsonkraken.wrappers.BoundedString
 
-internal class Deserializer constructor(raw: String) {
+internal class Deserializer(raw: String) {
 	private val raw = BoundedString(raw)
 	private val last = raw.length
 	private var start = 0

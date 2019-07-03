@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.value.nil
 
+import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.values.JsonNull
 import net.jemzart.jsonkraken.values.JsonValue
 import org.junit.Assert.assertEquals
@@ -41,5 +42,16 @@ class JsonNullCast {
 		val casted = JsonNull.cast<JsonNull?>()
 
 		assertEquals(JsonNull, casted)
+	}
+
+	@Test
+	fun `cast to non nullable whatever throws an InvalidCastException`() {
+		try {
+			JsonNull.cast<Unit>()
+			assert(false)
+		} catch (ex: InvalidCastException){
+			assertEquals(JsonNull::class, ex.from)
+			assertEquals(Unit::class, ex.to)
+		}
 	}
 }
