@@ -7,8 +7,8 @@ import net.jemzart.jsonkraken.values.JsonContainer
  *
  * Logically, this can only occur when assigning a JsonValue to another.
  *
- * @property host the name of this group.
- * @property intruder the name of this group.
+ * @property host container to witch another container is to be added.
+ * @property intruder container to be added.
  */
 class CircularReferenceException(val host: JsonContainer,
                                  val intruder: JsonContainer)
