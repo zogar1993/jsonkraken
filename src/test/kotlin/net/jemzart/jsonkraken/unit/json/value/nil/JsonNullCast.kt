@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken.unit.json.value.nil
 
 import net.jemzart.jsonkraken.values.JsonNull
 import net.jemzart.jsonkraken.values.JsonValue
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class JsonNullCast {
@@ -33,5 +34,12 @@ class JsonNullCast {
 		val casted = original.cast<Any>()
 
 		assert(original == casted)
+	}
+
+	@Test
+	fun `cast to nullable JsonNull returns JsonNull`() {
+		val casted = JsonNull.cast<JsonNull?>()
+
+		assertEquals(JsonNull, casted)
 	}
 }

@@ -35,17 +35,10 @@ class JsonString(string: String) : JsonValue() {
 		}
 	}
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <T> cast(klass: KClass<*>): T {
-		return when(klass){
-			JsonString::class -> this as T
-			JsonValue::class -> this as T
-			Any::class -> this as T
-			CharSequence::class -> value as T
-			String::class -> value as T
-			else -> throw NotImplementedError(klass.toString())
-		}
-	}
+	override val casts: Map<KClass<*>, (Any)->Any> get() =
+		JsonValue.casts + (JsonString::class to { value: Any -> value }) +
+				(CharSequence::class to { _ -> value }) +
+				(String::class to { _ -> value })
 
 	override fun equals(other: Any?): Boolean {
 		if (other !is JsonString) return false

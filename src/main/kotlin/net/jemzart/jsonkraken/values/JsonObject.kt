@@ -54,14 +54,8 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 
 	override fun references(value: JsonContainer): Boolean = map.values.references(value)
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <T> cast(klass: KClass<*>): T {
-		return when(klass) {
-			JsonObject::class -> this as T
-			JsonValue::class -> this as T
-			JsonContainer::class -> this as T
-			Any::class -> this as T
-			else -> throw NotImplementedError(klass.toString())
-		}
+	override val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts
+	companion object {
+		private val casts = JsonContainer.casts + (JsonObject::class to { value: Any -> value })
 	}
 }
