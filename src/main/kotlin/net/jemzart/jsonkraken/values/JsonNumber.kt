@@ -9,23 +9,17 @@ class JsonNumber(number: Number) : JsonValue() {
 	//turns -0.0 into 0.0 to prevent boxing issues
 	private fun Double.normalize() = if (this == -0.0) 0.0 else this
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <T> cast(klass: KClass<*>): T {
-		return when(klass){
-			JsonNumber::class -> this as T
-			JsonValue::class -> this as T
-			Any::class -> this as T
-			Char::class -> value.toChar() as T
-			Byte::class -> value.toByte() as T
-			Short::class -> value.toShort() as T
-			Int::class -> value.toInt() as T
-			Long::class -> value.toLong() as T
-			Float::class -> value.toFloat() as T
-			Double::class -> value as T
-			Number::class -> value as T
-			else -> throw NotImplementedError(klass.toString())
-		}
-	}
+
+	override val casts: Map<KClass<*>, (Any)->Any> get() =
+		JsonValue.casts + (JsonNumber::class to { value: Any -> value }) +
+				(Byte::class to { _ -> value.toByte() }) +
+				(Short::class to { _ -> value.toShort() }) +
+				(Int::class to { _ -> value.toInt() }) +
+				(Long::class to { _ -> value.toLong() }) +
+				(Float::class to { _ -> value.toFloat() }) +
+				(Double::class to { _ -> value }) +
+				(Number::class to { _ -> value }) +
+				(Char::class to { _ -> value.toChar() })
 
 	override fun equals(other: Any?): Boolean {
 		if (other !is JsonNumber) return false

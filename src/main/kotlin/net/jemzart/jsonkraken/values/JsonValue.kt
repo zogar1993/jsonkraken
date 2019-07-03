@@ -30,10 +30,20 @@ abstract class JsonValue {
 	/**
 	 * @return self if possible, otherwise tries to create an equivalent in T.
 	 */
-	inline fun <reified T>cast(): T = cast(T::class)
+	inline fun <reified T>cast(): T {
+		if (this is JsonNull && null is T && T::class !in casts.keys) return null as T
+		if (casts.containsKey(T::class))
+			return casts.getValue(T::class)(this) as T
+		else
+			throw NotImplementedError(T::class.toString())
+	}
 
-	/**
-	 * @return self if possible, otherwise tries to create an equivalent in T.
-	 */
-	abstract fun <T>cast(klass: KClass<*>): T
+	open val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts;
+
+	protected companion object {
+		val casts = mapOf(
+			JsonValue::class to { value: Any -> value },
+			Any::class to { value: Any -> value }
+		)
+	}
 }
