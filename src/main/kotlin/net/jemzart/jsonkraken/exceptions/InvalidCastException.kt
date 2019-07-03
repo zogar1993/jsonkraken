@@ -9,4 +9,4 @@ import kotlin.reflect.KClass
  * @property from the type of the JsonValue.
  * @property to the type to witch the cast was intended.
  */
-class InvalidCastException (val from: KClass<JsonValue>, val to: KClass<*>): Exception()
+class InvalidCastException (val from: KClass<out JsonValue>, val to: KClass<*>): Exception()
