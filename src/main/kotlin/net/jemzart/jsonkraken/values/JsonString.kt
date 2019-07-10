@@ -5,7 +5,7 @@ import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 import net.jemzart.jsonkraken.helpers.isHexadecimal
 import net.jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
 
-class JsonString(string: String) : JsonValue(), JsonCasteable by Companion {
+class JsonString(string: String) : JsonValue() {
 	val value = string.validate()
 	private fun String.validate(): String {
 		var i = 0
@@ -40,12 +40,5 @@ class JsonString(string: String) : JsonValue(), JsonCasteable by Companion {
 
 	override fun hashCode(): Int {
 		return value.hashCode()
-	}
-
-	private companion object: JsonCasteable {
-		override val casts get() =
-			JsonValue.casts + (JsonString::class to { value: Any -> value }) +
-					(CharSequence::class to { value -> (value as JsonString).value }) +
-					(String::class to { value -> (value as JsonString).value })
 	}
 }

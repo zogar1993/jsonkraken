@@ -8,7 +8,7 @@ import net.jemzart.jsonkraken.wrappers.JsonValueMap
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>>, JsonCasteable by Companion {
+class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
@@ -52,8 +52,4 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>>, JsonCas
 	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name.value, value.purify())
 
 	override fun references(value: JsonContainer): Boolean = map.values.references(value)
-
-	private companion object: JsonCasteable {
-		override val casts = JsonContainer.casts + (JsonObject::class to { value: Any -> value })
-	}
 }

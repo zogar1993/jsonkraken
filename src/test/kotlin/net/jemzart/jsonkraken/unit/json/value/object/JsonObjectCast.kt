@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken.unit.json.value.`object`
 import net.jemzart.jsonkraken.values.JsonContainer
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonValue
+
 import org.junit.Test
 
 class JsonObjectCast {

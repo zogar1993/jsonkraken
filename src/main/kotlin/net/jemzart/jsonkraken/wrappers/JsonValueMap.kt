@@ -10,11 +10,11 @@ internal class JsonValueMap : Iterable<Pair<String, JsonValue>> {
 	val values get() = map.values
 	val keys get() = map.keys
 
-	operator fun get (key: String): JsonValue {
+	operator fun get(key: String): JsonValue {
 		return map.getValue(key)
 	}
 
-	operator fun set (key: String, value: JsonValue) {
+	operator fun set(key: String, value: JsonValue) {
 		JsonString(key)//TODO Mejorar, no hace falta construir JsonString
 		map[key] = value
 	}

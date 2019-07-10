@@ -1,7 +1,6 @@
 package net.jemzart.jsonkraken.parsers
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.toJsonValue
 import net.jemzart.jsonkraken.values.*
 
 internal class Serializer constructor(private val value: JsonValue, formatted: Boolean) {

@@ -3,12 +3,11 @@ package net.jemzart.jsonkraken.values
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
 import net.jemzart.jsonkraken.toJsonValue
-import kotlin.reflect.KClass
 
 /**
  * @constructor empty json array.
  */
-class JsonArray() : JsonContainer(), Iterable<JsonValue>, JsonCasteable by Companion {
+class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -63,8 +62,4 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue>, JsonCasteable by Compa
 	internal fun uncheckedAdd(value: JsonValue) = list.add(value)
 
 	override fun references(value: JsonContainer): Boolean = list.references(value)
-
-	companion object: JsonCasteable {
-		override val casts = JsonContainer.casts + (JsonArray::class to { value: Any -> value })
-	}
 }

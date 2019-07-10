@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.jsonDeserialize
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonNumber
 import net.jemzart.jsonkraken.values.JsonString
+
 import org.junit.Test
 
 class JsonObjectFromJsonStringTest {

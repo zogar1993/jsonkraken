@@ -5,4 +5,4 @@ package net.jemzart.jsonkraken.exceptions
  *
  * @property message description of the exception.
  */
-abstract class JsonKrakenException(message: String): Exception(message)
+abstract class JsonKrakenException(message: String) : Exception(message)

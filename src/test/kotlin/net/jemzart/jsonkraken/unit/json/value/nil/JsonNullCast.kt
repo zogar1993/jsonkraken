@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken.unit.json.value.nil
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.values.JsonNull
 import net.jemzart.jsonkraken.values.JsonValue
+
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -49,7 +50,7 @@ class JsonNullCast {
 		try {
 			JsonNull.cast<Unit>()
 			assert(false)
-		} catch (ex: InvalidCastException){
+		} catch (ex: InvalidCastException) {
 			assertEquals(JsonNull::class, ex.from)
 			assertEquals(Unit::class, ex.to)
 		}

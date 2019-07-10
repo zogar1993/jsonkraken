@@ -1,9 +1,8 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
-import kotlin.reflect.KClass
 
-abstract class JsonValue: JsonCasteable by Companion {
+abstract class JsonValue {
 	/**
 	 * @return the value of the property named [name].
 	 * if JsonArray, [name] works as an index.
@@ -31,18 +30,26 @@ abstract class JsonValue: JsonCasteable by Companion {
 	/**
 	 * @return self if possible, otherwise tries to create an equivalent in T.
 	 */
-	inline fun <reified T>cast(): T {
-		if (this is JsonNull && null is T && T::class !in casts.keys) return null as T
-		if (this.casts.containsKey(T::class))
-			return casts.getValue(T::class as KClass<out Any>)(this) as T
-		else
-			throw InvalidCastException(from = this::class, to = T::class)
-	}
-
-	protected companion object: JsonCasteable {
-		override val casts = mapOf(
-			JsonValue::class to { value: Any -> value },
-			Any::class to { value: Any -> value }
-		)
+	inline fun <reified T> cast(): T {
+		if (this is T) return this
+		when {
+			this is JsonTrue -> return true as T
+			this is JsonFalse -> return false as T
+			this is JsonNull -> if (null is T) return null as T
+			this is JsonString -> when (T::class) {
+				CharSequence::class, String::class -> return this.value as T
+			}
+			this is JsonNumber -> when (T::class) {
+				Byte::class -> return this.value.toByte() as T
+				Short::class -> return this.value.toShort() as T
+				Int::class -> return this.value.toInt() as T
+				Long::class -> return this.value.toLong() as T
+				Float::class -> return this.value.toFloat() as T
+				Double::class -> return this.value as T
+				Number::class -> return this.value as T
+				Char::class -> return this.value.toChar() as T
+			}
+		}
+		throw InvalidCastException(from = this::class, to = T::class)
 	}
 }
