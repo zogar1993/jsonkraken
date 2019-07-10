@@ -4,10 +4,8 @@ import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 import net.jemzart.jsonkraken.helpers.isHexadecimal
 import net.jemzart.jsonkraken.helpers.isISOControlCharacterOtherThanDelete
-import java.lang.Exception
-import kotlin.reflect.KClass
 
-class JsonString(string: String) : JsonValue() {
+class JsonString(string: String) : JsonValue(), JsonCasteable by Companion {
 	val value = string.validate()
 	private fun String.validate(): String {
 		var i = 0
@@ -35,11 +33,6 @@ class JsonString(string: String) : JsonValue() {
 		}
 	}
 
-	override val casts: Map<KClass<*>, (Any)->Any> get() =
-		JsonValue.casts + (JsonString::class to { value: Any -> value }) +
-				(CharSequence::class to { _ -> value }) +
-				(String::class to { _ -> value })
-
 	override fun equals(other: Any?): Boolean {
 		if (other !is JsonString) return false
 		return value == other.value
@@ -47,5 +40,12 @@ class JsonString(string: String) : JsonValue() {
 
 	override fun hashCode(): Int {
 		return value.hashCode()
+	}
+
+	private companion object: JsonCasteable {
+		override val casts get() =
+			JsonValue.casts + (JsonString::class to { value: Any -> value }) +
+					(CharSequence::class to { value -> (value as JsonString).value }) +
+					(String::class to { value -> (value as JsonString).value })
 	}
 }

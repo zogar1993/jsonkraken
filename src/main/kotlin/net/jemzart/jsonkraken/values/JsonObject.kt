@@ -4,12 +4,11 @@ import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
 import net.jemzart.jsonkraken.toJsonValue
 import net.jemzart.jsonkraken.wrappers.JsonValueMap
-import kotlin.reflect.KClass
 
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
+class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>>, JsonCasteable by Companion {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
@@ -54,8 +53,7 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 
 	override fun references(value: JsonContainer): Boolean = map.values.references(value)
 
-	override val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts
-	companion object {
-		private val casts = JsonContainer.casts + (JsonObject::class to { value: Any -> value })
+	private companion object: JsonCasteable {
+		override val casts = JsonContainer.casts + (JsonObject::class to { value: Any -> value })
 	}
 }

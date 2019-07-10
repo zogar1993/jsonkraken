@@ -1,11 +1,9 @@
 package net.jemzart.jsonkraken.values
 
-import kotlin.reflect.KClass
-
 /**
  * Represents a json structure, may it be an array or an object.
  */
-abstract class JsonContainer : JsonValue() {
+abstract class JsonContainer : JsonValue(), JsonCasteable by Companion {
 	override operator fun get(name: String): JsonValue = get(name.toInt())
 	override operator fun set(name: String, value: Any?): Unit = set(name.toInt(), value)
 	override operator fun get(index: Int): JsonValue = get(index.toString())
@@ -25,8 +23,7 @@ abstract class JsonContainer : JsonValue() {
 	 */
 	abstract fun references(value: JsonContainer): Boolean
 
-	override val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts
-	protected companion object {
-		val casts = JsonValue.casts + (JsonContainer::class to { value: Any -> value })
+	protected companion object: JsonCasteable {
+		override val casts = JsonValue.casts + (JsonContainer::class to { value: Any -> value })
 	}
 }

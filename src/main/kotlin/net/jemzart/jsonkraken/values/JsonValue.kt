@@ -3,7 +3,7 @@ package net.jemzart.jsonkraken.values
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import kotlin.reflect.KClass
 
-abstract class JsonValue {
+abstract class JsonValue: JsonCasteable by Companion {
 	/**
 	 * @return the value of the property named [name].
 	 * if JsonArray, [name] works as an index.
@@ -33,16 +33,14 @@ abstract class JsonValue {
 	 */
 	inline fun <reified T>cast(): T {
 		if (this is JsonNull && null is T && T::class !in casts.keys) return null as T
-		if (casts.containsKey(T::class))
-			return casts.getValue(T::class)(this) as T
+		if (this.casts.containsKey(T::class))
+			return casts.getValue(T::class as KClass<out Any>)(this) as T
 		else
 			throw InvalidCastException(from = this::class, to = T::class)
 	}
 
-	open val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts
-
-	protected companion object {
-		val casts = mapOf(
+	protected companion object: JsonCasteable {
+		override val casts = mapOf(
 			JsonValue::class to { value: Any -> value },
 			Any::class to { value: Any -> value }
 		)

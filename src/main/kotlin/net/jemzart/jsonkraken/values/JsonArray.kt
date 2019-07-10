@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 /**
  * @constructor empty json array.
  */
-class JsonArray() : JsonContainer(), Iterable<JsonValue> {
+class JsonArray() : JsonContainer(), Iterable<JsonValue>, JsonCasteable by Companion {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -64,8 +64,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 
 	override fun references(value: JsonContainer): Boolean = list.references(value)
 
-	override val casts: Map<KClass<*>, (Any)->Any> get() = Companion.casts
-	companion object {
-		private val casts = JsonContainer.casts + (JsonArray::class to { value: Any -> value })
+	companion object: JsonCasteable {
+		override val casts = JsonContainer.casts + (JsonArray::class to { value: Any -> value })
 	}
 }
