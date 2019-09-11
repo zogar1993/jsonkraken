@@ -1,115 +1,135 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
+import net.jemzart.jsonkraken.JSONKraken
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.jsonSerialize
 import net.jemzart.jsonkraken.toJsonValue
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ValueSerialization {
 	@Test
 	fun `lonely null`() {
-		assert(JsonNull.jsonSerialize() == "null")
+		val serialized = JSONKraken.serialize(null)
+		assertEquals("null", serialized)
 	}
 
 	@Test
 	fun `lonely true`() {
-		assert(JsonTrue.jsonSerialize() == "true")
+		val serialized = JSONKraken.serialize(true)
+		assertEquals("true", serialized)
 	}
 
 	@Test
 	fun `lonely false`() {
-		assert(JsonFalse.jsonSerialize() == "false")
+		val serialized = JSONKraken.serialize(false)
+		assertEquals("false", serialized)
 	}
 
 	@Test
 	fun `lonely Int`() {
-		assert(JsonNumber(5).jsonSerialize() == "5")
+		val serialized = JSONKraken.serialize(5)
+		assertEquals("5", serialized)
 	}
 
 	@Test
 	fun `lonely Double`() {
-		assert(JsonNumber(5.2).jsonSerialize() == "5.2")
+		val serialized = JSONKraken.serialize(5.2)
+		assertEquals("5.2", serialized)
 	}
 
 	@Test
 	fun `lonely Char`() {
-		assert('z'.toJsonValue().jsonSerialize() == "\"z\"")
+		val serialized = JSONKraken.serialize('z')
+		assertEquals("\"z\"", serialized)
 	}
 
 	@Test
 	fun `lonely String`() {
-		assert(JsonString("Rhagost").jsonSerialize() == "\"Rhagost\"")
+		val serialized = JSONKraken.serialize("Rhagost")
+		assertEquals("\"Rhagost\"", serialized)
 	}
 
 	@Test
 	fun `contained null`() {
-		assert(JsonArray(null).jsonSerialize() == "[null]")
+		val serialized = JSONKraken.serialize(JsonArray(null))
+		assertEquals("[null]", serialized)
 	}
 
 	@Test
 	fun `contained true`() {
-		assert(JsonArray(true).jsonSerialize() == "[true]")
+		val serialized = JSONKraken.serialize(JsonArray(true))
+		assertEquals("[true]", serialized)
 	}
 
 	@Test
 	fun `contained false`() {
-		assert(JsonArray(false).jsonSerialize() == "[false]")
+		val serialized = JSONKraken.serialize(JsonArray(false))
+		assertEquals("[false]", serialized)
 	}
 
 	@Test
 	fun `contained Int`() {
-		assert(JsonArray(5).jsonSerialize() == "[5]")
+		val serialized = JSONKraken.serialize(JsonArray(5))
+		assertEquals("[5]", serialized)
 	}
 
 	@Test
 	fun `contained Double`() {
-		assert(JsonArray(5.2).jsonSerialize() == "[5.2]")
+		val serialized = JSONKraken.serialize(JsonArray(5.2))
+		assertEquals("[5.2]", serialized)
 	}
 
 	@Test
 	fun `contained Char`() {
-		assert(JsonArray('z').jsonSerialize() == "[\"z\"]")
+		val serialized = JSONKraken.serialize(JsonArray('z'))
+		assertEquals("[\"z\"]", serialized)
 	}
 
 	@Test
 	fun `contained String`() {
-		assert(JsonArray("Rhagost").jsonSerialize() == "[\"Rhagost\"]")
+		val serialized = JSONKraken.serialize(JsonArray("Rhagost"))
+		assertEquals("[\"Rhagost\"]", serialized)
 	}
 
 	@Test
 	fun `array with two items`() {
-		assert(JsonArray(true, false).jsonSerialize() == "[true,false]")
+		val serialized = JSONKraken.serialize(JsonArray(true, false))
+		assertEquals("[true,false]", serialized)
 	}
 
 	@Test
 	fun `object with two items`() {
 		val key1 = "\"a\""
 		val key2 = "\"b\""
-		assert(JsonObject("a" to true, "b" to false).jsonSerialize() == "{$key1:true,$key2:false}")
+		val serialized = JSONKraken.serialize(JsonObject("a" to true, "b" to false))
+		assertEquals("{$key1:true,$key2:false}", serialized)
 	}
 
 	@Test
 	fun `json string compliance`() {
-		JsonStringCompliance.verify { value: Any -> value.toJsonValue().jsonSerialize() }
+		JsonStringCompliance.verify { value: Any -> JSONKraken.serialize(value) }
 	}
 
 	@Test
 	fun map() {
 		val key1 = "\"a\""
 		val key2 = "\"b\""
-		assert(mapOf("a" to true, "b" to false).toJsonValue().jsonSerialize() == "{$key1:true,$key2:false}")
+		val serialized = JSONKraken.serialize(mapOf("a" to true, "b" to false))
+		assertEquals("{$key1:true,$key2:false}", serialized)
 	}
 
 	@Test
 	fun iterable() {
-		assert(listOf(true, false).toJsonValue().jsonSerialize() == "[true,false]")
+		val serialized = JSONKraken.serialize(listOf(true, false))
+		assertEquals("[true,false]", serialized)
 	}
 
 	@Test
 	fun array() {
-		assert(arrayOf(true, false).toJsonValue().jsonSerialize() == "[true,false]")
+		val serialized = JSONKraken.serialize(arrayOf(true, false))
+		assertEquals("[true,false]", serialized)
 	}
 
 	//TODO Tests Mezclados

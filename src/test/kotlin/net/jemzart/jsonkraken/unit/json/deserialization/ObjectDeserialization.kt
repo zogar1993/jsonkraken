@@ -1,69 +1,70 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
+import net.jemzart.jsonkraken.JSONKraken
 import net.jemzart.jsonkraken.exceptions.TokenExpectationException
-import net.jemzart.jsonkraken.jsonDeserialize
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
 import net.jemzart.jsonkraken.values.JsonNumber
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonString
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ObjectDeserialization {
 	@Test
 	fun empty() {
-		val json = "{}".jsonDeserialize() as JsonObject
-		assert(json.size == 0)
+		val json = JSONKraken.deserialize<JsonObject>("{}")
+		assertEquals(0, json.size)
 	}
 
 	@Test
 	fun `one element`() {
-		val json = "{\"a\":\"b\"}".jsonDeserialize() as JsonObject
-		assert(json["a"] == JsonString("b"))
+		val json = JSONKraken.deserialize<JsonObject>("{\"a\":\"b\"}")
+		assertEquals("b", json["a"].cast())
 	}
 
 	@Test
 	fun `two elements`() {
-		val json = "{\"a\":\"b\", \"c\":\"d\"}".jsonDeserialize() as JsonObject
-		assert(json["a"] == JsonString("b"))
-		assert(json["c"] == JsonString("d"))
+		val json = JSONKraken.deserialize<JsonObject>("{\"a\":\"b\",\"c\":\"d\"}")
+		assertEquals("b", json["a"].cast())
+		assertEquals("d", json["c"].cast())
 	}
 
 	@Test
 	fun `duplicate key and value leaves just one of them`() {
-		val json = "{\"a\":\"b\",\"a\":\"b\"}".jsonDeserialize() as JsonObject
-		assert(json["a"] == JsonString("b"))
-		assert(json.size == 1)
+		val json = JSONKraken.deserialize<JsonObject>("{\"a\":\"b\",\"a\":\"b\"}")
+		assertEquals("b", json["a"].cast())
+		assertEquals(1, json.size)
 	}
 
 	@Test
 	fun `duplicate key leaves last`() {
-		val json = "{\"a\":\"b\",\"a\":\"c\"}".jsonDeserialize() as JsonObject
-		assert(json["a"] == JsonString("c"))
-		assert(json.size == 1)
+		val json = JSONKraken.deserialize<JsonObject>("{\"a\":\"b\",\"a\":\"c\"}")
+		assertEquals("c", json["a"].cast())
+		assertEquals(1, json.size)
 	}
 
 	@Test
 	fun `empty key`() {
-		val json = "{\"\":0}".jsonDeserialize() as JsonObject
-		assert(json[""] == JsonNumber(0.0))
+		val json = JSONKraken.deserialize<JsonObject>("{\"\":0}")
+		assertEquals(0, json[""].cast<Int>())
 	}
 
 	@Test
 	fun `escaped null in key`() {
-		val json = "{\"foo\\u0000bar\": 42}".jsonDeserialize() as JsonObject
-		assert(json["foo\\u0000bar"] == JsonNumber(42.0))
+		val json = JSONKraken.deserialize<JsonObject>("{\"foo\\u0000bar\":42}")
+		assertEquals(42, json["foo\\u0000bar"].cast<Int>())
 	}
 
 	@Test
 	fun `allowed white spaces`() {
-		val json = "$WS{$WS${str("0")}$WS:$WS${str("A")}$WS,$WS${str("1")}$WS:$WS${str("B")}$WS}$WS".jsonDeserialize()
-		assert(json["0"] == JsonString("A"))
-		assert(json["1"] == JsonString("B"))
+		val json = JSONKraken.deserialize<JsonObject>("$WS{$WS${str("0")}$WS:$WS${str("A")}$WS,$WS${str("1")}$WS:$WS${str("B")}$WS}$WS")
+		assertEquals("A", json["0"].cast<String>())
+		assertEquals("B", json["1"].cast<String>())
 	}
 
 	@Test(expected = TokenExpectationException::class)
 	fun `premature end`() {
-		"{".jsonDeserialize()
+		JSONKraken.deserialize<JsonObject>("{")
 	}
 }

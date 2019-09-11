@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
-
-import net.jemzart.jsonkraken.jsonDeserialize
+import net.jemzart.jsonkraken.JSONKraken
+import net.jemzart.jsonkraken.values.JsonValue
 import org.junit.Test
 import java.io.File
 
@@ -16,7 +16,7 @@ class Parsing {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.jsonDeserialize()
+					JSONKraken.deserialize<JsonValue>(text)
 					passed++
 				} catch (ex: Throwable) {
 					println("${it.name} $text")
@@ -36,7 +36,7 @@ class Parsing {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.jsonDeserialize()
+					JSONKraken.deserialize<JsonValue>(text)
 					println("${it.name} $text")
 					passed++
 				} catch (ex: Throwable) {
@@ -56,7 +56,7 @@ class Parsing {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.jsonDeserialize()
+					JSONKraken.deserialize<JsonValue>(text)
 					passed++
 				} catch (ex: Throwable) {
 					println("${it.name} $text")
@@ -75,7 +75,7 @@ class Parsing {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.jsonDeserialize()
+					JSONKraken.deserialize<JsonValue>(text)
 					passed++
 				} catch (ex: Throwable) {
 					println("${it.name} $text")

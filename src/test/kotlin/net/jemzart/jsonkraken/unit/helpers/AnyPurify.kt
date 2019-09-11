@@ -4,6 +4,8 @@ import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AnyPurify {
@@ -29,21 +31,22 @@ class AnyPurify {
 
 	@Test
 	fun `true`() {
-		assert(true.purify() == JsonTrue)
+		assertEquals(JsonTrue, true.purify())
 	}
 
 	@Test
 	fun `false`() {
-		assert(false.purify() == JsonFalse)
+		assertEquals(JsonFalse, false.purify())
 	}
 
 	@Test
 	fun `map is converted to JsonObject`() {
 		val map = mapOf("A" to null)
 
-		val obj = map.purify().cast<JsonObject>()
+		val obj = map.purify()
 
-		assert(obj["A"] == JsonNull)
+		assertTrue(obj is JsonObject)
+		assertEquals(JsonNull, obj["A"])
 	}
 
 	@Test(expected = NullPointerException::class)
@@ -58,8 +61,8 @@ class AnyPurify {
 
 		val arr = list.purify()
 
-		arr as JsonArray
-		assert(arr[0] == JsonNull)
+		assertTrue(arr is JsonArray)
+		assertEquals(JsonNull, arr[0])
 	}
 
 	@Test
@@ -68,8 +71,8 @@ class AnyPurify {
 
 		val arr = array.purify()
 
-		arr as JsonArray
-		assert(arr[0] == JsonNull)
+		assertTrue(arr is JsonArray)
+		assertEquals(JsonNull, arr[0])
 	}
 
 	@Test

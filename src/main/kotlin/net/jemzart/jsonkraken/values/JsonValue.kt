@@ -31,15 +31,16 @@ abstract class JsonValue {
 	 * @return self if possible, otherwise tries to create an equivalent in T.
 	 */
 	inline fun <reified T> cast(): T {
-		if (this is T) return this
-		when {
-			this is JsonTrue -> return true as T
-			this is JsonFalse -> return false as T
-			this is JsonNull -> if (null is T) return null as T
-			this is JsonString -> when (T::class) {
-				CharSequence::class, String::class -> return this.value as T
+		when (this) {
+			is JsonTrue -> return true as T
+			is JsonFalse -> return false as T
+			is JsonNull -> if (null is T) return null as T
+			is JsonString -> when (T::class) {
+				CharSequence::class,
+				String::class,
+				Any::class -> return this.value as T
 			}
-			this is JsonNumber -> when (T::class) {
+			is JsonNumber -> when (T::class) {
 				Byte::class -> return this.value.toByte() as T
 				Short::class -> return this.value.toShort() as T
 				Int::class -> return this.value.toInt() as T
@@ -48,6 +49,7 @@ abstract class JsonValue {
 				Double::class -> return this.value as T
 				Number::class -> return this.value as T
 				Char::class -> return this.value.toChar() as T
+				Any::class -> return this.value as T
 			}
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
