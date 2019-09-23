@@ -2,7 +2,6 @@ package net.jemzart.jsonkraken.unit.json.value.string
 
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.JsonString
-import net.jemzart.jsonkraken.values.JsonValue
 
 import org.junit.Test
 
@@ -85,26 +84,10 @@ class JsonStringCast {
 	}
 
 	@Test
-	fun `casting to JsonString returns same JsonString`() {
-		val original = JsonString("")
-		val casted = original.cast<JsonString>()
+	fun `casting to Any returns a string`() {
+		val json = JsonString("")
+		val result = json.cast<Any>()
 
-		assert(original == casted)
-	}
-
-	@Test
-	fun `casting to JsonValue returns same JsonString`() {
-		val original = JsonString("")
-		val casted = original.cast<JsonValue>()
-
-		assert(original == casted)
-	}
-
-	@Test
-	fun `casting to Any returns same JsonString`() {
-		val original = JsonString("")
-		val casted = original.cast<Any>()
-
-		assert(original == casted)
+		assert("" == result)
 	}
 }

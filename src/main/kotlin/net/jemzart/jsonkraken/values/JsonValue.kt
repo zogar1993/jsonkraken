@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
+import java.math.BigDecimal
 
 abstract class JsonValue {
 	/**
@@ -46,9 +47,9 @@ abstract class JsonValue {
 				Int::class -> return this.value.toInt() as T
 				Long::class -> return this.value.toLong() as T
 				Float::class -> return this.value.toFloat() as T
-				Double::class -> return this.value as T
+				Double::class -> return this.value.toDouble() as T
+				BigDecimal::class -> return this.value as T
 				Number::class -> return this.value as T
-				Char::class -> return this.value.toChar() as T
 				Any::class -> return this.value as T
 			}
 		}

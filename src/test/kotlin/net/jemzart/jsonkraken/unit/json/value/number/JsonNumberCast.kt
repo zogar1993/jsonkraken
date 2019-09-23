@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.values.JsonNumber
 import net.jemzart.jsonkraken.values.JsonValue
 
 import org.junit.Test
+import java.math.BigDecimal
 
 class JsonNumberCast {
 
@@ -50,13 +51,6 @@ class JsonNumberCast {
 	}
 
 	@Test
-	fun `Char cast`() {
-		val char = 'K'
-		val value = JsonNumber(char.toByte())
-		assert(value.cast<Char>() == char)
-	}
-
-	@Test
 	fun `zero stays zero`() {
 		val value = JsonNumber(0.0)
 		assert(value.cast<Double>() == 0.0)
@@ -81,26 +75,18 @@ class JsonNumberCast {
 	}
 
 	@Test
-	fun `casting to JsonNumber returns same JsonNumber`() {
-		val original = JsonNumber(1)
-		val casted = original.cast<JsonNumber>()
+	fun `casting to BigDecimal returns a BigDecimal`() {
+		val json = JsonNumber(1)
+		val result = json.cast<BigDecimal>()
 
-		assert(original == casted)
+		assert(BigDecimal(1) == result)
 	}
 
 	@Test
-	fun `casting to JsonValue returns same JsonNumber`() {
-		val original = JsonNumber(1)
-		val casted = original.cast<JsonValue>()
+	fun `casting to Any returns a BigDecimal`() {
+		val json = JsonNumber(1)
+		val result = json.cast<Any>()
 
-		assert(original == casted)
-	}
-
-	@Test
-	fun `casting to Any returns same JsonNumber`() {
-		val original = JsonNumber(1)
-		val casted = original.cast<Any>()
-
-		assert(original == casted)
+		assert(BigDecimal(1) == result)
 	}
 }

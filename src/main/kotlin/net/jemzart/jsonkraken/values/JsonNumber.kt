@@ -1,10 +1,9 @@
 package net.jemzart.jsonkraken.values
 
-class JsonNumber(number: Number) : JsonValue() {
-	val value = number.toDouble().normalize()
+import java.math.BigDecimal
 
-	//turns -0.0 into 0.0 to prevent boxing issues
-	private fun Double.normalize() = if (this == -0.0) 0.0 else this
+class JsonNumber(number: Number) : JsonValue() {
+	val value = if (number == -0.0) BigDecimal(0.0) else if (number.toInt().toDouble() == number) BigDecimal(number.toInt()) else BigDecimal(number.toString())//TODO simplify
 
 	override fun equals(other: Any?): Boolean {
 		if (other !is JsonNumber) return false

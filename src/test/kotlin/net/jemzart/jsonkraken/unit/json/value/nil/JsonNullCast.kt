@@ -14,35 +14,18 @@ class JsonNullCast {
 		assert(value.cast<Unit?>() == null)
 	}
 
-	@Test
-	fun `casting to JsonNull returns same JsonNull`() {
-		val original = JsonNull
-		val casted = original.cast<JsonNull>()
-
-		assert(original == casted)
+	@Test(expected = InvalidCastException::class)
+	fun `casting to Any returns null`() {
+		val json = JsonNull
+		json.cast<Any>()
 	}
 
 	@Test
-	fun `casting to JsonValue returns same JsonNull`() {
-		val original = JsonNull
-		val casted = original.cast<JsonValue>()
+	fun `casting to Any? returns null`() {
+		val json = JsonNull
+		val result = json.cast<Any?>()
 
-		assert(original == casted)
-	}
-
-	@Test
-	fun `casting to Any returns same JsonTrue`() {
-		val original = JsonNull
-		val casted = original.cast<Any>()
-
-		assert(original == casted)
-	}
-
-	@Test
-	fun `cast to nullable JsonNull returns JsonNull`() {
-		val casted = JsonNull.cast<JsonNull?>()
-
-		assertEquals(JsonNull, casted)
+		assert(null == result)
 	}
 
 	@Test
