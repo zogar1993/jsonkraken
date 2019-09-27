@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.helpers.copy
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.toJsonValue
 
 /**
  * @constructor empty json array.
@@ -56,8 +56,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 		list.add(index.reversible(), value.purify(this))
 	}
 
-	override fun clone(): JsonArray =
-		list.map { if (it is JsonContainer) it.clone() else it }.toJsonValue() as JsonArray
+	override fun clone() = JsonArray(*list.map { copy(it) }.toTypedArray())
 
 	internal fun uncheckedAdd(value: JsonValue) = list.add(value)
 

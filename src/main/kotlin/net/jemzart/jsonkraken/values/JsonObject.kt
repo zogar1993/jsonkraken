@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.helpers.copy
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.toJsonValue
 import net.jemzart.jsonkraken.wrappers.JsonValueMap
 
 /**
@@ -44,10 +44,7 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	 */
 	val values get() = map.values
 
-	override fun clone(): JsonObject = map.map {
-		val value = it.second
-		it.first to (if (value is JsonContainer) value.clone() else value)
-	}.toMap().toJsonValue() as JsonObject
+	override fun clone() = JsonObject(*map.map { it.first to copy(it.second) }.toTypedArray())
 
 	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name.value, value.purify())
 
