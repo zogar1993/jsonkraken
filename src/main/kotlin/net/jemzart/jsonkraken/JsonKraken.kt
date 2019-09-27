@@ -5,21 +5,14 @@ import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.parsers.Deserializer
 import net.jemzart.jsonkraken.parsers.Serializer
 import net.jemzart.jsonkraken.values.JsonValue
-import kotlin.reflect.KClass
-import kotlin.reflect.full.isSuperclassOf
 
 object JsonKraken {
 	/**
 	 * @return a JsonValue representation of [data].
 	 */
-	inline fun <reified T: JsonValue>deserialize(data: String): T = deserialize(data, T::class)
-
-	/**
-	 * @return a JsonValue representation of [data].
-	 */
-	fun <T: JsonValue>deserialize(data: String, kclass: KClass<T>): T {
+	inline fun <reified T: JsonValue>deserialize(data: String): T {
 		val raw = Deserializer(data).create()
-		return cast(raw, kclass)
+		return cast(raw)
 	}
 
 	fun serialize(value: Any?, formatted: Boolean = false): String {
@@ -30,18 +23,13 @@ object JsonKraken {
 	 * @return a JsonValue representation of [value].
 	 * @receiver the object to be converted.
 	 */
-	inline fun <reified T: JsonValue> transform(value: Any?): T = transform(value, T::class)
-
-	/**
-	 * @return a JsonValue representation of [value].
-	 * @receiver the object to be converted.
-	 */
-	fun <T: JsonValue> transform(value: Any?, kclass: KClass<T>): T {
+	inline fun <reified T: JsonValue> transform(value: Any?): T {
 		val result = value.purify()
-		return cast(result, kclass)
+		return cast(result)
 	}
 
-	@Suppress("UNCHECKED_CAST")
-	private fun <T: JsonValue> cast(result: JsonValue, kclass: KClass<T>) =
-		if (kclass.isSuperclassOf(result::class)) result as T else throw InvalidCastException(result::class, kclass)
+	@PublishedApi
+	internal inline fun <reified T: JsonValue> cast(result: JsonValue) =
+		if (result is T) result else throw InvalidCastException(result::class, T::class)
+	//TODO Dunno if use the same for unboxing and cast
 }

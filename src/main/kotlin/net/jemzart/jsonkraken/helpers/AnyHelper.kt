@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.*
 
+@PublishedApi
 internal fun Any?.purify(): JsonValue {
 	return when (this) {
 		is Number -> JsonNumber(this)

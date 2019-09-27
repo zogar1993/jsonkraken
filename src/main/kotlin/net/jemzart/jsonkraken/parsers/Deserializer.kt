@@ -9,6 +9,7 @@ import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.*
 import net.jemzart.jsonkraken.wrappers.BoundedString
 
+@PublishedApi
 internal class Deserializer(raw: String) {
 	private val raw = BoundedString(raw)
 	private val last = raw.length
@@ -43,6 +44,14 @@ internal class Deserializer(raw: String) {
 		const val PARSING_OBJECT = "parsing object"
 		const val PARSING_ARRAY = "parsing array"
 		const val VERIFYING_END_OF_PARSE = "verifying end of parse"
+	}
+
+	@PublishedApi
+	internal fun create(): JsonValue {
+		skipSpaces()
+		val result = deserializeValue()
+		validateEOF() //no text left
+		return result
 	}
 
 	private fun deserializeValue(): JsonValue {
@@ -230,13 +239,6 @@ internal class Deserializer(raw: String) {
 			}
 		advanceAndTrim() //skip ']'
 		return arr
-	}
-
-	internal fun create(): JsonValue {
-		skipSpaces()
-		val result = deserializeValue()
-		validateEOF() //no text left
-		return result
 	}
 
 	private fun skipSpaces() {
