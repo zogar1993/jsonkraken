@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.parsers
+package net.jemzart.jsonkraken.serializer
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.*

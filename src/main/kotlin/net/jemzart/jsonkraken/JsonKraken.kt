@@ -2,8 +2,8 @@ package net.jemzart.jsonkraken
 
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.helpers.purify
-import net.jemzart.jsonkraken.parsers.Deserializer
-import net.jemzart.jsonkraken.parsers.Serializer
+import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.serializer.Serializer
 import net.jemzart.jsonkraken.values.JsonValue
 
 object JsonKraken {
