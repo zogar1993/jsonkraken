@@ -8,12 +8,12 @@ const val PREVIEW_OFFSET_FORWARD = 20
 const val VERIFYING_END_OF_PARSE = "verifying end of parse"
 
 internal fun Deserializer.throwError(context: String, detail: String) {
-		val message =
-			"\nError $errorLocalization while $context." +
-				"\n$detail" +
-				"\n$errorPreview"
-		throw TokenExpectationException(message)
-	}
+	val message =
+		"\nError $errorLocalization while $context." +
+			"\n$detail" +
+			"\n$errorPreview"
+	throw TokenExpectationException(message)
+}
 
 private val Deserializer.errorLocalization: String get() = "at character $index"
 

@@ -1,14 +1,10 @@
 package net.jemzart.jsonkraken.deserializer
 
+import net.jemzart.jsonkraken.deserializer.deserializers.*
+import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
-import net.jemzart.jsonkraken.deserializer.deserializers.*
-import net.jemzart.jsonkraken.deserializer.deserializers.deserializeFalse
-import net.jemzart.jsonkraken.deserializer.deserializers.deserializeNull
-import net.jemzart.jsonkraken.deserializer.deserializers.deserializeNumber
-import net.jemzart.jsonkraken.deserializer.deserializers.deserializeString
-import net.jemzart.jsonkraken.deserializer.validators.validateEOF
-import net.jemzart.jsonkraken.values.*
+import net.jemzart.jsonkraken.values.JsonValue
 
 @PublishedApi
 internal class Deserializer(val raw: String) {

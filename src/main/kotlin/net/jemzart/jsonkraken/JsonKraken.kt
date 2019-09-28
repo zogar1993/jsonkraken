@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken
 
+import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.helpers.purify
-import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.serializer.Serializer
 import net.jemzart.jsonkraken.values.JsonValue
 
@@ -13,7 +13,7 @@ object JsonKraken {
 	 * @return a [T] representation of [data].
 	 * @since 2.0
 	 */
-	inline fun <reified T: JsonValue>deserialize(data: String): T {
+	inline fun <reified T : JsonValue> deserialize(data: String): T {
 		val raw = Deserializer(data).create()
 		return cast(raw)
 	}
@@ -36,13 +36,13 @@ object JsonKraken {
 	 * @throws [InvalidCastException] See 'Valid Types' for more information.//TODO mejorar con link
 	 * @since 2.0
 	 */
-	inline fun <reified T: JsonValue> transform(value: Any?): T {
+	inline fun <reified T : JsonValue> transform(value: Any?): T {
 		val result = value.purify()
 		return cast(result)
 	}
 
 	@PublishedApi
-	internal inline fun <reified T: JsonValue> cast(result: JsonValue) =
+	internal inline fun <reified T : JsonValue> cast(result: JsonValue) =
 		if (result is T) result else throw InvalidCastException(result::class, T::class)
 	//TODO Dunno if use the same for unboxing and cast
 }
