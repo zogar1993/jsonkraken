@@ -3,7 +3,9 @@ package net.jemzart.jsonkraken.values
 import net.jemzart.jsonkraken.helpers.copy
 import net.jemzart.jsonkraken.helpers.purify
 import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.wrappers.JsonValueMap
+import net.jemzart.jsonkraken.helpers.validateJsonStringCompliance
+
+//TODO Update Docs
 
 /**
  * @constructor empty json object.
@@ -14,19 +16,23 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	 * Pair second values must be of valid types (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
-		properties.forEach { map[it.first] = it.second.purify() }
+		properties.forEach {
+			it.first.validateJsonStringCompliance()
+			map[it.first] = it.second.purify()
+		}
 	}
 
 	override val size: Int get() = map.size
-	private val map: JsonValueMap = JsonValueMap()
+	internal val map: MutableMap<String, JsonValue> = mutableMapOf()
 
 	/**
 	 * @return an iterator over all its properties.
 	 */
-	override fun iterator(): Iterator<Pair<String, JsonValue>> = map.iterator()
+	override fun iterator(): Iterator<Pair<String, JsonValue>> = map.map { it.key to it.value }.iterator()
 
-	override fun get(name: String): JsonValue = map[name]
+	override fun get(name: String): JsonValue = map.getValue(name)
 	override fun set(name: String, value: Any?) {
+		name.validateJsonStringCompliance()
 		map[name] = value.purify(this)
 	}
 
@@ -44,9 +50,7 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	 */
 	val values get() = map.values
 
-	override fun clone() = JsonObject(*map.map { it.first to copy(it.second) }.toTypedArray())
-
-	internal fun uncheckedSet(name: JsonString, value: Any?) = map.set(name.value, value.purify())
+	override fun clone() = JsonObject(*map { it.first to copy(it.second) }.toTypedArray())
 
 	override fun references(value: JsonContainer): Boolean = map.values.references(value)
 }

@@ -33,6 +33,7 @@ internal fun Any?.purify(): JsonValue {
 	}
 }
 
+//TODO remove circular reference validator from purify. Send elsewhere.
 internal fun Any?.purify(container: JsonContainer): JsonValue {
 	if (this is JsonContainer) {
 		if (this == container) throw CircularReferenceException(container, this)

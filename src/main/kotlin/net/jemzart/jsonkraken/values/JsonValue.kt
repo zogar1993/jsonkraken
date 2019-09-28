@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
+import net.jemzart.jsonkraken.helpers.isNullable
 import java.math.BigDecimal
 
 abstract class JsonValue {
@@ -35,7 +36,7 @@ abstract class JsonValue {
 		when (this) {
 			is JsonTrue -> return true as T
 			is JsonFalse -> return false as T
-			is JsonNull -> if (null is T) return null as T
+			is JsonNull -> if (isNullable<T>()) return null as T
 			is JsonString -> when (T::class) {
 				CharSequence::class,
 				String::class,

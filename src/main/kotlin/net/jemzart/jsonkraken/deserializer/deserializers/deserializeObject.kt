@@ -34,10 +34,10 @@ private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 	skipWhiteSpaces()
 	val value = deserializeValue()
 
-	obj.uncheckedSet(name, value)
+	obj.map[name] = value
 }
 
-private fun Deserializer.deserializeObjectKey(): JsonString {
+private fun Deserializer.deserializeObjectKey(): String {
 	validateEquality(peek(), '\"', PARSING_OBJECT)
-	return deserializeString()
+	return deserializeRawString()
 }

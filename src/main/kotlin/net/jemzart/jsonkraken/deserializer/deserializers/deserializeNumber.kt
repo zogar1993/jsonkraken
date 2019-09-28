@@ -13,7 +13,7 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 		in '1'..'9' -> oneToNine()
 		else -> validateIsDecimal(peek(), PARSING_NUMBER)
 	}
-	val value = raw.substring(start, index).toDouble()//TODO Romeo debe morir
+	val value = raw.substring(start, index).toDouble()//TODO Romeo debe morir. Solcuionar problema con big decimal
 	return JsonNumber(value)
 }
 

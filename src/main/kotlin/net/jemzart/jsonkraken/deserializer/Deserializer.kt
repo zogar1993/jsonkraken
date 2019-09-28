@@ -9,6 +9,7 @@ import net.jemzart.jsonkraken.values.JsonValue
 //TODO Blank end of string should show you where it ended
 //TODO Numeric Deserialization should not be default case scenario
 //TODO Default case scenario should fail with its own exception
+//TODO Restore advance and advancePeeking to prevent redundant operations
 @PublishedApi
 internal class Deserializer(val raw: String) {
 	val last = raw.length

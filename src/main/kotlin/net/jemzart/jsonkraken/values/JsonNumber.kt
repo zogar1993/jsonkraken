@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.values
 
 import java.math.BigDecimal
-
+//TODO validate NaN and infinity
 class JsonNumber(number: Number) : JsonValue() {
 	val value = bigDecimalFor(number)
 	override fun equals(other: Any?): Boolean {
