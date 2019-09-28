@@ -57,9 +57,4 @@ internal class Deserializer(val raw: String) {
 		}
 		index = last
 	}
-
-	fun advanceAndTrim() {
-		advance()
-		skipWhiteSpaces()
-	}
 }

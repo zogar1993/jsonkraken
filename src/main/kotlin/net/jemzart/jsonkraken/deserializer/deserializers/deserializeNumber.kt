@@ -6,15 +6,14 @@ import net.jemzart.jsonkraken.values.JsonNumber
 
 const val PARSING_NUMBER = "parsing number"
 internal fun Deserializer.deserializeNumber(): JsonNumber {
-	val valueStart = index
+	val start = index
 	when (peek()) {
 		'-' -> minus()
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
 		else -> validateIsDecimal(peek(), PARSING_NUMBER)
 	}
-	val value = raw.substring(valueStart, index).toDouble()
-	skipWhiteSpaces()
+	val value = raw.substring(start, index).toDouble()//TODO Romeo debe morir
 	return JsonNumber(value)
 }
 
