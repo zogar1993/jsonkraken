@@ -1,11 +1,10 @@
 package net.jemzart.jsonkraken.deserializer.validators
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
 
 const val PREVIEW_OFFSET_BACK = 20
 const val PREVIEW_OFFSET_FORWARD = 20
-const val VERIFYING_END_OF_PARSE = "verifying end of parse"
 
 internal fun Deserializer.throwError(context: String, detail: String) {
 	val message =

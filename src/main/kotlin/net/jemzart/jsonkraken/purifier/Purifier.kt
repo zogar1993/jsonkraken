@@ -1,6 +1,5 @@
-package net.jemzart.jsonkraken.helpers
+package net.jemzart.jsonkraken.purifier
 
-import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.*
 
@@ -31,14 +30,4 @@ internal fun Any?.purify(): JsonValue {
 		}
 		else -> throw InvalidJsonTypeException(this)
 	}
-}
-
-//TODO remove circular reference validator from purify. Send elsewhere.
-internal fun Any?.purify(container: JsonContainer): JsonValue {
-	if (this is JsonContainer) {
-		if (this == container) throw CircularReferenceException(container, this)
-		if (this.references(container)) throw CircularReferenceException(container, this)
-		return this
-	}
-	return this.purify()
 }

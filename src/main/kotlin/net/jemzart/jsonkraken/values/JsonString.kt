@@ -1,10 +1,10 @@
 package net.jemzart.jsonkraken.values
 
-import net.jemzart.jsonkraken.helpers.validateJsonStringCompliance
+import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
 
 class JsonString(val value: String) : JsonValue() {
 	init {
-		value.validateJsonStringCompliance()
+		throwIfIsNotAJsonCompliantString(value)
 	}
 
 	override fun equals(other: Any?): Boolean {

@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.helpers
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
-import net.jemzart.jsonkraken.helpers.purify
+import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.*
 import org.junit.Assert.assertEquals
@@ -73,27 +73,6 @@ class AnyPurify {
 
 		assertTrue(arr is JsonArray)
 		assertEquals(JsonNull, arr[0])
-	}
-
-	@Test
-	fun `self circularity`() {
-		val arr = JsonArray()
-		runCatching { arr.purify(arr) }.onSuccess { assert(false) }.onFailure {
-			it as CircularReferenceException
-			assert(it.host == arr)
-			assert(it.intruder == arr)
-		}
-	}
-
-	@Test
-	fun `A to B to A circularity`() {
-		val obj = JsonObject()
-		val arr = JsonArray(obj)
-		runCatching { arr.purify(obj) }.onSuccess { assert(false) }.onFailure {
-			it as CircularReferenceException
-			assert(it.host == obj)
-			assert(it.intruder == arr)
-		}
 	}
 
 	@Test

@@ -27,5 +27,5 @@ internal fun Deserializer.deserializeArray(): JsonArray {
 
 private fun Deserializer.deserializeArrayItem(arr: JsonArray) {
 	val item = deserializeValue()
-	arr.uncheckedAdd(item)
+	arr.list.add(item)
 }

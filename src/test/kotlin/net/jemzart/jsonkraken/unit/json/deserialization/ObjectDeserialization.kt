@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
 import net.jemzart.jsonkraken.values.JsonObject

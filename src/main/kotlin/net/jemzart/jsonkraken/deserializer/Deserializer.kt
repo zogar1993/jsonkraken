@@ -1,12 +1,12 @@
 package net.jemzart.jsonkraken.deserializer
 
 import net.jemzart.jsonkraken.deserializer.deserializers.*
+import net.jemzart.jsonkraken.deserializer.errors.DeserializingBlankStringException
 import net.jemzart.jsonkraken.deserializer.validators.validateEOF
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.JsonValue
 //TODO Premature end of string should show you where it ended
-//TODO Blank end of string should show you where it ended
 //TODO Numeric Deserialization should not be default case scenario
 //TODO Default case scenario should fail with its own exception
 //TODO Restore advance and advancePeeking to prevent redundant operations
@@ -18,6 +18,7 @@ internal class Deserializer(val raw: String) {
 	@PublishedApi
 	internal fun create(): JsonValue {
 		skipWhiteSpaces()
+		if (isAtEnd()) throw DeserializingBlankStringException("")//TODO make this better
 		val result = deserializeValue()
 		skipWhiteSpaces()
 		validateEOF() //no text should be left

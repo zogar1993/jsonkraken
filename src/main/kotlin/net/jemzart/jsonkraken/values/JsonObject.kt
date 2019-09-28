@@ -1,9 +1,8 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.copy
-import net.jemzart.jsonkraken.helpers.purify
-import net.jemzart.jsonkraken.helpers.references
-import net.jemzart.jsonkraken.helpers.validateJsonStringCompliance
+import net.jemzart.jsonkraken.purifier.purify
+import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
 
 //TODO Update Docs
 
@@ -16,9 +15,9 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	 * Pair second values must be of valid types (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
-		properties.forEach {
-			it.first.validateJsonStringCompliance()
-			map[it.first] = it.second.purify()
+		properties.forEach { (name, value) ->
+			throwIfIsNotAJsonCompliantString(name)
+			map[name] = value.purify()
 		}
 	}
 
@@ -32,8 +31,10 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 
 	override fun get(name: String): JsonValue = map.getValue(name)
 	override fun set(name: String, value: Any?) {
-		name.validateJsonStringCompliance()
-		map[name] = value.purify(this)
+		throwIfIsNotAJsonCompliantString(name)
+		val purified = value.purify()
+		throwIfHasAReferenceOnMe(purified)
+		map[name] = purified
 	}
 
 	fun remove(name: String) {
@@ -52,5 +53,5 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 
 	override fun clone() = JsonObject(*map { it.first to copy(it.second) }.toTypedArray())
 
-	override fun references(value: JsonContainer): Boolean = map.values.references(value)
+	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(map.values)
 }
