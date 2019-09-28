@@ -9,24 +9,22 @@ const val VERIFYING_END_OF_PARSE = "verifying end of parse"
 
 internal fun Deserializer.throwError(context: String, detail: String) {
 	val message =
-		"\nError $errorLocalization while $context." +
+		"\nError at character $index while $context." +
 			"\n$detail" +
-			"\n$errorPreview"
+			"\n${getErrorDescription()}"
 	throw TokenExpectationException(message)
 }
 
-private val Deserializer.errorLocalization: String get() = "at character $index"
+private fun Deserializer.getErrorDescription(): String {
+	var left = raw.substring(if (leftHorizon) offsetBack else 0, index)
+	var right = raw.substring(index, if (rightHorizon) offsetForward else last)
+	left = (if (leftHorizon) ".. " else "") + left
+	right += if (rightHorizon) " .." else ""
+	val arrow = "^".padStart(left.length)
+	return (left + right + "\n" + arrow)
+}
 
-private val Deserializer.errorPreview: String
-	get() {
-		val offsetBack = index - PREVIEW_OFFSET_BACK
-		val offsetForward = index + PREVIEW_OFFSET_FORWARD
-		val leftHorizon = offsetBack >= 0
-		val rightHorizon = offsetForward <= last
-		var left = raw.substring(if (leftHorizon) offsetBack else 0, index)
-		var right = raw.substring(index, if (rightHorizon) offsetForward else last)
-		left = (if (leftHorizon) ".. " else "") + left
-		right += if (rightHorizon) " .." else ""
-		val arrow = "^".padStart(left.length + 1)
-		return (left + right + "\n" + arrow)
-	}
+private val Deserializer.offsetBack get() = index - PREVIEW_OFFSET_BACK
+private val Deserializer.offsetForward get() = index + PREVIEW_OFFSET_FORWARD
+private val Deserializer.leftHorizon get() = offsetBack >= 0
+private val Deserializer.rightHorizon get() = offsetForward <= last

@@ -5,7 +5,10 @@ import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.exceptions.TokenExpectationException
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.JsonValue
-
+//TODO Premature end of string should show you where it ended
+//TODO Blank end of string should show you where it ended
+//TODO Numeric Deserialization should not be default case scenario
+//TODO Default case scenario should fail with its own exception
 @PublishedApi
 internal class Deserializer(val raw: String) {
 	val last = raw.length
