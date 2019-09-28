@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.deserializer.validators.validateIsDecimal
 import net.jemzart.jsonkraken.values.JsonNumber
 
 const val PARSING_NUMBER = "parsing number"
@@ -13,7 +14,7 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 		else -> validateIsDecimal(peek(), PARSING_NUMBER)
 	}
 	val value = raw.substring(valueStart, index).toDouble()
-	skipSpaces()
+	skipWhiteSpaces()
 	return JsonNumber(value)
 }
 

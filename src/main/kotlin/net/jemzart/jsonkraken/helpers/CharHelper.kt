@@ -15,8 +15,3 @@ internal fun Char.isHexadecimal(): Boolean {
 		|| codePoint in 65..70  // A-F
 		|| codePoint in 97..102 // a-f
 }
-
-internal fun Char.isDecimal(): Boolean {
-	val codePoint = this.toByte()
-	return codePoint in 48..57 // 0-9
-}
