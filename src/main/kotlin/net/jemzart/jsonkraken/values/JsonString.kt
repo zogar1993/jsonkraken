@@ -28,6 +28,7 @@ class JsonString(string: String) : JsonValue() {
 				assert(char != '"') { "Unescaped \" at index $i" }
 				assert(char !in Escapable.whiteSpaceChars) { "Unescaped white space character at index $i" }
 				assert(!char.isISOControlCharacterOtherThanDelete()) { "Unescaped iso control character at index $i" }
+			//TODO errores por assert, remover.
 			}
 			i++
 		}
