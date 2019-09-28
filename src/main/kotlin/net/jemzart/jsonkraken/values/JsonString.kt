@@ -2,9 +2,11 @@ package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
 
-class JsonString(val value: String) : JsonValue() {
-	init {
+class JsonString internal constructor() : JsonValue() {
+	var value: String = ""; internal set
+	constructor(value: String): this() {
 		throwIfIsNotAJsonCompliantString(value)
+		this.value = value
 	}
 
 	override fun equals(other: Any?): Boolean {

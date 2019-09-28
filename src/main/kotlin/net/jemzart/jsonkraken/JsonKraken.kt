@@ -46,3 +46,5 @@ object JsonKraken {
 		if (result is T) result else throw InvalidCastException(result::class, T::class)
 	//TODO Dunno if use the same for unboxing and cast
 }
+
+//TODO UPDATE README

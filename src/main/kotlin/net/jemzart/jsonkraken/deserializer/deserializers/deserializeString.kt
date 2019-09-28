@@ -10,8 +10,9 @@ import net.jemzart.jsonkraken.values.JsonString
 
 const val PARSING_STRING = "parsing string"
 internal fun Deserializer.deserializeString(): JsonString {
-	val value = deserializeRawString()
-	return JsonString(value)//TODO duplicada validación
+	val json = JsonString()
+	json.value = deserializeRawString()
+	return json
 }
 
 internal fun Deserializer.deserializeRawString(): String {
