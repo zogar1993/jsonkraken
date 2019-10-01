@@ -5,5 +5,5 @@ package net.jemzart.jsonkraken.exceptions
  *
  * @property value invalid string which triggered the exception.
  */
-class NonCompliantStringException(val value: String, message: String)
-	: JsonKrakenException("String is not valid for JSON specification.\n$message")
+class NonCompliantStringException(val value: String?, message: String)
+	: JsonKrakenException("Only compliant JSON strings may be used as keys.\n$message")

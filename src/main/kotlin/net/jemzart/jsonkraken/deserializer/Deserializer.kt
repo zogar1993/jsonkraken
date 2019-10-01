@@ -31,7 +31,7 @@ internal class Deserializer(val raw: String) {
 			'f' -> deserializeFalse()
 			'n' -> deserializeNull()
 			in '0'..'9', '-' -> deserializeNumber()
-			else -> deserializeNumber()
+			else -> throw DeserializationException("Blank text is not a valid JSON representation.")
 //TODO Default case scenario should fail with its own exception
 		}
 	}

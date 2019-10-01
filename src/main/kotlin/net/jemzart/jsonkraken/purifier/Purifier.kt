@@ -1,6 +1,8 @@
 package net.jemzart.jsonkraken.purifier
 
+import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 import net.jemzart.jsonkraken.values.*
 
 @PublishedApi
@@ -18,11 +20,12 @@ internal fun Any?.purify(): JsonValue {
 			val jsonObject = JsonObject()
 			this.forEach {
 				val key = it.key?.toString()
-				key ?: throw NullPointerException("Why are you using null as a key for a map?")//TODO better this
+				key ?: throw NonCompliantStringException(null, "'null' is not a valid JsonObject key")
 				jsonObject[key] = it.value
 			}
 			jsonObject
 		}
+		//todo see if taking control of iterative transformations is worth the troublr to better error handling
 		is Iterable<*> -> {
 			val jsonArray = JsonArray()
 			this.forEach { jsonArray.add(it) }
