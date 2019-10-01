@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.deserializer.validators
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
-import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 
 const val PREVIEW_OFFSET_BACK = 20
 const val PREVIEW_OFFSET_FORWARD = 20
@@ -11,7 +11,7 @@ internal fun Deserializer.throwError(context: String, detail: String) {
 		"\nError at character $index while $context." +
 			"\n$detail" +
 			"\n${getErrorDescription()}"
-	throw TokenExpectationException(message)
+	throw DeserializationException(message)
 }
 
 private fun Deserializer.getErrorDescription(): String {

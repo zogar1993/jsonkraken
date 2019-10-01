@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.values.JsonNumber
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -115,12 +115,12 @@ class NumberDeserialization {
 		assertEquals(-42.5, json.cast(), 0.1)
 	}
 
-	@Test(expected = TokenExpectationException::class)
+	@Test(expected = DeserializationException::class)
 	fun `zero starting`() {
 		JsonKraken.deserialize<JsonNumber>("01")
 	}
 
-	@Test(expected = TokenExpectationException::class)
+	@Test(expected = DeserializationException::class)
 	fun `zero starting negative`() {
 		JsonKraken.deserialize<JsonNumber>("-01")
 	}
@@ -182,7 +182,7 @@ class NumberDeserialization {
 		assertEquals(-1.0E28, json.cast(), 0.1)
 	}
 
-	@Test(expected = TokenExpectationException::class)
+	@Test(expected = DeserializationException::class)
 	fun `premature end`() {
 		JsonKraken.deserialize<JsonNumber>("0.")
 	}

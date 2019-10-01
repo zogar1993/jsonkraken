@@ -1,5 +1,5 @@
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.values.JsonFalse
 import org.junit.Test
 
@@ -10,12 +10,12 @@ class FalseDeserialization {
 		assert(json == JsonFalse)
 	}
 
-	@Test(expected = TokenExpectationException::class)
+	@Test(expected = DeserializationException::class)
 	fun `misspelled false`() {
 		JsonKraken.deserialize<JsonFalse>("fffff")
 	}
 
-	@Test(expected = TokenExpectationException::class)
+	@Test(expected = DeserializationException::class)
 	fun `premature end`() {
 		JsonKraken.deserialize<JsonFalse>("fals")
 	}

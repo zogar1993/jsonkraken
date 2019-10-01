@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.deserializer.errors.TokenExpectationException
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
 import net.jemzart.jsonkraken.values.*
@@ -41,7 +41,7 @@ class ArrayDeserialization {
 		assertEquals("B", json[1].cast())
 	}
 
-	@Test(expected = TokenExpectationException::class)
+	@Test(expected = DeserializationException::class)
 	fun `premature end`() {
 		JsonKraken.deserialize<JsonValue>("[.")
 	}
