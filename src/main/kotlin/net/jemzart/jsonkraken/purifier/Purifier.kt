@@ -1,36 +1,61 @@
 package net.jemzart.jsonkraken.purifier
 
-import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
+import net.jemzart.jsonkraken.exceptions.JsonKrakenException
 import net.jemzart.jsonkraken.values.*
 
 @PublishedApi
-internal fun Any?.purify(): JsonValue {
-	return when (this) {
-		is Number -> JsonNumber(this)
-		is String -> JsonString(this)
-		is Char -> this.toString().purify()
+internal fun purify(thing: Any?): JsonValue {
+	return when (thing) {
+		is Number -> JsonNumber(thing)
+		is String -> JsonString(thing)
+		is Char -> purify(thing.toString())
 		null -> JsonNull
 		true -> JsonTrue
 		false -> JsonFalse
-		is JsonValue -> this
-		is Array<*> -> this.asIterable().purify()
-		is Map<*, *> -> {
-			val jsonObject = JsonObject()
-			this.forEach {
-				val key = it.key?.toString()
-				key ?: throw NonCompliantStringException(null, "'null' is not a valid JsonObject key")
-				jsonObject[key] = it.value
-			}
-			jsonObject
-		}
-		//todo see if taking control of iterative transformations is worth the troublr to better error handling
-		is Iterable<*> -> {
-			val jsonArray = JsonArray()
-			this.forEach { jsonArray.add(it) }
-			jsonArray
-		}
-		else -> throw InvalidJsonTypeException(this)
+		is JsonValue -> thing
+		is Array<*> -> purifyArray(thing)
+		is Map<*, *> -> purifyMap(thing)
+		is Iterable<*> -> purifyIterable(thing)
+		else -> throw InvalidJsonTypeException(thing)
 	}
 }
+
+private fun purifyIterable(iterable: Iterable<*>): JsonArray {
+	val jsonArray = JsonArray()
+	iterable.forEach {
+		val item = runCatching { purify(it) }.onFailure { throw IterableTransformationException(iterable, it) }
+		jsonArray.add(item.getOrThrow())
+	}
+	return jsonArray
+}
+
+private fun purifyArray(array: Array<*>): JsonArray {
+	val jsonArray = JsonArray()
+	array.forEach {
+		val item = runCatching { purify(it) }.onFailure { throw ArrayTransformationException(array, it) }
+		jsonArray.add(item.getOrThrow())
+	}
+	return jsonArray
+}
+
+private fun purifyMap(map: Map<*, *>): JsonObject {
+	val jsonObject = JsonObject()
+	map.forEach {
+		val key = runCatching { purifyKey(it.key) }.onFailure { throw MapTransformationException(map, it) }
+		val value = runCatching { purify(it.value) }.onFailure { throw MapTransformationException(map, it) }
+		jsonObject[key.getOrThrow()] = value.getOrThrow()
+	}
+	return jsonObject
+}
+
+internal fun purifyKey(key: Any?) =	if (key !is String) throw InvalidKeyException(key) else key
+
+class InvalidKeyException(val value: Any?):
+		JsonKrakenException("value is not a valid key for a JsonObject pair")
+class MapTransformationException(val map: Map<*,*>, val inner: Throwable):
+		JsonKrakenException("an error occurred while tranforming a map into a JsonValue")
+class IterableTransformationException(val iterable: Iterable<*>, val inner: Throwable):
+		JsonKrakenException("an error occurred while transforming an iterable into a JsonArray")
+class ArrayTransformationException(val array: Array<*>, val inner: Throwable):
+		JsonKrakenException("an error occurred while transforming an array into a JsonArray")

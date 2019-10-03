@@ -15,7 +15,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	 */
 	constructor(vararg items: Any?) : this() {
 		for (item in items) {
-			val purified = item.purify()
+			val purified = purify(item)
 			list.add(purified)
 		}
 	}
@@ -31,7 +31,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	override fun get(index: Int): JsonValue = list[index.reversible()]
 
 	override fun set(index: Int, value: Any?) {
-		val purified = value.purify()
+		val purified = purify(value)
 		throwIfHasAReferenceOnMe(purified)
 		for (i in list.size..index) list.add(JsonNull)
 		list[index.reversible()] = purified
@@ -45,7 +45,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	 * adds [value] after the current end of the array.
 	 */
 	fun add(value: Any?) {
-		val purified = value.purify()
+		val purified = purify(value)
 		throwIfHasAReferenceOnMe(purified)
 		list.add(purified)
 	}
@@ -55,7 +55,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	 * all elements from that index to the end are moved one step, and none is replaced.
 	 */
 	fun insert(index: Int, value: Any?) {
-		val purified = value.purify()
+		val purified = purify(value)
 		throwIfHasAReferenceOnMe(purified)
 		list.add(index.reversible(), purified)
 	}

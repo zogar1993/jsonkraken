@@ -17,7 +17,7 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	constructor(vararg properties: Pair<String, Any?>) : this() {
 		properties.forEach { (name, value) ->
 			throwIfIsNotAJsonCompliantString(name)
-			map[name] = value.purify()
+			map[name] = purify(value)
 		}
 	}
 
@@ -32,7 +32,7 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	override fun get(name: String): JsonValue = map.getValue(name)
 	override fun set(name: String, value: Any?) {
 		throwIfIsNotAJsonCompliantString(name)
-		val purified = value.purify()
+		val purified = purify(value)
 		throwIfHasAReferenceOnMe(purified)
 		map[name] = purified
 	}
@@ -54,4 +54,12 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	override fun clone() = JsonObject(*map { it.first to copy(it.second) }.toTypedArray())
 
 	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(map.values)
+
+	companion object {
+		fun fromMap(map: Map<String, JsonValue>): JsonObject {
+			val jsonObject = JsonObject()
+			jsonObject.map.putAll(map)
+			return jsonObject
+		}
+	}
 }

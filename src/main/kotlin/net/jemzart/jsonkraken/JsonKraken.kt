@@ -26,7 +26,7 @@ object JsonKraken {
 	 * @since 2.0
 	 */
 	fun serialize(value: Any?, formatted: Boolean = false): String {
-		return Serializer(value.purify(), formatted).create()
+		return Serializer(purify(value), formatted).create()
 	}
 
 	/**
@@ -37,7 +37,7 @@ object JsonKraken {
 	 * @since 2.0
 	 */
 	inline fun <reified T : JsonValue> transform(value: Any?): T {
-		val result = value.purify()
+		val result = purify(value)
 		return cast(result)
 	}
 

@@ -1,8 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.value.number
 
 import net.jemzart.jsonkraken.values.JsonNumber
-import net.jemzart.jsonkraken.values.JsonValue
-
 import org.junit.Test
 import java.math.BigDecimal
 

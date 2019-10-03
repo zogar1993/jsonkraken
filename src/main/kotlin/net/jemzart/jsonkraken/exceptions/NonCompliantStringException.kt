@@ -7,3 +7,5 @@ package net.jemzart.jsonkraken.exceptions
  */
 class NonCompliantStringException(val value: String?, message: String)
 	: JsonKrakenException("Only compliant JSON strings may be used as keys.\n$message")
+
+		//todo string nullable is a hack for now

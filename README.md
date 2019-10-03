@@ -19,7 +19,7 @@ JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is 
 
 * Flexibility: Not being focused on mapping JSON to predefined entities but to dinamically access any field is great for some uses. Maybe an entity is too much work for your needs, or like in my case, the entity you are trying to map is a construct which does not exist until runtime.
 * Kotlin Friendly: Using get and set operators in Kotlin is as idiomatic as I can imagine it to be, untainted by verbose semantics.
-* Lightweightness: Is this a word? The thing is it is as light as i could think it to be.
+* Lightweightness: Is this a word? The thing is it is as light as I could think it to be.
 * Performance: Ok now, not to say other JSON parsers are not optimized, but i have seen only a few take into consideration that Java is a garbage ~~collected~~ language.
 Its low level implications sometimes elude proper consideration.
 * Possibility: I could, I did.
@@ -42,7 +42,7 @@ println(json["getting"]["started"]) //prints: Hello World
 **`build.gradle`**:
 ```gradle    
 dependencies {
-    compile "net.jemzart:jsonkraken:1.2.0"
+    compile "net.jemzart:jsonkraken:2.0.0"
 }
 ```
 #### Maven
@@ -52,7 +52,7 @@ dependencies {
     <dependency>
         <groupId>net.jemzart</groupId>
         <artifactId>jsonkraken</artifactId>    
-        <version>1.2.0</version>
+        <version>2.0.0</version>
     </dependency>
 </dependencies>
 ```

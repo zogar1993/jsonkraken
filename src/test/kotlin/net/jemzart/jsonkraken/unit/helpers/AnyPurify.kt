@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.unit.helpers
 
-import net.jemzart.jsonkraken.exceptions.CircularReferenceException
+import net.jemzart.jsonkraken.purifier.MapTransformationException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.*
@@ -11,55 +11,55 @@ import org.junit.Test
 class AnyPurify {
 	@Test
 	fun `negative zero to zero`() {
-		assert((-0.0).purify() == JsonNumber(0.0))
+		assert(purify(-0.0) == JsonNumber(0.0))
 	}
 
 	@Test
 	fun `Char to String`() {
-		assert('s'.purify() == JsonString("s"))
+		assert(purify('s') == JsonString("s"))
 	}
 
 	@Test
 	fun `Int to Double`() {
-		assert(13.purify() == JsonNumber(13.0))
+		assert(purify(13) == JsonNumber(13.0))
 	}
 
 	@Test
 	fun `null`() {
-		assert(null.purify() == JsonNull)
+		assert(purify(null) == JsonNull)
 	}
 
 	@Test
 	fun `true`() {
-		assertEquals(JsonTrue, true.purify())
+		assertEquals(JsonTrue, purify(true))
 	}
 
 	@Test
 	fun `false`() {
-		assertEquals(JsonFalse, false.purify())
+		assertEquals(JsonFalse, purify(false))
 	}
 
 	@Test
 	fun `map is converted to JsonObject`() {
 		val map = mapOf("A" to null)
 
-		val obj = map.purify()
+		val obj = purify(map)
 
 		assertTrue(obj is JsonObject)
 		assertEquals(JsonNull, obj["A"])
 	}
 
-	@Test(expected = NullPointerException::class)
+	@Test(expected = MapTransformationException::class)
 	fun `map with null key fails`() {
 		val map = mapOf(null to null)
-		map.purify()
+		purify(map)
 	}
 
 	@Test
 	fun `list is converted to JsonArray`() {
 		val list = listOf(null)
 
-		val arr = list.purify()
+		val arr = purify(list)
 
 		assertTrue(arr is JsonArray)
 		assertEquals(JsonNull, arr[0])
@@ -69,7 +69,7 @@ class AnyPurify {
 	fun `array is converted to JsonArray`() {
 		val array = arrayOf<Any?>(null)
 
-		val arr = array.purify()
+		val arr = purify(array)
 
 		assertTrue(arr is JsonArray)
 		assertEquals(JsonNull, arr[0])
@@ -77,6 +77,6 @@ class AnyPurify {
 
 	@Test
 	fun `json string compliance`() {
-		JsonStringCompliance.verify { value: Any -> value.purify() }
+		JsonStringCompliance.verify { value: Any -> purify(value) }
 	}
 }

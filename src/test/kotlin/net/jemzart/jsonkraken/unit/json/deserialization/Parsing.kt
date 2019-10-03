@@ -1,4 +1,5 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
+
 import net.jemzart.jsonkraken.JsonKraken
 import net.jemzart.jsonkraken.values.JsonValue
 import org.junit.Test
@@ -6,7 +7,7 @@ import java.io.File
 
 class Parsing {
 	private fun String.asResourceFile(): File =
-		File(this.javaClass::class.java.getResource(this).toURI())
+			File(this.javaClass::class.java.getResource(this).toURI())
 
 	@Test
 	fun `must parse`() {

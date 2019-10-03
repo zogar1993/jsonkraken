@@ -5,9 +5,9 @@ import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
 import net.jemzart.jsonkraken.values.*
-import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Test
 
 class ArrayDeserialization {
 	@Test

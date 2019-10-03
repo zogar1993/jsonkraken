@@ -1,9 +1,9 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
-import net.jemzart.jsonkraken.values.*
+import net.jemzart.jsonkraken.values.JsonArray
+import net.jemzart.jsonkraken.values.JsonObject
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
