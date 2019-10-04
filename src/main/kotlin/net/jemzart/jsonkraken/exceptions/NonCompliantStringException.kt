@@ -5,7 +5,5 @@ package net.jemzart.jsonkraken.exceptions
  *
  * @property value invalid string which triggered the exception.
  */
-class NonCompliantStringException(val value: String?, message: String)
+class NonCompliantStringException(val value: String, message: String)
 	: JsonKrakenException("Only compliant JSON strings may be used as keys.\n$message")
-
-		//todo string nullable is a hack for now

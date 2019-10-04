@@ -1,6 +1,6 @@
-package net.jemzart.jsonkraken.unit.helpers
+package net.jemzart.jsonkraken.unit.purifier
 
-import net.jemzart.jsonkraken.purifier.MapTransformationException
+import net.jemzart.jsonkraken.purifier.errors.MapTransformationException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.*
@@ -15,18 +15,18 @@ class AnyPurify {
 	}
 
 	@Test
-	fun `Char to String`() {
-		assert(purify('s') == JsonString("s"))
+	fun `Char to JsonString`() {
+		assertEquals(JsonString("s"), purify('s'))
 	}
 
 	@Test
-	fun `Int to Double`() {
-		assert(purify(13) == JsonNumber(13.0))
+	fun `Int to JsonNumber`() {
+		assertEquals(JsonNumber(13.0), purify(13))
 	}
 
 	@Test
 	fun `null`() {
-		assert(purify(null) == JsonNull)
+		assertEquals(JsonNull, purify(null))
 	}
 
 	@Test
