@@ -2,8 +2,12 @@ package net.jemzart.jsonkraken.values
 
 import java.math.BigDecimal
 //TODO validate NaN and infinity
-class JsonNumber(number: Number) : JsonValue() {
-	val value = bigDecimalFor(number)
+class JsonNumber internal constructor() : JsonValue() {
+	var value: BigDecimal = BigDecimal(0); internal set
+	constructor(number: Number): this(){
+		value = bigDecimalFor(number)
+	}
+
 	override fun equals(other: Any?): Boolean {
 		if (other !is JsonNumber) return false
 		return value == other.value

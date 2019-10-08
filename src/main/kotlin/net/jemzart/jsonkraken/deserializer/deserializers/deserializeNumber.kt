@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateIsDecimal
 import net.jemzart.jsonkraken.values.JsonNumber
+import java.math.BigDecimal
 
 const val PARSING_NUMBER = "parsing number"
 internal fun Deserializer.deserializeNumber(): JsonNumber {
@@ -13,8 +14,9 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 		in '1'..'9' -> oneToNine()
 		else -> validateIsDecimal(peek(), PARSING_NUMBER)
 	}
-	val value = raw.substring(start, index).toDouble()//TODO Romeo debe morir. Solcuionar problema con big decimal
-	return JsonNumber(value)
+	val json = JsonNumber()
+	json.value = BigDecimal(raw.substring(start, index))
+	return json
 }
 
 

@@ -10,11 +10,11 @@ internal fun Deserializer.throwError(context: String, detail: String) {
 	val message =
 		"\nError at character $index while $context." +
 			"\n$detail" +
-			"\n${getErrorDescription()}"
+			"\n${getErrorScreenshot()}"
 	throw DeserializationException(message)
 }
 
-private fun Deserializer.getErrorDescription(): String {
+private fun Deserializer.getErrorScreenshot(): String {
 	var left = raw.substring(if (leftHorizon) offsetBack else 0, index)
 	var right = raw.substring(index, if (rightHorizon) offsetForward else last)
 	left = (if (leftHorizon) ".. " else "") + left
