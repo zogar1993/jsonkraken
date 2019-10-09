@@ -6,8 +6,8 @@ import net.jemzart.jsonkraken.values.JsonTrue
 
 internal fun Deserializer.deserializeTrue(): JsonTrue {
 	advance() //skip t
-	validateEquality(advance(), 'r')
-	validateEquality(advance(), 'u')
-	validateEquality(advance(), 'e')
+	consume('r')
+	consume('u')
+	consume('e')
 	return JsonTrue
 }

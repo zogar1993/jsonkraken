@@ -6,9 +6,9 @@ import net.jemzart.jsonkraken.values.JsonFalse
 
 internal fun Deserializer.deserializeFalse(): JsonFalse {
 	advance() //skip f
-	validateEquality(advance(), 'a')
-	validateEquality(advance(), 'l')
-	validateEquality(advance(), 's')
-	validateEquality(advance(), 'e')
+	consume('a')
+	consume('l')
+	consume('s')
+	consume('e')
 	return JsonFalse
 }

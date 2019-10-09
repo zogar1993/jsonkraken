@@ -29,7 +29,7 @@ internal fun Deserializer.deserializeObject(): JsonObject {
 private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 	val name = deserializeObjectKey()
 	skipWhiteSpaces()
-	validateEquality(advance(), ':')
+	consume(':')
 	skipWhiteSpaces()
 	val value = deserializeValue()
 
