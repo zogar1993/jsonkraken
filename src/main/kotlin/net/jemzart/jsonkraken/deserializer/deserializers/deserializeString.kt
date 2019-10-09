@@ -8,7 +8,6 @@ import net.jemzart.jsonkraken.deserializer.validators.validateIsHexadecimal
 import net.jemzart.jsonkraken.deserializer.validators.validateIsNotISOControlCharacterOtherThanDelete
 import net.jemzart.jsonkraken.values.JsonString
 
-const val PARSING_STRING = "parsing string"
 internal fun Deserializer.deserializeString(): JsonString {
 	val json = JsonString()
 	json.value = deserializeRawString()
@@ -35,8 +34,8 @@ private fun Deserializer.deserializeCharacter() {
 }
 
 private fun Deserializer.deserializeNormalCharacter() {
-	validateExclusion(peek(), Escapable.whiteSpaceChars, PARSING_STRING)
-	validateIsNotISOControlCharacterOtherThanDelete(peek(), PARSING_STRING)
+	validateExclusion(peek(), Escapable.whiteSpaceChars)
+	validateIsNotISOControlCharacterOtherThanDelete(peek())
 	advance() //skip 1 char
 }
 
@@ -50,15 +49,15 @@ private fun Deserializer.deserializeEscapableSequence() {
 }
 
 private fun Deserializer.deserializeEscapableChar() {
-	validateInclusion(advance(), Escapable.monoChars, PARSING_STRING)
+	validateInclusion(advance(), Escapable.monoChars)
 }
 
 private fun Deserializer.deserializeStringUnicode() {
 	advance() //skip u
-	validateIsHexadecimal(advance(), PARSING_STRING)
-	validateIsHexadecimal(advance(), PARSING_STRING)
-	validateIsHexadecimal(advance(), PARSING_STRING)
-	validateIsHexadecimal(advance(), PARSING_STRING)
+	validateIsHexadecimal(advance())
+	validateIsHexadecimal(advance())
+	validateIsHexadecimal(advance())
+	validateIsHexadecimal(advance())
 }
 
 

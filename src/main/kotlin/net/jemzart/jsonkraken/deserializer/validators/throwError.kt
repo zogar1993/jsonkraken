@@ -6,12 +6,13 @@ import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 const val PREVIEW_OFFSET_BACK = 20
 const val PREVIEW_OFFSET_FORWARD = 20
 
-internal fun Deserializer.throwError(context: String, detail: String) {
-	val message =
-		"\nError at character $index while $context." +
-			"\n$detail" +
-			"\n${getErrorScreenshot()}"
-	throw DeserializationException(message)
+internal fun Deserializer.throwError(detail: String): Nothing {
+	throw DeserializationException(
+		index = index,
+		detail = detail,
+		screenShot = getErrorScreenshot(),
+		raw = raw
+	)
 }
 
 private fun Deserializer.getErrorScreenshot(): String {

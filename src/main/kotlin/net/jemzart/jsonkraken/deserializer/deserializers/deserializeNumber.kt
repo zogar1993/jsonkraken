@@ -5,14 +5,13 @@ import net.jemzart.jsonkraken.deserializer.validators.validateIsDecimal
 import net.jemzart.jsonkraken.values.JsonNumber
 import java.math.BigDecimal
 
-const val PARSING_NUMBER = "parsing number"
 internal fun Deserializer.deserializeNumber(): JsonNumber {
 	val start = index
 	when (peek()) {
 		'-' -> minus()
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
-		else -> validateIsDecimal(peek(), PARSING_NUMBER)
+		else -> validateIsDecimal(peek())
 	}
 	val json = JsonNumber()
 	json.value = BigDecimal(raw.substring(start, index))
@@ -25,7 +24,7 @@ private fun Deserializer.minus() {
 	when (peek()) {
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
-		else -> validateIsDecimal(peek(), PARSING_NUMBER)
+		else -> validateIsDecimal(peek())
 	}
 }
 
@@ -33,7 +32,7 @@ private fun Deserializer.dot() {
 	advance() //skip .
 	when (peek()) {
 		in '0'..'9' -> secondDigitLoop()
-		else -> validateIsDecimal(peek(), PARSING_NUMBER)
+		else -> validateIsDecimal(peek())
 	}
 }
 
@@ -41,7 +40,7 @@ private fun Deserializer.e() {
 	advance() //skip e or E
 	if (peek() == '+' || peek() == '-') advance() //skip + or -
 	if (peek() in '0'..'9') thirdDigitLoop()
-	else validateIsDecimal(peek(), PARSING_NUMBER)
+	else validateIsDecimal(peek())
 }
 
 private fun Deserializer.zero() {

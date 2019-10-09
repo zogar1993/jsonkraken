@@ -4,11 +4,10 @@ import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.values.JsonNull
 
-private const val PARSING_NULL = "parsing null"
 internal fun Deserializer.deserializeNull(): JsonNull {
 	advance() //skip n
-	validateEquality(advance(), 'u', PARSING_NULL)
-	validateEquality(advance(), 'l', PARSING_NULL)
-	validateEquality(advance(), 'l', PARSING_NULL)
+	validateEquality(advance(), 'u')
+	validateEquality(advance(), 'l')
+	validateEquality(advance(), 'l')
 	return JsonNull
 }

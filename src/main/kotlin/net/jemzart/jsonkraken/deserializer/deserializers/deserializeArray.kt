@@ -18,7 +18,7 @@ internal fun Deserializer.deserializeArray(): JsonArray {
 
 			if (peek() == ',') advance() //skip ','
 			else if (peek() == ']') break
-			else validateInclusion(peek(), arrayOf(',', ']'), PARSING_ARRAY)
+			else validateInclusion(peek(), arrayOf(',', ']'))
 		}
 
 	advance() //skip ']'

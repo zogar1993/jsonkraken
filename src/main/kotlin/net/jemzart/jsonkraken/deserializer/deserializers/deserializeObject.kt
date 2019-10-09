@@ -6,7 +6,6 @@ import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonString
 
-const val PARSING_OBJECT = "parsing object"
 internal fun Deserializer.deserializeObject(): JsonObject {
 	val obj = JsonObject()
 	advance() //skip '{'
@@ -20,7 +19,7 @@ internal fun Deserializer.deserializeObject(): JsonObject {
 
 			if (peek() == ',') advance() //skip ,
 			else if (peek() == '}') break
-			else validateInclusion(peek(), arrayOf(',', '}'), PARSING_OBJECT)
+			else validateInclusion(peek(), arrayOf(',', '}'))
 		}
 
 	advance() //skip '}'
@@ -30,7 +29,7 @@ internal fun Deserializer.deserializeObject(): JsonObject {
 private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 	val name = deserializeObjectKey()
 	skipWhiteSpaces()
-	validateEquality(advance(), ':', PARSING_OBJECT)
+	validateEquality(advance(), ':')
 	skipWhiteSpaces()
 	val value = deserializeValue()
 
@@ -38,6 +37,6 @@ private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 }
 
 private fun Deserializer.deserializeObjectKey(): String {
-	validateEquality(peek(), '\"', PARSING_OBJECT)
+	validateEquality(peek(), '\"')
 	return deserializeRawString()
 }

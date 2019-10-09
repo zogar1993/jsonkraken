@@ -2,9 +2,9 @@ package net.jemzart.jsonkraken.deserializer.validators
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
 
-internal fun Deserializer.validateIsDecimal(char: Char, context: String) {
+internal fun Deserializer.validateIsDecimal(char: Char) {
 	if (!char.isDecimal())
-		throwError(context, "Expected a decimal character, found \"$char\".")
+		throwError("Expected a decimal character, found \"$char\".")
 }
 
 private fun Char.isDecimal(): Boolean {

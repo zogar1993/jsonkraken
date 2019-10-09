@@ -8,6 +8,11 @@ import net.jemzart.jsonkraken.exceptions.JsonKrakenException
  * @property[message] description of the error.
  * @since 2.0
  */
-class DeserializationException constructor(message: String) : JsonKrakenException(message){
+open class DeserializationException constructor(
+	val index: Int,
+	val raw: String,
+	val detail: String,
+	val screenShot: String) :
+	JsonKrakenException("\nError at character $index.\n$detail\n$screenShot")
 
-}
+//TODO update docs, screenshot == crappy name

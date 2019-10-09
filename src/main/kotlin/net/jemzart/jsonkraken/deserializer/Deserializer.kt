@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken.deserializer
 import net.jemzart.jsonkraken.deserializer.deserializers.*
 import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
+import net.jemzart.jsonkraken.deserializer.validators.throwError
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.JsonValue
 //TODO Premature end of string should show you where it ended
@@ -15,7 +16,7 @@ internal class Deserializer(val raw: String) {
 	@PublishedApi
 	internal fun create(): JsonValue {
 		skipWhiteSpaces()
-		if (isAtEnd()) throw DeserializationException("Blank text is not a valid JSON representation.")
+		if (isAtEnd()) throwError("Blank text is not a valid JSON representation.")
 		val result = deserializeValue()
 		skipWhiteSpaces()
 		validateEOF() //no text should be left
@@ -31,19 +32,19 @@ internal class Deserializer(val raw: String) {
 			'f' -> deserializeFalse()
 			'n' -> deserializeNull()
 			in '0'..'9', '-' -> deserializeNumber()
-			else -> throw DeserializationException("No JSON token starts with '${peek()}'.")
+			else -> throwError("No JSON token starts with '${peek()}'.")
 		}
 	}
 
 	fun isAtEnd() = index == last
 
 	fun peek(): Char {
-		if (isAtEnd()) throw DeserializationException("Premature end of String")
+		if (isAtEnd()) throwError("Premature end of String")
 		return raw[index]
 	}
 
 	fun advance(): Char {
-		if (isAtEnd()) throw DeserializationException("Premature end of String")
+		if (isAtEnd()) throwError("Premature end of String")
 		return raw[index++]
 	}
 
