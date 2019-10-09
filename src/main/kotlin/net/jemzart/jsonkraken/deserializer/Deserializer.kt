@@ -2,12 +2,10 @@ package net.jemzart.jsonkraken.deserializer
 
 import net.jemzart.jsonkraken.deserializer.deserializers.*
 import net.jemzart.jsonkraken.deserializer.validators.validateEOF
-import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.deserializer.validators.throwError
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.JsonValue
-//TODO Premature end of string should show you where it ended
 //TODO Restore advance and advancePeeking to prevent redundant operations
 @PublishedApi
 internal class Deserializer(val raw: String) {

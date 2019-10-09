@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
-import net.jemzart.jsonkraken.deserializer.validators.validateIsDecimal
+import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonNumber
 import java.math.BigDecimal
 
@@ -11,7 +11,7 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 		'-' -> minus()
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
-		else -> validateIsDecimal(peek())
+		else -> validateInclusion(peek(), digits + '-')
 	}
 	val json = JsonNumber()
 	json.value = BigDecimal(raw.substring(start, index))
@@ -24,7 +24,7 @@ private fun Deserializer.minus() {
 	when (peek()) {
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
-		else -> validateIsDecimal(peek())
+		else -> validateInclusion(peek(), digits)
 	}
 }
 
@@ -32,7 +32,7 @@ private fun Deserializer.dot() {
 	advance() //skip .
 	when (peek()) {
 		in '0'..'9' -> secondDigitLoop()
-		else -> validateIsDecimal(peek())
+		else -> validateInclusion(peek(), digits)
 	}
 }
 
@@ -40,7 +40,7 @@ private fun Deserializer.e() {
 	advance() //skip e or E
 	if (peek() == '+' || peek() == '-') advance() //skip + or -
 	if (peek() in '0'..'9') thirdDigitLoop()
-	else validateIsDecimal(peek())
+	else validateInclusion(peek(), digits + '+' + '-')
 }
 
 private fun Deserializer.zero() {
@@ -62,6 +62,7 @@ private fun Deserializer.oneToNine() {
 	}
 }
 
+//before dot
 private tailrec fun Deserializer.firstDigitLoop() {
 	advance() //skip digit
 	if (isAtEnd()) return
@@ -72,6 +73,7 @@ private tailrec fun Deserializer.firstDigitLoop() {
 	}
 }
 
+//after dot and before e
 private tailrec fun Deserializer.secondDigitLoop() {
 	advance() //skip digit
 	if (isAtEnd()) return
@@ -81,6 +83,7 @@ private tailrec fun Deserializer.secondDigitLoop() {
 	}
 }
 
+//after e
 private tailrec fun Deserializer.thirdDigitLoop() {
 	advance() //skip digit
 	if (isAtEnd()) return
@@ -88,3 +91,5 @@ private tailrec fun Deserializer.thirdDigitLoop() {
 		in '0'..'9' -> thirdDigitLoop()
 	}
 }
+
+private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
