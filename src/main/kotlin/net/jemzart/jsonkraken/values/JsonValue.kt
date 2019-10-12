@@ -56,4 +56,5 @@ abstract class JsonValue {
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
 	}
+	//todo validations for booleans
 }

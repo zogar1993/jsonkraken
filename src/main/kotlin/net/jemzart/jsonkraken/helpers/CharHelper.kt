@@ -15,3 +15,5 @@ internal fun Char.isHexadecimal(): Boolean {
 		|| codePoint in 65..70  // A-F
 		|| codePoint in 97..102 // a-f
 }
+
+internal fun Char.isNotHexadecimal() = !this.isHexadecimal()

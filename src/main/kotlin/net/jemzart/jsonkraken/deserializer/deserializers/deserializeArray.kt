@@ -4,7 +4,6 @@ import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonArray
 
-const val PARSING_ARRAY = "parsing array"
 internal fun Deserializer.deserializeArray(): JsonArray {
 	val arr = JsonArray()
 	advance() //skip '['

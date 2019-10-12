@@ -3,30 +3,52 @@ package net.jemzart.jsonkraken.helpers
 import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 
-//TODO Clean Up
 internal fun throwIfIsNotAJsonCompliantString(string: String) {
 	var i = 0
 	val length = string.length
-	fun verify(value: Boolean, message: () -> String) {
-		if (!value) throw NonCompliantStringException(string, message())
-	}
-	while (true) {
-		if (i == length) return
+	while (i < length) {
 		if (string[i] == '\\') {
 			i++ // skip \
-			verify(i < length) { "Unescaped \\ at index ${i - 1}" }
+			if (i >= length) throwUnescapedBackslashFound(i, string)
 			if (string[i] == 'u') {
-				verify(i + 4 < length) { "Premature end of string encountered while parsing unicode" }
-				repeat(4) { verify(string[++i].isHexadecimal()) { "Invalid hexadecimal character ${string[i]} at index $i" } }
+				if (i + 4 >= length) throwInvalidUnicodeFound(string, i)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
 			} else {
-				verify(string[i] in Escapable.monoChars) { "Cant escape ${string[i]}" }
+				if (string[i] !in Escapable.monoChars) throwUnescapedBackslashFound(i, string)
 			}
 		} else {
 			val char = string[i]
-			verify(char != '"') { "Unescaped \" at index $i" }
-			verify(char !in Escapable.whiteSpaceChars) { "Unescaped white space character at index $i" }
-			verify(!char.isISOControlCharacterOtherThanDelete()) { "Unescaped iso control character at index $i" }
+			if (char == '"') throwUnescapedDoubleQuotesFound(i, string)
+			if (char in Escapable.whiteSpaceChars) throwUnescapedWhiteSpaceCharacterFound(i, string)
+			if (char.isISOControlCharacterOtherThanDelete()) throwUnescapedIsoControlCharacterFound(i, string)
 		}
 		i++
 	}
+}
+
+private fun throwUnescapedBackslashFound(i: Int, string: String): Nothing {
+	throwNonCompliantString("Unescaped \\ at index ${i - 1}", string)
+}
+
+private fun throwInvalidUnicodeFound(string: String, i: Int): Nothing {
+	throwNonCompliantString("Invalid hexadecimal character ${string[i]} at index $i", string)
+}
+
+private fun throwUnescapedDoubleQuotesFound(i: Int, string: String): Nothing {
+	throwNonCompliantString("Unescaped \" at index $i", string)
+}
+
+private fun throwUnescapedWhiteSpaceCharacterFound(i: Int, string: String): Nothing {
+	throwNonCompliantString("Unescaped white space character at index $i", string)
+}
+
+private fun throwUnescapedIsoControlCharacterFound(i: Int, string: String): Nothing {
+	throwNonCompliantString("Unescaped iso control character at index $i", string)
+}
+
+private fun throwNonCompliantString(message: String, string: String): Nothing {
+	throw NonCompliantStringException(string, message)
 }

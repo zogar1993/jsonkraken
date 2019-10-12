@@ -6,7 +6,7 @@ import net.jemzart.jsonkraken.deserializer.validators.throwError
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.JsonValue
-//TODO Restore advance and advancePeeking to prevent redundant operations
+
 @PublishedApi
 internal class Deserializer(val raw: String) {
 	val last = raw.length
