@@ -32,9 +32,12 @@ private fun Deserializer.deserializeCharacter() {
 }
 
 private fun Deserializer.deserializeNormalCharacter() {
-	validateExclusion(peek(), Escapable.whiteSpaceChars)
-	validateIsNotISOControlCharacterOtherThanDelete(peek())
-	advance() //skip 1 char
+	validateNormalCharacter(next())
+}
+
+private fun Deserializer.validateNormalCharacter(char: Char) {
+	validateExclusion(char, Escapable.whiteSpaceChars)
+	validateIsNotISOControlCharacterOtherThanDelete(char)
 }
 
 private fun Deserializer.deserializeEscapableSequence() {
