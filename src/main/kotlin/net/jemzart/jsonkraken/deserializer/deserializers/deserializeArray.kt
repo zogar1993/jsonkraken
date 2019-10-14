@@ -2,10 +2,10 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.errors.throwExpectationFailed
-import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonArray
 
 internal fun Deserializer.deserializeArray(): JsonArray {
+	advance() //skip [
 	skipWhiteSpaces()
 
 	if (match(']')) return JsonArray()

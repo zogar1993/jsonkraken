@@ -5,7 +5,7 @@ import net.jemzart.jsonkraken.deserializer.errors.throwError
 import net.jemzart.jsonkraken.values.JsonValue
 
 internal fun Deserializer.deserializeValue(): JsonValue {
-	return when (val char = advance()) {
+	return when (val char = peek()) {
 		'{' -> deserializeObject()
 		'[' -> deserializeArray()
 		'\"' -> deserializeString()

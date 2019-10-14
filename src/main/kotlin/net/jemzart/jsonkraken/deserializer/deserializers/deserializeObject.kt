@@ -1,13 +1,13 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.deserializer.errors.throwError
 import net.jemzart.jsonkraken.deserializer.errors.throwExpectationFailed
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
-import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonObject
-import net.jemzart.jsonkraken.values.JsonString
 
 internal fun Deserializer.deserializeObject(): JsonObject {
+	advance() //skip {
 	skipWhiteSpaces()
 
 	if (match('}')) return JsonObject()
@@ -35,6 +35,6 @@ private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 }
 
 private fun Deserializer.deserializeObjectKey(): String {
-	consume('\"')
+	validateEquality(peek(), '\"')
 	return deserializeRawString()
 }

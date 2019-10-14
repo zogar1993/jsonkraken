@@ -6,8 +6,7 @@ import net.jemzart.jsonkraken.values.JsonNumber
 import java.math.BigDecimal
 
 internal fun Deserializer.deserializeNumber(): JsonNumber {
-	val start = index - 1
-	back()
+	val start = index
 	when (peek()) {
 		'-' -> minus()
 		'0' -> zero()

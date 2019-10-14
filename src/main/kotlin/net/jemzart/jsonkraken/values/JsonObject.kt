@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.values
 
 import net.jemzart.jsonkraken.helpers.copy
-import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
+import net.jemzart.jsonkraken.purifier.purify
 
 //TODO Update Docs
 

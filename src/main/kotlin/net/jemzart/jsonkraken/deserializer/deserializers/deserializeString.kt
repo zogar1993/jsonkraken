@@ -15,18 +15,17 @@ internal fun Deserializer.deserializeString(): JsonString {
 }
 
 internal fun Deserializer.deserializeRawString(): String {
+	advance() //skip "
 	val start = index
 
-	while (peek() != '"')
+	while (!match('"'))
 		deserializeCharacter()
 
-	val value = raw.substring(start, index)
-	advance() //skip "
-	return value
+	return raw.substring(start, index - 1)
 }
 
 private fun Deserializer.deserializeCharacter() {
-	if (peek() == '\\')
+	if (match('\\'))
 		deserializeEscapableSequence()
 	else
 		deserializeNormalCharacter()
@@ -39,24 +38,21 @@ private fun Deserializer.deserializeNormalCharacter() {
 }
 
 private fun Deserializer.deserializeEscapableSequence() {
-	advance() // skip \
-
-	if (peek() == 'u')
+	if (match('u'))
 		deserializeStringUnicode()
 	else
 		deserializeEscapableChar()
 }
 
 private fun Deserializer.deserializeEscapableChar() {
-	validateInclusion(advance(), Escapable.monoChars)
+	validateInclusion(next(), Escapable.monoChars)
 }
 
 private fun Deserializer.deserializeStringUnicode() {
-	advance() //skip u
-	validateIsHexadecimal(advance())
-	validateIsHexadecimal(advance())
-	validateIsHexadecimal(advance())
-	validateIsHexadecimal(advance())
+	validateIsHexadecimal(next())
+	validateIsHexadecimal(next())
+	validateIsHexadecimal(next())
+	validateIsHexadecimal(next())
 }
 
 

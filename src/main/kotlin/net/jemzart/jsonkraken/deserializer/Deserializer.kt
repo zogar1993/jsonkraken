@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.deserializer
 
-import net.jemzart.jsonkraken.deserializer.deserializers.*
-import net.jemzart.jsonkraken.deserializer.validators.validateEOF
+import net.jemzart.jsonkraken.deserializer.deserializers.deserializeValue
 import net.jemzart.jsonkraken.deserializer.errors.throwError
+import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 import net.jemzart.jsonkraken.values.JsonValue
@@ -33,17 +33,17 @@ internal class Deserializer(val raw: String) {
 		return raw[index]
 	}
 
-	fun back() {
-		index--
+	fun advance() {
+		index++
 	}
 
-	fun advance(): Char {
+	fun next(): Char {
 		if (isAtEnd()) throwError("Premature end of String")
 		return raw[index++]
 	}
 
 	fun consume(char: Char) {
-		validateEquality(advance(), char)
+		validateEquality(next(), char)
 	}
 
 	fun match(char: Char): Boolean {

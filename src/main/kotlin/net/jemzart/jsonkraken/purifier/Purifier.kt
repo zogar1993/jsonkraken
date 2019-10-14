@@ -1,7 +1,6 @@
 package net.jemzart.jsonkraken.purifier
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.exceptions.JsonKrakenException
 import net.jemzart.jsonkraken.purifier.errors.ArrayTransformationException
 import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
 import net.jemzart.jsonkraken.purifier.errors.IterableTransformationException
