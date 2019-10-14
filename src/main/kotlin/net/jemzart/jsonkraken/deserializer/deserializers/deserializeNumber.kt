@@ -6,7 +6,8 @@ import net.jemzart.jsonkraken.values.JsonNumber
 import java.math.BigDecimal
 
 internal fun Deserializer.deserializeNumber(): JsonNumber {
-	val start = index
+	val start = index - 1
+	back()
 	when (peek()) {
 		'-' -> minus()
 		'0' -> zero()
@@ -18,7 +19,6 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 	return json
 }
 
-
 private fun Deserializer.minus() {
 	advance() //skip -
 	when (peek()) {
@@ -26,21 +26,6 @@ private fun Deserializer.minus() {
 		in '1'..'9' -> oneToNine()
 		else -> validateInclusion(peek(), digits)
 	}
-}
-
-private fun Deserializer.dot() {
-	advance() //skip .
-	when (peek()) {
-		in '0'..'9' -> secondDigitLoop()
-		else -> validateInclusion(peek(), digits)
-	}
-}
-
-private fun Deserializer.e() {
-	advance() //skip e or E
-	if (peek() == '+' || peek() == '-') advance() //skip + or -
-	if (peek() in '0'..'9') thirdDigitLoop()
-	else validateInclusion(peek(), digits + '+' + '-')
 }
 
 private fun Deserializer.zero() {
@@ -60,6 +45,21 @@ private fun Deserializer.oneToNine() {
 		'e', 'E' -> e()
 		in '0'..'9' -> firstDigitLoop()
 	}
+}
+
+private fun Deserializer.dot() {
+	advance() //skip .
+	when (peek()) {
+		in '0'..'9' -> secondDigitLoop()
+		else -> validateInclusion(peek(), digits)
+	}
+}
+
+private fun Deserializer.e() {
+	advance() //skip e or E
+	match('+') || match('-')
+	if (peek() in '0'..'9') thirdDigitLoop()
+	else validateInclusion(peek(), digits + '+' + '-')
 }
 
 //before dot

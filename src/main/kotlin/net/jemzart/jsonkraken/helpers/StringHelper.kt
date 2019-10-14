@@ -11,11 +11,11 @@ internal fun throwIfIsNotAJsonCompliantString(string: String) {
 			i++ // skip \
 			if (i >= length) throwUnescapedBackslashFound(i, string)
 			if (string[i] == 'u') {
-				if (i + 4 >= length) throwInvalidUnicodeFound(string, i)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(string, i)
+				if (i + 4 >= length) throwInvalidUnicodeFound(i, string)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
+				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
 			} else {
 				if (string[i] !in Escapable.monoChars) throwUnescapedBackslashFound(i, string)
 			}
@@ -33,7 +33,7 @@ private fun throwUnescapedBackslashFound(i: Int, string: String): Nothing {
 	throwNonCompliantString("Unescaped \\ at index ${i - 1}", string)
 }
 
-private fun throwInvalidUnicodeFound(string: String, i: Int): Nothing {
+private fun throwInvalidUnicodeFound(i: Int, string: String): Nothing {
 	throwNonCompliantString("Invalid hexadecimal character ${string[i]} at index $i", string)
 }
 

@@ -1,29 +1,27 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.deserializer.errors.throwExpectationFailed
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonString
 
 internal fun Deserializer.deserializeObject(): JsonObject {
-	val obj = JsonObject()
-	advance() //skip '{'
 	skipWhiteSpaces()
 
-	if (peek() != '}')
-		while (true) {
-			skipWhiteSpaces()
-			deserializeObjectPair(obj)
-			skipWhiteSpaces()
+	if (match('}')) return JsonObject()
 
-			if (peek() == ',') advance() //skip ,
-			else if (peek() == '}') break
-			else validateInclusion(peek(), arrayOf(',', '}'))
-		}
+	val obj = JsonObject()
+	while (true) {
+		skipWhiteSpaces()
+		deserializeObjectPair(obj)
+		skipWhiteSpaces()
 
-	advance() //skip '}'
-	return obj
+		if (match(',')) continue
+		if (match('}')) return obj
+		throwExpectationFailed(current(), arrayOf(',', '}'))
+	}
 }
 
 private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
@@ -37,6 +35,6 @@ private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 }
 
 private fun Deserializer.deserializeObjectKey(): String {
-	validateEquality(peek(), '\"')
+	consume('\"')
 	return deserializeRawString()
 }

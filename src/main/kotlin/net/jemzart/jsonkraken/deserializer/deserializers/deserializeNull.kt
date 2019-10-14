@@ -5,7 +5,6 @@ import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.values.JsonNull
 
 internal fun Deserializer.deserializeNull(): JsonNull {
-	advance() //skip n
 	consume('u')
 	consume('l')
 	consume('l')

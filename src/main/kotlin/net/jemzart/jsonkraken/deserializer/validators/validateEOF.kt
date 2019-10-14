@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.deserializer.validators
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.deserializer.errors.throwError
 
 internal fun Deserializer.validateEOF() {
 	if (!isAtEnd())

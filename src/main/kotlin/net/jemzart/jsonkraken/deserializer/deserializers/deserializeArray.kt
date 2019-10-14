@@ -1,27 +1,25 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.deserializer.errors.throwExpectationFailed
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonArray
 
 internal fun Deserializer.deserializeArray(): JsonArray {
-	val arr = JsonArray()
-	advance() //skip '['
 	skipWhiteSpaces()
 
-	if (peek() != ']')
-		while (true) {
-			skipWhiteSpaces()
-			deserializeArrayItem(arr)
-			skipWhiteSpaces()
+	if (match(']')) return JsonArray()
 
-			if (peek() == ',') advance() //skip ','
-			else if (peek() == ']') break
-			else validateInclusion(peek(), arrayOf(',', ']'))
-		}
+	val arr = JsonArray()
+	while (true) {
+		skipWhiteSpaces()
+		deserializeArrayItem(arr)
+		skipWhiteSpaces()
 
-	advance() //skip ']'
-	return arr
+		if (match(',')) continue
+		if (match(']')) return arr
+		throwExpectationFailed(current(), arrayOf(',', ']'))
+	}
 }
 
 private fun Deserializer.deserializeArrayItem(arr: JsonArray) {

@@ -15,7 +15,6 @@ internal fun Deserializer.deserializeString(): JsonString {
 }
 
 internal fun Deserializer.deserializeRawString(): String {
-	advance() //skip "
 	val start = index
 
 	while (peek() != '"')
