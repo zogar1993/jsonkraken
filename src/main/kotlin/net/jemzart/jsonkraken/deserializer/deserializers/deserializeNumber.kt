@@ -7,23 +7,23 @@ import java.math.BigDecimal
 
 internal fun Deserializer.deserializeNumber(): JsonNumber {
 	val start = index
-	when (peek()) {
+	when (val char = peek()) {
 		'-' -> minus()
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
-		else -> validateInclusion(peek(), digits + '-')
+		else -> validateInclusion(char, digits + '-')
 	}
 	val json = JsonNumber()
-	json.value = BigDecimal(raw.substring(start, index))
+	json.value = BigDecimal(raw.substring(start, index))//TODO Mugre
 	return json
 }
 
 private fun Deserializer.minus() {
 	advance() //skip -
-	when (peek()) {
+	when (val char = peek()) {
 		'0' -> zero()
 		in '1'..'9' -> oneToNine()
-		else -> validateInclusion(peek(), digits)
+		else -> validateInclusion(char, digits)
 	}
 }
 
@@ -48,9 +48,9 @@ private fun Deserializer.oneToNine() {
 
 private fun Deserializer.dot() {
 	advance() //skip .
-	when (peek()) {
+	when (val char = peek()) {
 		in '0'..'9' -> secondDigitLoop()
-		else -> validateInclusion(peek(), digits)
+		else -> validateInclusion(char, digits)
 	}
 }
 
@@ -86,9 +86,7 @@ private tailrec fun Deserializer.secondDigitLoop() {
 private tailrec fun Deserializer.thirdDigitLoop() {
 	advance() //skip digit
 	if (isAtEnd()) return
-	when (peek()) {
-		in '0'..'9' -> thirdDigitLoop()
-	}
+	if (peek() in '0'..'9') thirdDigitLoop()
 }
 
 private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')

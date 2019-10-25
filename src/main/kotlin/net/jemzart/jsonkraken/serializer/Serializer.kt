@@ -13,32 +13,28 @@ internal class Serializer constructor(private val value: JsonValue, formatted: B
 	private var nesting = 0
 	private inline val tabs get() = indentation.repeat(nesting)
 
-	private val writeKey =
-		if (formatted) { key: String -> stb += "\"$key\": " }
-		else { key: String -> stb += "\"$key\":" }
-
-	private val writeStart =
-		if (formatted) { value: String -> stb += "$value\n"; ++nesting; Unit }
-		else { value: String -> stb += value }
+	private val writeKey: (String)->Unit
+	private val writeStart: (String)->Unit
+	private val writeEnd: (String)->Unit
+	private val writeDelimiter: ()->Unit
+	private val writeTabs: ()->Unit
 
 
-	private val writeEnd =
-		if (formatted) { value: String -> stb += "\n"; --nesting; stb += "$tabs$value" }
-		else { value: String -> stb += value }
-
-	private val writeDelimiter =
+	init {
 		if (formatted) {
-			{ stb += ",\n$tabs" }
+			writeKey = { stb += "\"$it\": " }
+			writeStart = { stb += "$it\n"; ++nesting }
+			writeEnd = { stb += "\n"; --nesting; stb += "$tabs$it" }
+			writeDelimiter = { stb += ",\n$tabs" }
+			writeTabs = { stb += tabs }
 		} else {
-			{ stb += "," }
+			writeKey = {  stb += "\"$it\":" }
+			writeStart = { stb += it }
+			writeEnd = { stb += it }
+			writeDelimiter = { stb += "," }
+			writeTabs = { stb += "" }
 		}
-
-	private val writeTabs =
-		if (formatted) {
-			{ stb += tabs }
-		} else {
-			{ stb += "" }
-		}
+	}
 
 	fun create(): String {
 		writeValue(value)
@@ -84,8 +80,8 @@ internal class Serializer constructor(private val value: JsonValue, formatted: B
 			is JsonString -> "\"${value.value}\""
 			is JsonBoolean -> value.cast<Boolean>().toString()
 			is JsonNumber -> {
-				val double = value.cast<Double>()
-				if (double % 1.0 == 0.0) double.toLong().toString() else double.toString()
+				val double = value.cast<Double>()//TODO esto esta mal
+				if (double % 1.0 == 0.0) "${double.toLong()}" else "$double"
 			}
 			else -> throw InvalidJsonTypeException(value)
 		}
