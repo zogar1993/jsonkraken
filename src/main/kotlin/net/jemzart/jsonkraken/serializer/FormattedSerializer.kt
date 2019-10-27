@@ -3,7 +3,7 @@ package net.jemzart.jsonkraken.serializer
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.*
 
-internal class Serializer constructor(private val value: JsonValue, formatted: Boolean) {
+internal class FormattedSerializer constructor(private val value: JsonValue) {
 	private val stb = StringBuilder()
 	private operator fun StringBuilder.plusAssign(value: String) {
 		this.append(value)
@@ -21,19 +21,11 @@ internal class Serializer constructor(private val value: JsonValue, formatted: B
 
 
 	init {
-		if (formatted) {
-			writeKey = { stb += "\"$it\": " }
-			writeStart = { stb += "$it\n"; ++nesting }
-			writeEnd = { stb += "\n"; --nesting; stb += "$tabs$it" }
-			writeDelimiter = { stb += ",\n$tabs" }
-			writeTabs = { stb += tabs }
-		} else {
-			writeKey = {  stb += "\"$it\":" }
-			writeStart = { stb += it }
-			writeEnd = { stb += it }
-			writeDelimiter = { stb += "," }
-			writeTabs = { stb += "" }
-		}
+		writeKey = { stb += "\"$it\": " }
+		writeStart = { stb += "$it\n"; ++nesting }
+		writeEnd = { stb += "\n"; --nesting; stb += "$tabs$it" }
+		writeDelimiter = { stb += ",\n$tabs" }
+		writeTabs = { stb += tabs }
 	}
 
 	fun create(): String {

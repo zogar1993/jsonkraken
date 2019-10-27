@@ -3,7 +3,8 @@ package net.jemzart.jsonkraken
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.purifier.purify
-import net.jemzart.jsonkraken.serializer.Serializer
+import net.jemzart.jsonkraken.serializer.FormattedSerializer
+import net.jemzart.jsonkraken.serializer.SimpleSerializer
 import net.jemzart.jsonkraken.values.JsonValue
 
 object JsonKraken {
@@ -26,7 +27,8 @@ object JsonKraken {
 	 * @since 2.0
 	 */
 	fun serialize(value: Any?, formatted: Boolean = false): String {
-		return Serializer(purify(value), formatted).create()
+		return if (formatted) FormattedSerializer(purify(value)).create()
+		else SimpleSerializer(purify(value)).create()
 	}
 
 	/**
