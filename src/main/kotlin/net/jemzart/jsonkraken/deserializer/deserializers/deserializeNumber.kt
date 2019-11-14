@@ -3,7 +3,6 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonNumber
-import java.math.BigDecimal
 
 internal fun Deserializer.deserializeNumber(): JsonNumber {
 	val start = index
@@ -13,9 +12,7 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 		in '1'..'9' -> oneToNine()
 		else -> validateInclusion(char, digits + '-')
 	}
-	val json = JsonNumber()
-	json.value = BigDecimal(raw.substring(start, index))//TODO Mugre
-	return json
+	return JsonNumber(raw.substring(start, index))
 }
 
 private fun Deserializer.minus() {

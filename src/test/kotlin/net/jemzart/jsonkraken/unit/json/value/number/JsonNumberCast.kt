@@ -2,7 +2,6 @@ package net.jemzart.jsonkraken.unit.json.value.number
 
 import net.jemzart.jsonkraken.values.JsonNumber
 import org.junit.Test
-import java.math.BigDecimal
 
 class JsonNumberCast {
 
@@ -73,18 +72,10 @@ class JsonNumberCast {
 	}
 
 	@Test
-	fun `casting to BigDecimal returns a BigDecimal`() {
-		val json = JsonNumber(1)
-		val result = json.cast<BigDecimal>()
-
-		assert(BigDecimal(1) == result)
-	}
-
-	@Test
-	fun `casting to Any returns a BigDecimal`() {
+	fun `casting to Any returns a JsonNumber`() {
 		val json = JsonNumber(1)
 		val result = json.cast<Any>()
 
-		assert(BigDecimal(1) == result)
+		assert(JsonNumber(1) == result)
 	}
 }

@@ -13,7 +13,7 @@ JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is 
 
 - If you are looking to map POJOs, then this may not be for you.
 - If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
-- On the other hand, if you prefer *obj["captain"]["name"]* you may want to keep reading.
+- On the other hand, if you prefer *obj["captain"]["name"].cast<String>()* you may want to keep reading.
 
 ## Why another JSON parsing library?
 
@@ -31,9 +31,9 @@ I will get technical then, but first lets see a quick example.
 ### Hello world overview
 
 ```kotlin
-val json = "{ \"getting\": { \"started\" : \"Hello World\" }}".toJson()
-println(json.jsonSerialize()) //prints: {"getting":{"started":"Hello World"}}
-println(json["getting"]["started"]) //prints: Hello World
+val json: JsonValue = JsonKraken.deserialize("""{"getting":{"started":"Hello World"}}""")
+println(JsonKraken.serialize(json)) //prints: {"getting":{"started":"Hello World"}}
+println(json["getting"]["started"].cast<String>()) //prints: Hello World
 ```
 
 ### Dependency management

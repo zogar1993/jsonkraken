@@ -167,7 +167,9 @@ class NumberDeserialization {
 
 	@Test
 	fun `close to zero`() {
-		JsonKraken.deserialize<JsonNumber>("-0.000000000000000000000000000000000000000000000000000000000000000000000000000001")
+		val number = "-0.000000000000000000000000000000000000000000000000000000000000000000000000000001"
+		val json = JsonKraken.deserialize<JsonNumber>(number)
+		assertEquals(JsonNumber(number), json)
 	}
 
 	@Test
