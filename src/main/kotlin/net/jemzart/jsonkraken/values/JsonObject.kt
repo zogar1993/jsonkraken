@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
 import net.jemzart.jsonkraken.helpers.copy
 import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
 import net.jemzart.jsonkraken.purifier.purify
@@ -29,7 +30,8 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	 */
 	override fun iterator(): Iterator<Pair<String, JsonValue>> = map.map { it.key to it.value }.iterator()
 
-	override fun get(name: String): JsonValue = map.getValue(name)
+	override fun get(name: String): JsonValue =
+		if (map.containsKey(name)) map.getValue(name) else throw NoSuchPropertyException(name, this)
 	override fun set(name: String, value: Any?) {
 		throwIfIsNotAJsonCompliantString(name)
 		val purified = purify(value)

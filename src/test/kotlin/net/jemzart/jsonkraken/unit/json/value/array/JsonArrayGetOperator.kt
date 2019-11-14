@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.value.array
 
+import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import net.jemzart.jsonkraken.values.JsonArray
 import org.junit.Test
 
@@ -29,5 +30,23 @@ class JsonArrayGetOperator {
 		arr.add(insertion)
 
 		assert(arr[-1] == insertion)
+	}
+
+	@Test(expected = NoSuchIndexException::class)
+	fun `getting a non existent index when fetching by string fails`() {
+		val obj = JsonArray()
+		obj["0"]
+	}
+
+	@Test(expected = NoSuchIndexException::class)
+	fun `getting a non existent index when fetching by int fails`() {
+		val obj = JsonArray()
+		obj[1]
+	}
+
+	@Test(expected = NoSuchIndexException::class)
+	fun `getting a non existent index when fetching by int by reverse notation fails`() {
+		val obj = JsonArray()
+		obj[-1]
 	}
 }

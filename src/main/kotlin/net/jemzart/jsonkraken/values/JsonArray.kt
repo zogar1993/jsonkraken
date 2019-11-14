@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.values
 
+import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import net.jemzart.jsonkraken.helpers.copy
 import net.jemzart.jsonkraken.purifier.purify
 
@@ -28,7 +29,11 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	 */
 	override fun iterator(): Iterator<JsonValue> = list.iterator()
 
-	override fun get(index: Int): JsonValue = list[index.reversible()]
+	override fun get(index: Int): JsonValue {
+		val i = index.reversible()
+		if (i !in 0 until list.size) throw NoSuchIndexException(index, this)
+		return list[i]
+	}
 
 	override fun set(index: Int, value: Any?) {
 		val purified = purify(value)

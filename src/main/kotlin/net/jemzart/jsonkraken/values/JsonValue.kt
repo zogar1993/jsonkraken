@@ -49,7 +49,7 @@ abstract class JsonValue {
 				Float::class -> return this.value.toFloat() as T
 				Double::class -> return this.value.toDouble() as T
 				Number::class -> return this.value as T
-				Any::class -> return this.value as T
+				Any::class -> return this as T
 			}
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
