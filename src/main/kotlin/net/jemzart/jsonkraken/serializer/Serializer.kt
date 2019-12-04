@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.serializer
 
 import net.jemzart.jsonkraken.*
 
-abstract class Serializer {
+internal abstract class Serializer {
 	protected val stb = StringBuilder()
 
 	protected fun writeValue(value: JsonValue) {

@@ -14,11 +14,11 @@ internal class FormattedSerializer constructor(private val value: JsonValue): Se
 	private var nesting = 0
 	private inline val tabs get() = indentation.repeat(nesting)
 
-	private val writeKey: (String)->Unit = { stb += "\"$it\": " }
-	private val writeStart: (String)->Unit = { stb += "$it\n"; ++nesting }
-	private val writeEnd: (String)->Unit = { stb += "\n"; --nesting; stb += "$tabs$it" }
-	private val writeDelimiter: ()->Unit = { stb += ",\n$tabs" }
-	private val writeTabs: ()->Unit = { stb += tabs }
+	private fun writeKey(it: String) { stb += "\"$it\": " }
+	private fun writeStart(it: String) { stb += "$it\n"; ++nesting }
+	private fun writeEnd(it: String) { stb += "\n"; --nesting; stb += "$tabs$it" }
+	private fun writeDelimiter() { stb += ",\n$tabs" }
+	private fun writeTabs() { stb += tabs }
 
 	fun create(): String {
 		writeValue(value)
