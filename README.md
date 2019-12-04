@@ -76,7 +76,7 @@ to better understand the details of JSONKraken.
 ## Parsing from String to JsonValue (Deserialization)
 
 We use *JsonKraken.deserialize(data)* for String to JsonValue conversion.
-In case of not being able to parse a symbol, an Exception will be thrown.
+In case of not being able to parse a symbol, a DeserializationException will be thrown.
 
 ## Parsing from Object to String (Serialization)
 
