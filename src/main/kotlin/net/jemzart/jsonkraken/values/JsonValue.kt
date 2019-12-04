@@ -37,17 +37,12 @@ sealed class JsonValue {
 	open operator fun set(index: Int, value: Any?): Unit = throw NotImplementedError()
 
 	/**
-	 * @return self if possible, otherwise tries to create an equivalent in T.
+	 * @return unboxed value.
 	 */
 	inline fun <reified T> cast(): T {
 		when (this) {
-			is JsonBoolean -> when (T::class) {
-				Boolean::class, Any::class -> this.value as T
-			}
-			is JsonNull -> if (isNullable<T>()) return null as T
 			is JsonString -> when (T::class) {
-				CharSequence::class, String::class, Any::class ->
-					return this.value as T
+				CharSequence::class, String::class, Any::class -> return this.value as T
 			}
 			is JsonNumber -> when (T::class) {
 				Byte::class -> return this.value.toByte() as T
@@ -59,6 +54,11 @@ sealed class JsonValue {
 				Number::class -> return this.value as T
 				Any::class -> return this as T
 			}
+			is JsonNull -> if (isNullable<T>()) return null as T
+			is JsonBoolean -> return this.value as T //TODO fix whatever makes the validation fail
+//			is JsonBoolean -> when (T::class) {
+//				Boolean::class, Any::class -> this.value as T
+//			}
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
 	}
