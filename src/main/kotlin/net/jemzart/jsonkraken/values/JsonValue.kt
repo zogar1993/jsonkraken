@@ -33,13 +33,13 @@ abstract class JsonValue {
 	 */
 	inline fun <reified T> cast(): T {
 		when (this) {
-			is JsonTrue -> return true as T
-			is JsonFalse -> return false as T
+			is JsonBoolean -> when (T::class) {
+				Boolean::class, Any::class -> this.value as T
+			}
 			is JsonNull -> if (isNullable<T>()) return null as T
 			is JsonString -> when (T::class) {
-				CharSequence::class,
-				String::class,
-				Any::class -> return this.value as T
+				CharSequence::class, String::class, Any::class ->
+					return this.value as T
 			}
 			is JsonNumber -> when (T::class) {
 				Byte::class -> return this.value.toByte() as T
@@ -54,5 +54,4 @@ abstract class JsonValue {
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
 	}
-	//todo validations for booleans
 }
