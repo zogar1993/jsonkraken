@@ -2,7 +2,7 @@ group 'net.jemzart.jsonkraken'
 version '2.0.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = "1.3.50"
+    ext.kotlin_version = "1.3.61"
     ext.dokka_version = "0.9.17"
     ext.coveralls_version = "2.8.2"
     ext.pitest_version = "1.3.0"

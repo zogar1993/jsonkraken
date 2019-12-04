@@ -5,7 +5,10 @@ import net.jemzart.jsonkraken.exceptions.JsonKrakenException
 /**
  * An exception used when deserializing a String which is not a valid JSON representation.
  *
- * @property[message] description of the error.
+ * @property[raw] raw data to be deserialized.
+ * @property[index] index of the illegal character.
+ * @property[detail] information specific to the error.
+ * @property[snapshot] visual representation of the error.
  * @since 2.0
  */
 open class DeserializationException constructor(
@@ -14,5 +17,3 @@ open class DeserializationException constructor(
 	val detail: String,
 	val snapshot: String) :
 	JsonKrakenException("\nError at character $index.\n$detail\n$snapshot")
-
-//TODO update docs
