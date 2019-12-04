@@ -1,6 +1,7 @@
 import net.jemzart.jsonkraken.JsonKraken
 import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.values.JsonFalse
+
 import org.junit.Test
 
 class FalseDeserialization {

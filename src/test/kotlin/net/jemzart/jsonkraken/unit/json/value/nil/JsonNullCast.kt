@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken.unit.json.value.nil
 
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.values.JsonNull
+
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

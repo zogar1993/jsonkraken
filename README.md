@@ -59,9 +59,11 @@ dependencies {
 
 ### Imports
 
-JsonArray and JsonObject are in package *net.jemzart.jsonkraken.values*.
+All wrapped types are derived from JsonValue,
+and they can be found in package *net.jemzart.jsonkraken.values*.
 
-All needed extension methods are in package *net.jemzart.jsonkraken*.
+For serialization, deserialization and transformation,
+you may use JsonKraken in package *net.jemzart.jsonkraken*.
 
 - - -
 
@@ -71,7 +73,8 @@ That pretty much covers the basics. The rest of the document is for you, dear re
 
 ## Parsing from String to an Object (Deserialization)
 
-We use *.toJson()* for String to Object conversion. Expected output comes in three flavours: JsonArray, JsonObject and non-collections.
+We use *JsonKraken.deserialize(data)* for String to JsonValue conversion.
+Expected output comes in three flavours: JsonArray, JsonObject and non-collections.
 While JsonArray and JsonObject are pretty self explanatory conceptually, their behaviour and particularities will be explained in detail later on for the sake of thoroughness.
 Non-collections are not what I would say expected use cases, but for the sake of JSON full compliance I have included such responses. In the context of this parser, a non-collection means every value that we may find in a json other than arrays and objects: strings, numbers, booleans and null.
 In case of not being able to parse a symbol, an Exception will be thrown.

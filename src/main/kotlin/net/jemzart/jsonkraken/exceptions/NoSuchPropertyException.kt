@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken.exceptions
 
+
 import net.jemzart.jsonkraken.values.JsonObject
 import java.lang.Exception
 

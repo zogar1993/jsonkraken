@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.values.JsonNumber
 
+
 internal fun Deserializer.deserializeNumber(): JsonNumber {
 	val start = index
 	when (val char = peek()) {

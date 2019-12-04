@@ -3,11 +3,9 @@ package net.jemzart.jsonkraken.unit
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonObject
 import net.jemzart.jsonkraken.values.JsonString
-import org.junit.Test
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 
+
+import org.junit.Test
 
 class JsonObjectTest {
 	@Test

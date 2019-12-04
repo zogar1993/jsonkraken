@@ -6,6 +6,7 @@ import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.values.JsonArray
 import net.jemzart.jsonkraken.values.JsonContainer
 import net.jemzart.jsonkraken.values.JsonObject
+
 import org.junit.Test
 
 class JsonObjectSetOperator {

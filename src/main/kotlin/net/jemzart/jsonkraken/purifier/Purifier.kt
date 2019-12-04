@@ -6,6 +6,9 @@ import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
 import net.jemzart.jsonkraken.purifier.errors.IterableTransformationException
 import net.jemzart.jsonkraken.purifier.errors.MapTransformationException
 import net.jemzart.jsonkraken.values.*
+import net.jemzart.jsonkraken.values.JsonArray
+
+
 
 @PublishedApi
 internal fun purify(thing: Any?): JsonValue {

@@ -8,6 +8,7 @@ import net.jemzart.jsonkraken.deserializer.validators.validateIsHexadecimal
 import net.jemzart.jsonkraken.deserializer.validators.validateIsNotISOControlCharacterOtherThanDelete
 import net.jemzart.jsonkraken.values.JsonString
 
+
 internal fun Deserializer.deserializeString(): JsonString {
 	val json = JsonString()
 	json.value = deserializeRawString()

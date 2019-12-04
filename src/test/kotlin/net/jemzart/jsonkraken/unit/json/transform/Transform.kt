@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.JsonKraken
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.values.*
+
 import org.junit.Test
 
 class ValueTransformation {
@@ -30,8 +31,7 @@ class ValueTransformation {
 
 	@Test(expected = InvalidCastException::class)
 	fun `invalid cast`() {
-		val cosa = JsonKraken.transform<JsonObject>(JsonArray())
-		cosa
+		JsonKraken.transform<JsonObject>(JsonArray())
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
