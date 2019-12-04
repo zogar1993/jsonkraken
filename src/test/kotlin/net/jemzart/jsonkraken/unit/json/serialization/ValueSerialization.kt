@@ -2,8 +2,8 @@ package net.jemzart.jsonkraken.unit.json.serialization
 
 import net.jemzart.jsonkraken.JsonKraken
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
-import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonObject
+import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.JsonObject
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

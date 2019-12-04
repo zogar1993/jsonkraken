@@ -1,13 +1,11 @@
 package net.jemzart.jsonkraken.purifier
 
+import net.jemzart.jsonkraken.*
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.purifier.errors.ArrayTransformationException
 import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
 import net.jemzart.jsonkraken.purifier.errors.IterableTransformationException
 import net.jemzart.jsonkraken.purifier.errors.MapTransformationException
-import net.jemzart.jsonkraken.values.*
-import net.jemzart.jsonkraken.values.JsonArray
-
 
 
 @PublishedApi

@@ -1,9 +1,9 @@
 package net.jemzart.jsonkraken.unit.json.value.array
 
-import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonNumber
-import net.jemzart.jsonkraken.values.JsonString
-import net.jemzart.jsonkraken.values.JsonTrue
+import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.JsonNumber
+import net.jemzart.jsonkraken.JsonString
+import net.jemzart.jsonkraken.JsonTrue
 
 
 import org.junit.Test

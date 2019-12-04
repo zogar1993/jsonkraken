@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.value.array
 
-import net.jemzart.jsonkraken.values.JsonArray
+import net.jemzart.jsonkraken.JsonArray
 
 import org.junit.Test
 

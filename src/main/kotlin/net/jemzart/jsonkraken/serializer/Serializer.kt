@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.serializer
 
-import net.jemzart.jsonkraken.values.*
+import net.jemzart.jsonkraken.*
 
 abstract class Serializer {
 	protected val stb = StringBuilder()

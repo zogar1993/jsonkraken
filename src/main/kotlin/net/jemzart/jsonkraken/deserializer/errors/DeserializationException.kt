@@ -12,7 +12,7 @@ open class DeserializationException constructor(
 	val index: Int,
 	val raw: String,
 	val detail: String,
-	val screenShot: String) :
-	JsonKrakenException("\nError at character $index.\n$detail\n$screenShot")
+	val snapshot: String) :
+	JsonKrakenException("\nError at character $index.\n$detail\n$snapshot")
 
-//TODO update docs, screenshot == crappy name
+//TODO update docs

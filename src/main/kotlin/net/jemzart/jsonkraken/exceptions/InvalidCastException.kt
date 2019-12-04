@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.exceptions
 
-import net.jemzart.jsonkraken.values.JsonValue
+import net.jemzart.jsonkraken.JsonValue
 import kotlin.reflect.KClass
 
 /**

@@ -2,8 +2,8 @@ package net.jemzart.jsonkraken.unit.json.value.`object`
 
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
-import net.jemzart.jsonkraken.values.JsonObject
-import net.jemzart.jsonkraken.values.JsonString
+import net.jemzart.jsonkraken.JsonObject
+import net.jemzart.jsonkraken.JsonString
 
 
 import org.junit.Test

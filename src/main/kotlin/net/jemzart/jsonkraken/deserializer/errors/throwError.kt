@@ -9,7 +9,7 @@ internal fun Deserializer.throwError(detail: String): Nothing {
 	throw DeserializationException(
 		index = index,
 		detail = detail,
-		screenShot = getErrorScreenshot(),
+		snapshot = getErrorScreenshot(),
 		raw = raw
 	)
 }

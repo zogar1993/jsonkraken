@@ -4,7 +4,7 @@ import net.jemzart.jsonkraken.JsonKraken
 import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
-import net.jemzart.jsonkraken.values.JsonObject
+import net.jemzart.jsonkraken.JsonObject
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

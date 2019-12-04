@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
-import net.jemzart.jsonkraken.values.JsonNull
+import net.jemzart.jsonkraken.JsonNull
 
 
 internal fun Deserializer.deserializeNull(): JsonNull {

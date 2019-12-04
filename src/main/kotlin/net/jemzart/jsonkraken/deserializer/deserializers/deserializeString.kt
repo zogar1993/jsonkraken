@@ -6,7 +6,7 @@ import net.jemzart.jsonkraken.deserializer.validators.validateExclusion
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.deserializer.validators.validateIsHexadecimal
 import net.jemzart.jsonkraken.deserializer.validators.validateIsNotISOControlCharacterOtherThanDelete
-import net.jemzart.jsonkraken.values.JsonString
+import net.jemzart.jsonkraken.JsonString
 
 
 internal fun Deserializer.deserializeString(): JsonString {

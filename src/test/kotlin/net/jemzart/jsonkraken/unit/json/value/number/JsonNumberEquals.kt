@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.value.number
 
 
-import net.jemzart.jsonkraken.values.JsonNumber
+import net.jemzart.jsonkraken.JsonNumber
 import org.junit.Test
 
 class JsonNumberEquals {

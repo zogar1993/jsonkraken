@@ -5,7 +5,7 @@ import net.jemzart.jsonkraken.deserializer.errors.throwError
 import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
-import net.jemzart.jsonkraken.values.JsonValue
+import net.jemzart.jsonkraken.JsonValue
 
 @PublishedApi
 internal class Deserializer(val raw: String) {

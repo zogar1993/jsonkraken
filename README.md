@@ -59,11 +59,9 @@ dependencies {
 
 ### Imports
 
-All wrapped types are derived from JsonValue,
-and they can be found in package *net.jemzart.jsonkraken.values*.
-
-For serialization, deserialization and transformation,
-you may use JsonKraken in package *net.jemzart.jsonkraken*.
+Inside package *net.jemzart.jsonkraken* you may find:
+- JsonKraken, useful for serialization, deserialization and transformation.
+- All wrapped types, which are derived from JsonValue.
 
 - - -
 

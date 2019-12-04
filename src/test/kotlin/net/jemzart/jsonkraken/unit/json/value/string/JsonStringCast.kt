@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.value.string
 
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
-import net.jemzart.jsonkraken.values.JsonString
+import net.jemzart.jsonkraken.JsonString
 
 
 import org.junit.Test

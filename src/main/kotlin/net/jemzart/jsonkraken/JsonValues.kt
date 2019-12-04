@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.values
+package net.jemzart.jsonkraken
 
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidCastException

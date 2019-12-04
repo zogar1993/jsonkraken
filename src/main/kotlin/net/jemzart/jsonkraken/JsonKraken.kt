@@ -5,7 +5,6 @@ import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.serializer.FormattedSerializer
 import net.jemzart.jsonkraken.serializer.SimpleSerializer
-import net.jemzart.jsonkraken.values.JsonValue
 
 object JsonKraken {
 	/**

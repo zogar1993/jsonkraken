@@ -1,9 +1,8 @@
 package net.jemzart.jsonkraken.unit.json.transform
 
-import net.jemzart.jsonkraken.JsonKraken
+import net.jemzart.jsonkraken.*
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.values.*
 
 import org.junit.Test
 

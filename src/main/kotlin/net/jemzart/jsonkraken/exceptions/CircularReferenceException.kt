@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.exceptions
 
-import net.jemzart.jsonkraken.values.JsonContainer
+import net.jemzart.jsonkraken.JsonContainer
 
 /**
  * An exception used for operations that would incur in a circular reference.

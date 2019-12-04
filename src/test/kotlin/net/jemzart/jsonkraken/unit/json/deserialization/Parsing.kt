@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.values.JsonValue
+import net.jemzart.jsonkraken.JsonValue
 import org.junit.Test
 import java.io.File
 

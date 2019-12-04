@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
-import net.jemzart.jsonkraken.values.JsonNumber
+import net.jemzart.jsonkraken.JsonNumber
 
 
 internal fun Deserializer.deserializeNumber(): JsonNumber {
