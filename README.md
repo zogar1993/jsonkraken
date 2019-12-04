@@ -67,23 +67,23 @@ you may use JsonKraken in package *net.jemzart.jsonkraken*.
 
 - - -
 
-That pretty much covers the basics. The rest of the document is for you, dear reader, to better understand the details of JSONKraken.
+That pretty much covers the basics.
+The rest of the document is for you, dear reader,
+to better understand the details of JSONKraken.
 
 - - -
 
-## Parsing from String to an Object (Deserialization)
+## Parsing from String to JsonValue (Deserialization)
 
 We use *JsonKraken.deserialize(data)* for String to JsonValue conversion.
-Expected output comes in three flavours: JsonArray, JsonObject and non-collections.
-While JsonArray and JsonObject are pretty self explanatory conceptually, their behaviour and particularities will be explained in detail later on for the sake of thoroughness.
-Non-collections are not what I would say expected use cases, but for the sake of JSON full compliance I have included such responses. In the context of this parser, a non-collection means every value that we may find in a json other than arrays and objects: strings, numbers, booleans and null.
 In case of not being able to parse a symbol, an Exception will be thrown.
 
 ## Parsing from Object to String (Serialization)
 
-We use *.jsonSerialize()* for Object to String conversion.
+We use *JsonKraken.serialize(obj)* for Object to String conversion.
+If *obj* is not a JsonValue, it will internally try to be converted into one before starting the serialization process.
 Strings are generated without needless blank space, minimizing its size and readability.
-We instead use *.jsonSerialize(true)* when we want the serialization to be formatted.
+We instead use *JsonKraken.serialize(obj, formatted = true)* when we want the serialization to be formatted.
 
 ## JsonValue
 

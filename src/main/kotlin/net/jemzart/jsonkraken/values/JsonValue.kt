@@ -55,10 +55,9 @@ sealed class JsonValue {
 				Any::class -> return this as T
 			}
 			is JsonNull -> if (isNullable<T>()) return null as T
-			is JsonBoolean -> return this.value as T //TODO fix whatever makes the validation fail
-//			is JsonBoolean -> when (T::class) {
-//				Boolean::class, Any::class -> this.value as T
-//			}
+			is JsonBoolean -> when (T::class) {
+				Boolean::class, Any::class -> return this.value as T
+			}
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
 	}
