@@ -4,12 +4,12 @@ import net.jemzart.jsonkraken.exceptions.CircularReferenceException
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
+import net.jemzart.jsonkraken.helpers.*
 import net.jemzart.jsonkraken.helpers.copy
 import net.jemzart.jsonkraken.helpers.isNullable
+import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantNumber
 import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
 import net.jemzart.jsonkraken.purifier.purify
-
-import java.lang.Exception
 
 sealed class JsonValue {
 	/**
@@ -263,21 +263,16 @@ class JsonString internal constructor() : JsonPrimitive<String>() {
 	}
 }
 
-//TODO validate NaN and infinity
-class JsonNumber internal constructor() : JsonPrimitive<Number>() {
-	override var value: Number = 0; internal set
-	constructor(number: Number): this("$number")
-	constructor(string: String): this() {
-		val trimmed = string.trim()
-		if (trimmed.isEmpty()) throw Exception()//Todo
-		val dec = '.' in trimmed
-		val int = if (dec) trimmed.substringBefore('.') else trimmed
-		val float = if (dec) trimmed.substringAfter('.') else "0"
-		val str = if (int == "-0" && float == "0") "0"
-		else "$int${if (float.all { it == '0' }) "" else ".$float"}"
-		value = PlainNumber(str)
-	}
+class JsonNumber internal constructor() : JsonPrimitive<String>() {
+	override var value: String = ""; internal set
+
 	//TODO reventar esta porqueria a tests
+	constructor(value: Number): this("$value")
+	constructor(value: String): this() {
+		val number = value.trim()
+		throwIfIsNotAJsonCompliantNumber(number)
+		this.value = simplifyJsonNumber(number)
+	}
 
 	override fun equals(other: Any?): Boolean {
 		if (other !is JsonNumber) return false
@@ -286,26 +281,5 @@ class JsonNumber internal constructor() : JsonPrimitive<Number>() {
 
 	override fun hashCode(): Int {
 		return value.hashCode()
-	}
-
-	class PlainNumber(private val value: String): Number() {
-		override fun toByte() = value.toByte()
-		override fun toChar() = value.toLong().toChar()
-		override fun toDouble() = value.toDouble()
-		override fun toFloat() = value.toFloat()
-		override fun toInt() = value.toInt()
-		override fun toLong() = value.toLong()
-		override fun toShort() = value.toShort()
-
-		override fun equals(other: Any?): Boolean {
-			if (other !is PlainNumber) return false
-			return value == other.value
-		}
-
-		override fun hashCode(): Int {
-			return value.hashCode()
-		}
-
-		override fun toString() = value
 	}
 }

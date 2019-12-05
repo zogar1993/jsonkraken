@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.JsonNumber
+import net.jemzart.jsonkraken.helpers.simplifyJsonNumber
 
 
 internal fun Deserializer.deserializeNumber(): JsonNumber {
@@ -13,7 +14,10 @@ internal fun Deserializer.deserializeNumber(): JsonNumber {
 		in '1'..'9' -> oneToNine()
 		else -> validateInclusion(char, digits + '-')
 	}
-	return JsonNumber(raw.substring(start, index))
+
+	val jsonNumber = JsonNumber()
+	jsonNumber.value = simplifyJsonNumber(raw.substring(start, index))
+	return jsonNumber
 }
 
 private fun Deserializer.minus() {

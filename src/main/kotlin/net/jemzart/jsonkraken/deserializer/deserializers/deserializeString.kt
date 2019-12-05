@@ -10,9 +10,9 @@ import net.jemzart.jsonkraken.JsonString
 
 
 internal fun Deserializer.deserializeString(): JsonString {
-	val json = JsonString()
-	json.value = deserializeRawString()
-	return json
+	val jsonNumber = JsonString()
+	jsonNumber.value = deserializeRawString()
+	return jsonNumber
 }
 
 internal fun Deserializer.deserializeRawString(): String {
