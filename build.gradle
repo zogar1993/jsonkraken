@@ -60,11 +60,13 @@ dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/javadoc"
 
-//    sourceLink {
-//       dir = "src/main/kotlin"
-//        url = "https://github.com/zogar1993/jsonkraken"
-//        suffix = "#L"
-//    }
+    configuration {
+        sourceLink {
+            path = "src/main/kotlin"
+            url = "https://github.com/zogar1993/jsonkraken"
+            lineSuffix = "#L"
+        }
+    }
 }
 
 task sourceJar(type: Jar) {
