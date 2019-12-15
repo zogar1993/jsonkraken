@@ -140,20 +140,11 @@ val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJson
 val arr: JsonArray = listOf(1, "one", true).toJsonArray()
 ```
 
-## Operating with JsonValue
-
 A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:
 
 ```kotlin
 foo[0] = "bar"
-println(foo[0]) //prints: bar
-```
-	
-Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import the Any? get and set operators the library provides to do the following:
-
-```kotlin
-foo[0][0] = "bar"
-println(foo[0][0]) //prints: bar
+println(foo[0].cast<String>()) //prints: bar
 ```
 
 If you try to get an element which does not exist, an exception will be thrown.
