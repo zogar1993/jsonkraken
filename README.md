@@ -85,8 +85,6 @@ We instead use *JsonKraken.serialize(obj, formatted = true)* when we want the se
 
 ## JsonValue
 
-Both JsonArray and JsonObject are a JsonValue.
-
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
 - Added an element, its type is valid (See 'Valid Types').
@@ -108,15 +106,14 @@ In cases where the validation fails, an exception will be thrown.
 - null
 
 Some valid types shall be altered for consistency:
-- A Number element (Byte, Short, Int, Long, Float and Double) will be converted to Double.
-This should not be an issue except in extreme cases.
-- A Char element will be converted to String.
+- A Number will be stored internally as its *toString()* representation.
+- A Char will be converted to String.
 - Map will be converted to JsonObject
 - Iterable will be converted to JsonArray
 - Array will be converted to JsonArray
 
 
-## JsonValue creation from scratch
+## JsonContainer
 
 Both JsonArray and JsonObject can be created by parameterless constructors.
 
@@ -139,24 +136,15 @@ JsonObject(*pairs)
 If you need to convert a non native Array collection to JsonArray or JsonObject, you have helpers methods for those too:
 
 ```kotlin
-val arr: JsonArray = listOf(1, "one", true).toJsonArray()
 val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
+val arr: JsonArray = listOf(1, "one", true).toJsonArray()
 ```
-
-## Operating with JsonValue
 
 A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:
 
 ```kotlin
 foo[0] = "bar"
-println(foo[0]) //prints: bar
-```
-	
-Since there is no way to know the type of the return value of the get operator, it returns a nullable Any (Any?). This is why we need to import the Any? get and set operators the library provides to do the following:
-
-```kotlin
-foo[0][0] = "bar"
-println(foo[0][0]) //prints: bar
+println(foo[0].cast<String>()) //prints: bar
 ```
 
 If you try to get an element which does not exist, an exception will be thrown.
@@ -165,7 +153,6 @@ Here are some other auxiliary methods and properties JsonValue has:
 
 ```kotlin
 foo.remove(bar) //removes element at index/key bar
-foo.exists(bar) //returns true if there is an element at index/key bar
 foo.clone() //performs a deep clone of the JsonValue
 foo.size //returns the amount of elements in the JsonValue
 ```
@@ -186,14 +173,8 @@ foo.size //returns the amount of elements in the JsonValue
 
 ## Implementation details
 ###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
-- Double -0.0 will be turned to Double 0.0 to avoid the weird default comparison behaviour they have
-(they are equal if unboxed, bot not equal if boxed).
-I wonder why both even exist.
-- Since internally all numbers are handled as Double,
-be careful with extremely long Long values (higher than 2<sup>53</sup>).
-This is a rather uncommon number to be handling,
-more so taking into consideration that it is common practice to write such a value as a String,
-a habit born from well placed disbelief in json parsers conversion mechanisms.
+- -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
+- Since numbers are stored as String internally, they do not lose precision.
 - There is a method available for JsonValue which I did not talk about before because I wanted to keep things simple.
 It is called *references(value)*, and it requires value to be a JsonValue.
 I use that method internally to find if value is recursively contained within the caller,
@@ -216,16 +197,6 @@ and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
 - For your peace of mind, validations are not performed when not necessary
 (like circular reference check on construction or type check on deserialization).
-- get and set extension operators for Any? is something I am not fond of,
-but the truth is I found no other way to offer JavaScript like semantics.
-In practice I try to avoid their use, but there are times when their convenience and
-succintness have proven quite elegant. This is but a warning: "use, do not abuse".
-- I had to make a choice between convenience and compliance, and I reluctantly chose compliance.
-This can be seen when deserializing, since I return *Any?* instead of *JsonValue*. Most of the
-times, presumably at least, you wont deal with lonely values, but you may since the
-[JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
-allows it. That philosophy it to blame also for the existence of *jsonSerialize* instead of
-simply overriding *toString* in JsonValue.
 
 ## Change Log
 
