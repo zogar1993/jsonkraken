@@ -51,7 +51,7 @@ private fun purifyMap(map: Map<*, *>): JsonObject {
 	map.forEach {
 		val key = runCatching { purifyKey(it.key) }.onFailure { throw MapTransformationException(map, it) }
 		val value = runCatching { purify(it.value) }.onFailure { throw MapTransformationException(map, it) }
-		jsonObject.map[key.getOrThrow()] = value.getOrThrow()
+		jsonObject.hashMap[key.getOrThrow()] = value.getOrThrow()
 	}
 	return jsonObject
 }

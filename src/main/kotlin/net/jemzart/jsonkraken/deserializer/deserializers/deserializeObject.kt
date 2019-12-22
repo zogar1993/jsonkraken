@@ -31,7 +31,7 @@ private fun Deserializer.deserializeObjectPair(obj: JsonObject) {
 	skipWhiteSpaces()
 	val value = deserializeValue()
 
-	obj.map[name] = value
+	obj.hashMap[name] = value
 }
 
 private fun Deserializer.deserializeObjectKey(): String {

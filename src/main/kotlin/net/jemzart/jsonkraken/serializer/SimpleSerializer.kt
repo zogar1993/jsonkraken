@@ -16,8 +16,8 @@ internal class SimpleSerializer constructor(private val value: JsonValue): Seria
 		for (pair in obj) {
 			if (first) first = false
 			else stb.append(",")
-			stb.append("\"").append(pair.first).append("\":")
-			writeValue(pair.second)
+			stb.append("\"").append(pair.key).append("\":")
+			writeValue(pair.value)
 		}
 		stb.append("}")
 	}

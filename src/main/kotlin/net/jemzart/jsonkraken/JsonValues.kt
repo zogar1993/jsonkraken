@@ -13,16 +13,16 @@ import net.jemzart.jsonkraken.purifier.purify
 
 sealed class JsonValue {
 	/**
-	 * @return the value of the property named [name].
-	 * if JsonArray, [name] works as an index.
+	 * @return the value of the property named [key].
+	 * if JsonArray, [key] works as an index.
 	 */
-	open operator fun get(name: String): JsonValue = throw NotImplementedError()
+	open operator fun get(key: String): JsonValue = throw NotImplementedError()
 
 	/**
-	 * Sets [value] in a property named [name].
-	 * if JsonArray, [name] works as an index.
+	 * Sets [value] in a property named [key].
+	 * if JsonArray, [key] works as an index.
 	 */
-	open operator fun set(name: String, value: Any?): Unit = throw NotImplementedError()
+	open operator fun set(key: String, value: Any?): Unit = throw NotImplementedError()
 
 	/**
 	 * @return the element at index [index].
@@ -61,16 +61,21 @@ sealed class JsonValue {
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
 	}
+
+	override fun toString(): String {
+		return JsonKraken.serialize(this)
+	}
 }
 
 /**
  * Represents a json structure, may it be an array or an object.
  */
 sealed class JsonContainer : JsonValue() {
-	override operator fun get(name: String): JsonValue = get(name.toInt())
-	override operator fun set(name: String, value: Any?): Unit = set(name.toInt(), value)
+	override operator fun get(key: String): JsonValue = get(key.toInt())
+	override operator fun set(key: String, value: Any?): Unit = set(key.toInt(), value)
 	override operator fun get(index: Int): JsonValue = get(index.toString())
 	override operator fun set(index: Int, value: Any?): Unit = set(index.toString(), value)
+
 	/**
 	 * @return a deep clone of self, with no shared references.
 	 */
@@ -104,7 +109,7 @@ sealed class JsonContainer : JsonValue() {
 /**
  * @constructor empty json array.
  */
-class JsonArray() : JsonContainer(), Iterable<JsonValue> {
+class JsonArray() : JsonContainer(), Collection<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -118,13 +123,8 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 		}
 	}
 
-	override val size: Int get() = list.size
+	@PublishedApi
 	internal val list: MutableList<JsonValue> = mutableListOf()
-
-	/**
-	 * @return an iterator over all its items.
-	 */
-	override fun iterator(): Iterator<JsonValue> = list.iterator()
 
 	override fun get(index: Int): JsonValue {
 		val i = index.reversible()
@@ -165,6 +165,12 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	override fun clone() = JsonArray(*list.map { copy(it) }.toTypedArray())
 
 	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(list)
+
+	override val size get() = list.size
+	override fun iterator() = list.iterator()
+	override fun contains(element: JsonValue) = list.contains(element)
+	override fun containsAll(elements: Collection<JsonValue>) = list.containsAll(elements)
+	override fun isEmpty() = list.isEmpty()
 }
 
 //TODO Update Docs
@@ -172,7 +178,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
+class JsonObject() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry<String, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
@@ -180,52 +186,44 @@ class JsonObject() : JsonContainer(), Iterable<Pair<String, JsonValue>> {
 	constructor(vararg properties: Pair<String, Any?>) : this() {
 		properties.forEach { (name, value) ->
 			throwIfIsNotAJsonCompliantString(name)
-			map[name] = purify(value)
+			hashMap[name] = purify(value)
 		}
 	}
 
-	override val size: Int get() = map.size
-	internal val map: MutableMap<String, JsonValue> = mutableMapOf()
+	internal val hashMap: MutableMap<String, JsonValue> = mutableMapOf()
 
-	/**
-	 * @return an iterator over all its properties.
-	 */
-	override fun iterator(): Iterator<Pair<String, JsonValue>> = map.map { it.key to it.value }.iterator()
-
-	override fun get(name: String): JsonValue =
-		if (map.containsKey(name)) map.getValue(name) else throw NoSuchPropertyException(name, this)
-	override fun set(name: String, value: Any?) {
-		throwIfIsNotAJsonCompliantString(name)
+	override fun get(key: String) = hashMap[key] ?: throw NoSuchPropertyException(key, this)
+	override fun set(key: String, value: Any?) {
+		throwIfIsNotAJsonCompliantString(key)
 		val purified = purify(value)
 		throwIfHasAReferenceOnMe(purified)
-		map[name] = purified
+		hashMap[key] = purified
 	}
 
-	fun remove(name: String) {
-		map.remove(name)
+	fun remove(key: String) {
+		hashMap.remove(key)
 	}
 
-	/**
-	 * @return a collection with all its property keys.
-	 */
-	val keys get() = map.keys
+	override fun clone() = JsonObject(*hashMap.map { it.key to copy(it.value) }.toTypedArray())
 
-	/**
-	 * @return a collection with all its property values.
-	 */
-	val values get() = map.values
-
-	override fun clone() = JsonObject(*map { it.first to copy(it.second) }.toTypedArray())
-
-	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(map.values)
+	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(hashMap.values)
 
 	companion object {
 		fun fromMap(map: Map<String, JsonValue>): JsonObject {
 			val jsonObject = JsonObject()
-			jsonObject.map.putAll(map)
+			jsonObject.hashMap.putAll(map)
 			return jsonObject
 		}
 	}
+
+	override val size: Int get() = hashMap.size
+	override operator fun iterator() = hashMap.iterator()
+	override val entries get() = hashMap.entries
+	override val keys get() = hashMap.keys
+	override val values get() = hashMap.values
+	override fun containsKey(key: String) = hashMap.containsKey(key)
+	override fun containsValue(value: JsonValue) = hashMap.containsValue(value)
+	override fun isEmpty() = hashMap.isEmpty()
 }
 
 sealed class JsonPrimitive<T> : JsonValue() {

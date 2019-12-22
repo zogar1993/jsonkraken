@@ -32,8 +32,8 @@ internal class FormattedSerializer constructor(private val value: JsonValue): Se
 			if (first) {
 				writeTabs(); first = false
 			} else writeDelimiter()
-			writeKey(pair.first)
-			writeValue(pair.second)
+			writeKey(pair.key)
+			writeValue(pair.value)
 		}
 		writeEnd("}")
 	}
