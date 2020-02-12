@@ -6,7 +6,6 @@ import net.jemzart.jsonkraken.JsonNumber
 import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.JsonString
 
-
 import org.junit.Assert.assertEquals
 
 import org.junit.Test

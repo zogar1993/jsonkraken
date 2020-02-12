@@ -227,19 +227,31 @@ class JsonObject() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry
 }
 
 sealed class JsonPrimitive<T> : JsonValue() {
+	/**
+	 * @property value raw value contained by the JsonValue.
+	 */
 	abstract val value: T
 }
 
 sealed class JsonBoolean : JsonPrimitive<Boolean>()
 
+/**
+ * @constructor JsonValue representation for 'false'.
+ */
 object JsonFalse : JsonBoolean() {
 	override val value = false
 }
 
+/**
+ * @constructor JsonValue representation for 'true'.
+ */
 object JsonTrue : JsonBoolean() {
 	override val value = true
 }
 
+/**
+ * @constructor JsonValue representation for 'null'.
+ */
 object JsonNull : JsonPrimitive<Nothing?>() {
 	override val value = null
 }
