@@ -2,10 +2,10 @@ group 'net.jemzart.jsonkraken'
 version '1.2.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = "1.3.21"
-    ext.dokka_version = "0.9.17"
-    ext.coveralls_version = "2.8.2"
-    ext.pitest_version = "1.3.0"
+    ext.kotlin_version = "1.3.61"
+    ext.dokka_version = "0.10.0"
+    ext.coveralls_version = "2.8.3"
+    ext.pitest_version = "1.4.5"
     ext.junit_version = "4.12"
 
     repositories {
@@ -31,10 +31,12 @@ apply plugin: "signing"
 
 repositories {
     mavenCentral()
+    maven { url 'https://dl.bintray.com/kotlin/dokka' }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    dokkaRuntime "org.jetbrains.dokka:dokka-fatjar:$dokka_version"
     testImplementation"junit:junit:$junit_version"
 }
 
@@ -55,14 +57,16 @@ pitest {
     outputFormats = ['XML', 'HTML']
 }
 dokka {
-        outputFormat = 'html'
-        outputDirectory = "$buildDir/javadoc"
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
 
-        linkMapping {
-            dir = "src/main/kotlin"
+    configuration {
+        sourceLink {
+            path = "src/main/kotlin"
             url = "https://github.com/zogar1993/jsonkraken"
-            suffix = "#L"
+            lineSuffix = "#L"
         }
+    }
 }
 
 task sourceJar(type: Jar) {
