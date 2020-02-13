@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.exceptions.InvalidCastException
+import net.jemzart.jsonkraken.exceptions.UnexpectedJsonValueException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.serializer.FormattedSerializer
 import net.jemzart.jsonkraken.serializer.SimpleSerializer
@@ -44,8 +45,7 @@ object JsonKraken {
 
 	@PublishedApi
 	internal inline fun <reified T : JsonValue> cast(result: JsonValue) =
-		if (result is T) result else throw InvalidCastException(result::class, T::class)
-	//TODO Dunno if use the same for unboxing and cast
+		if (result is T) result else throw UnexpectedJsonValueException(result::class, T::class)
 }
 
 //TODO UPDATE README
