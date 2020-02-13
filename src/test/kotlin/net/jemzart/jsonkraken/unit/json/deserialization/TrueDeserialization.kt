@@ -1,23 +1,26 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
-import net.jemzart.jsonkraken.toJson
+import net.jemzart.jsonkraken.JsonKraken
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
+import net.jemzart.jsonkraken.JsonTrue
+
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class TrueDeserialization{
+class TrueDeserialization {
 	@Test
-	fun `true`(){
-		val json = "true".toJson()
-		assert(json == true)
+	fun `true`() {
+		val json = JsonKraken.deserialize<JsonTrue>("true")
+		assertEquals(JsonTrue, json)
 	}
 
-	@Test(expected = TokenExpectationException::class)
-	fun `misspelled true`(){
-		"tttt".toJson()
+	@Test(expected = DeserializationException::class)
+	fun `misspelled true`() {
+		JsonKraken.deserialize<JsonTrue>("tttt")
 	}
 
-	@Test(expected = TokenExpectationException::class)
-	fun `premature end`(){
-		"tru".toJson()
+	@Test(expected = DeserializationException::class)
+	fun `premature end`() {
+		JsonKraken.deserialize<JsonTrue>("tru")
 	}
 }

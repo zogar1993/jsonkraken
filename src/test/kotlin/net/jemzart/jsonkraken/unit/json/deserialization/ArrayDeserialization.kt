@@ -1,48 +1,49 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
-import net.jemzart.jsonkraken.get
-import net.jemzart.jsonkraken.toJson
+import net.jemzart.jsonkraken.*
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
-import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonObject
+
+
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class ArrayDeserialization{
+class ArrayDeserialization {
 	@Test
-	fun empty(){
-		val json = "[]".toJson() as JsonArray
-		assert(json.size == 0)
+	fun empty() {
+		val json = JsonKraken.deserialize<JsonArray>("[]")
+		assertEquals(0, json.size)
 	}
 
 	@Test
-	fun emptyString(){
-		val json = "[\"\"]".toJson() as JsonArray
-		assert(json[0] == "")
+	fun emptyString() {
+		val json = JsonKraken.deserialize<JsonArray>("[\"\"]")
+		assertEquals("", json[0].cast<String>())
 	}
 
 	@Test
-	fun heterogeneous(){
-		val json = "[null, 1, \"1\", {}, [], true, false]".toJson() as JsonArray
-		assert(json[0] == null)
-		assert(json[1] == 1.0)
-		assert(json[2] == "1")
-		assert(json[3] is JsonObject)
-		assert(json[4] is JsonArray)
-		assert(json[5] == true)
-		assert(json[6] == false)
+	fun heterogeneous() {
+		val json = JsonKraken.deserialize<JsonArray>("[null,1,\"1\",{},[],true,false]")
+		assertEquals(JsonNull, json[0])
+		assertEquals(JsonNumber(1.0), json[1])
+		assertEquals(JsonString("1"), json[2])
+		assertTrue(json[3] is JsonObject)
+		assertTrue(json[4] is JsonArray)
+		assertEquals(JsonTrue, json[5])
+		assertEquals(JsonFalse, json[6])
 	}
 
 	@Test
-	fun `allowed white spaces`(){
-		val json = "$WS[$WS${str("A")}$WS,$WS${str("B")}$WS]$WS".toJson()
-		assert(json[0] == "A")
-		assert(json[1] == "B")
+	fun `allowed white spaces`() {
+		val json = JsonKraken.deserialize<JsonArray>("$WS[$WS${str("A")}$WS,$WS${str("B")}$WS]$WS")
+		assertEquals("A", json[0].cast())
+		assertEquals("B", json[1].cast())
 	}
 
-	@Test(expected = TokenExpectationException::class)
-	fun `premature end`(){
-		"[.".toJson()
+	@Test(expected = DeserializationException::class)
+	fun `premature end`() {
+		JsonKraken.deserialize<JsonValue>("[.")
 	}
 }

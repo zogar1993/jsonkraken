@@ -1,184 +1,192 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
-import net.jemzart.jsonkraken.toJson
+import net.jemzart.jsonkraken.JsonKraken
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
+import net.jemzart.jsonkraken.JsonNumber
+
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class NumberDeserialization{
+class NumberDeserialization {
 	@Test
-	fun zero(){
-		val json = "0".toJson()
-		assert(json == 0.0)
+	fun zero() {
+		val json = JsonKraken.deserialize<JsonNumber>("0")
+		assertEquals(0, json.cast<Int>())
 	}
 
 	@Test
-	fun `minus zero`(){
-		val json = "-0".toJson()
-		assert(json == 0.0)
+	fun `minus zero`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-0")
+		assertEquals(0, json.cast<Int>())
 	}
 
 	@Test
-	fun `one digit`(){
-		val json = "2".toJson()
-		assert(json == 2.0)
+	fun `one digit`() {
+		val json = JsonKraken.deserialize<JsonNumber>("2")
+		assertEquals(2, json.cast<Int>())
 	}
 
 	@Test
-	fun `two digits`(){
-		val json = "42".toJson()
-		assert(json == 42.0)
+	fun `two digits`() {
+		val json = JsonKraken.deserialize<JsonNumber>("42")
+		assertEquals(42, json.cast<Int>())
 	}
 
 	@Test
-	fun `one digit negative`(){
-		val json = "-2".toJson()
-		assert(json == -2.0)
+	fun `one digit negative`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-2")
+		assertEquals(-2, json.cast<Int>())
 	}
 
 	@Test
-	fun `two digits negative`(){
-		val json = "-42".toJson()
-		assert(json == -42.0)
+	fun `two digits negative`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-42")
+		assertEquals(-42, json.cast<Int>())
 	}
 
 	@Test
 	fun `zero point zero`() {
-		val json = "0.0".toJson()
-		assert(json == 0.0)
+		val json = JsonKraken.deserialize<JsonNumber>("0.0")
+		assertEquals(0, json.cast<Int>())
 	}
 
 	@Test
-	fun `minus zero point zero`(){
-		val json = "-0.0".toJson()
-		assert(json == 0.0)
+	fun `minus zero point zero`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-0.0")
+		assertEquals(0, json.cast<Int>())
 	}
 
 	@Test
-	fun `one digit point zero`(){
-		val json = "2.0".toJson()
-		assert(json == 2.0)
+	fun `one digit point zero`() {
+		val json = JsonKraken.deserialize<JsonNumber>("2.0")
+		assertEquals(2, json.cast<Int>())
 	}
 
 	@Test
-	fun `two digits point zero`(){
-		val json = "42.0".toJson()
-		assert(json == 42.0)
+	fun `two digits point zero`() {
+		val json = JsonKraken.deserialize<JsonNumber>("42.0")
+		assertEquals(42, json.cast<Int>())
 	}
 
 	@Test
-	fun `one digit negative point zero`(){
-		val json = "-2.0".toJson()
-		assert(json == -2.0)
+	fun `one digit negative point zero`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-2.0")
+		assertEquals(-2, json.cast<Int>())
 	}
 
 	@Test
-	fun `two digits negative point zero`(){
-		val json = "-42.0".toJson()
-		assert(json == -42.0)
-	}
-	@Test
-	fun `zero decimal`(){
-		val json = "0.5".toJson()
-		assert(json == 0.5)
+	fun `two digits negative point zero`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-42.0")
+		assertEquals(-42, json.cast<Int>())
 	}
 
 	@Test
-	fun `minus zero decimal`(){
-		val json = "-0.5".toJson()
-		assert(json == -0.5)
+	fun `zero decimal`() {
+		val json = JsonKraken.deserialize<JsonNumber>("0.5")
+		assertEquals(0.5, json.cast(), 0.1)
 	}
 
 	@Test
-	fun `one digit decimal`(){
-		val json = "2.5".toJson()
-		assert(json == 2.5)
+	fun `minus zero decimal`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-0.5")
+		assertEquals(-0.5, json.cast(), 0.1)
 	}
 
 	@Test
-	fun `two digits decimal`(){
-		val json = "42.5".toJson()
-		assert(json == 42.5)
+	fun `one digit decimal`() {
+		val json = JsonKraken.deserialize<JsonNumber>("2.5")
+		assertEquals(2.5, json.cast(), 0.1)
 	}
 
 	@Test
-	fun `one digit negative decimal`(){
-		val json = "-2.5".toJson()
-		assert(json == -2.5)
+	fun `two digits decimal`() {
+		val json = JsonKraken.deserialize<JsonNumber>("42.5")
+		assertEquals(42.5, json.cast(), 0.1)
 	}
 
 	@Test
-	fun `two digits negative decimal`(){
-		val json = "-42.5".toJson()
-		assert(json == -42.5)
-	}
-
-	@Test(expected = TokenExpectationException::class)
-	fun `zero starting`(){
-		"01".toJson()
-	}
-
-	@Test(expected = TokenExpectationException::class)
-	fun `zero starting negative`(){
-		"-01".toJson()
+	fun `one digit negative decimal`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-2.5")
+		assertEquals(-2.5, json.cast(), 0.1)
 	}
 
 	@Test
-	fun `with e`(){
-		"123e65".toJson()
+	fun `two digits negative decimal`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-42.5")
+		assertEquals(-42.5, json.cast(), 0.1)
+	}
+
+	@Test(expected = DeserializationException::class)
+	fun `zero starting`() {
+		JsonKraken.deserialize<JsonNumber>("01")
+	}
+
+	@Test(expected = DeserializationException::class)
+	fun `zero starting negative`() {
+		JsonKraken.deserialize<JsonNumber>("-01")
 	}
 
 	@Test
-	fun `with E`(){
-		"1E22".toJson()
+	fun `with e`() {
+		JsonKraken.deserialize<JsonNumber>("123e65")
 	}
 
 	@Test
-	fun `with E-`(){
-		"1E-2".toJson()
+	fun `with E`() {
+		JsonKraken.deserialize<JsonNumber>("1E22")
 	}
 
 	@Test
-	fun `with E+`(){
-		"1E+2".toJson()
+	fun `with E-`() {
+		JsonKraken.deserialize<JsonNumber>("1E-2")
 	}
 
 	@Test
-	fun `with e+`(){
-		"0e+1".toJson()
+	fun `with E+`() {
+		JsonKraken.deserialize<JsonNumber>("1E+2")
 	}
 
 	@Test
-	fun `with e-`(){
-		"0e-1".toJson()
+	fun `with e+`() {
+		JsonKraken.deserialize<JsonNumber>("0e+1")
 	}
 
 	@Test
-	fun `fraction and exponent`(){
-		"123.456e78".toJson()
+	fun `with e-`() {
+		JsonKraken.deserialize<JsonNumber>("0e-1")
 	}
 
 	@Test
-	fun `after space`(){
-		" 4".toJson()
+	fun `fraction and exponent`() {
+		JsonKraken.deserialize<JsonNumber>("123.456e78")
 	}
 
 	@Test
-	fun `close to zero`(){
-		"-0.000000000000000000000000000000000000000000000000000000000000000000000000000001".toJson()
+	fun `after space`() {
+		JsonKraken.deserialize<JsonNumber>(" 4")
 	}
 
 	@Test
-	fun `extremely high number`(){
-		assert("1.0e+28".toJson() == 1.0E28)
+	fun `close to zero`() {
+		val number = "-0.000000000000000000000000000000000000000000000000000000000000000000000000000001"
+		val json = JsonKraken.deserialize<JsonNumber>(number)
+		assertEquals(JsonNumber(number), json)
 	}
 
 	@Test
-	fun `extremely low number`(){
-		assert("-1.0e+28".toJson() == -1.0E28)
+	fun `extremely high number`() {
+		val json = JsonKraken.deserialize<JsonNumber>("1.0e+28")
+		assertEquals(1.0E28, json.cast(), 0.1)
 	}
 
-	@Test(expected = TokenExpectationException::class)
-	fun `premature end`(){
-		"0.".toJson()
+	@Test
+	fun `extremely low number`() {
+		val json = JsonKraken.deserialize<JsonNumber>("-1.0e+28")
+		assertEquals(-1.0E28, json.cast(), 0.1)
+	}
+
+	@Test(expected = DeserializationException::class)
+	fun `premature end`() {
+		JsonKraken.deserialize<JsonNumber>("0.")
 	}
 }

@@ -1,23 +1,26 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.exceptions.TokenExpectationException
-import net.jemzart.jsonkraken.toJson
+import net.jemzart.jsonkraken.JsonKraken
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
+import net.jemzart.jsonkraken.JsonNull
+
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class NullDeserialization{
+class NullDeserialization {
 	@Test
-	fun `null`(){
-		val json = "null".toJson()
-		assert(json == null)
+	fun `null`() {
+		val json = JsonKraken.deserialize<JsonNull>("null")
+		assertEquals(JsonNull, json)
 	}
 
-	@Test(expected = TokenExpectationException::class)
-	fun `misspelled null`(){
-		"nnnn".toJson()
+	@Test(expected = DeserializationException::class)
+	fun `misspelled null`() {
+		JsonKraken.deserialize<JsonNull>("nnnn")
 	}
 
-	@Test(expected = TokenExpectationException::class)
-	fun `premature end`(){
-		"nul".toJson()
+	@Test(expected = DeserializationException::class)
+	fun `premature end`() {
+		JsonKraken.deserialize<JsonNull>("nul")
 	}
 }

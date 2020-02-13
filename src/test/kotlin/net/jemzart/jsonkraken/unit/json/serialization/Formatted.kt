@@ -1,53 +1,50 @@
 package net.jemzart.jsonkraken.unit.json.serialization
 
-import net.jemzart.jsonkraken.toJson
-import net.jemzart.jsonkraken.toJsonString
+import net.jemzart.jsonkraken.JsonKraken
+import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.JsonObject
+import net.jemzart.jsonkraken.JsonTrue
+
+
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class Formatted {
 	@Test
-	fun lonely(){
-		assert("true".toJson().toJsonString(true) == "true")
+	fun `formatted lonely`() {
+		assertEquals("true", JsonKraken.serialize(JsonTrue))
 	}
 
 	@Test
-	fun `empty array`(){
-		assert("[]".toJson().toJsonString(true) == "[\n\n]")
+	fun `formatted empty array`() {
+		assertEquals("[\n\n]", JsonKraken.serialize(JsonArray(), formatted = true))
 	}
 
 	@Test
-	fun `empty object`(){
-		assert("{}".toJson().toJsonString(true) == "{\n\n}")
+	fun `formatted empty object`() {
+		assertEquals("{\n\n}", JsonKraken.serialize(JsonObject(), formatted = true))
 	}
 
 	@Test
-	fun `array 1 element`(){
-		assert("[true]".
-			toJson().toJsonString(true)
-			== "[\n\ttrue\n]")
+	fun `formatted array 1 element`() {
+		assertEquals("[\n\ttrue\n]", JsonKraken.serialize(JsonArray(true), formatted = true))
 	}
 
 	@Test
-	fun `array 2 elements`(){
-		assert("[true,false]".
-			toJson().toJsonString(true)
-			== "[\n\ttrue,\n\tfalse\n]")
+	fun `formatted array 2 elements`() {
+		assertEquals("[\n\ttrue,\n\tfalse\n]", JsonKraken.serialize(JsonArray(true, false), formatted = true))
 	}
 
 	@Test
-	fun `object 1 element`(){
+	fun `formatted object 1 element`() {
 		val key1 = "\"a\""
-		assert("{\"a\":true}".
-			toJson().toJsonString(true)
-			== "{\n\t$key1: true\n}")
+		assertEquals("{\n\t$key1: true\n}", JsonKraken.serialize(JsonObject("a" to true), formatted = true))
 	}
 
 	@Test
-	fun `object 2 elements`(){
+	fun `formatted object 2 elements`() {
 		val key1 = "\"a\""
 		val key2 = "\"b\""
-		assert("{$key1:true,$key2:false}".
-			toJson().toJsonString(true)
-			== "{\n\t$key1: true,\n\t$key2: false\n}")
+		assertEquals("{\n\t$key1: true,\n\t$key2: false\n}", JsonKraken.serialize(JsonObject("a" to true, "b" to false), formatted = true))
 	}
 }

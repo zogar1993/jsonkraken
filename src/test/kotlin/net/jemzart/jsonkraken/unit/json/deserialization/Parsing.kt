@@ -1,21 +1,23 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
-import net.jemzart.jsonkraken.toJson
+import net.jemzart.jsonkraken.JsonKraken
+import net.jemzart.jsonkraken.JsonValue
 import org.junit.Test
 import java.io.File
 
-class Parsing{
+class Parsing {
 	private fun String.asResourceFile(): File =
-		File(this.javaClass::class.java.getResource(this).toURI())
+			File(this.javaClass::class.java.getResource(this).toURI())
+
 	@Test
-	fun `must parse`(){
+	fun `must parse`() {
 		var passed = 0
 		var failed = 0
 		"/test_parsing/allowed".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.toJson()
+					JsonKraken.deserialize<JsonValue>(text)
 					passed++
 				} catch (ex: Throwable) {
 					println("${it.name} $text")
@@ -28,14 +30,14 @@ class Parsing{
 	}
 
 	@Test
-	fun `must not parse`(){
+	fun `must not parse`() {
 		var passed = 0
 		var failed = 0
 		"/test_parsing/restricted".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.toJson()
+					JsonKraken.deserialize<JsonValue>(text)
 					println("${it.name} $text")
 					passed++
 				} catch (ex: Throwable) {
@@ -48,14 +50,14 @@ class Parsing{
 	}
 
 	@Test
-	fun `may parse`(){
+	fun `may parse`() {
 		var passed = 0
 		var failed = 0
 		"/test_parsing/optional".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.toJson()
+					JsonKraken.deserialize<JsonValue>(text)
 					passed++
 				} catch (ex: Throwable) {
 					println("${it.name} $text")
@@ -67,14 +69,14 @@ class Parsing{
 	}
 
 	@Test
-	fun transform(){
+	fun transform() {
 		var passed = 0
 		var failed = 0
 		"/test_transform".asResourceFile().walk().forEach {
 			if (!it.isDirectory) {
 				val text = it.readText()
 				try {
-					text.toJson()
+					JsonKraken.deserialize<JsonValue>(text)
 					passed++
 				} catch (ex: Throwable) {
 					println("${it.name} $text")

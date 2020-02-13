@@ -1,22 +1,25 @@
 package net.jemzart.jsonkraken.unit
 
-import net.jemzart.jsonkraken.values.JsonArray
-import net.jemzart.jsonkraken.values.JsonObject
+import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.JsonObject
+import net.jemzart.jsonkraken.JsonString
+
+
 import org.junit.Test
 
 class JsonObjectTest {
 	@Test
-	fun added(){
+	fun added() {
 		val obj = JsonObject()
 		obj["name"] = "Ragoz"
-		assert(obj["name"] == "Ragoz")
+		assert(obj["name"] == JsonString("Ragoz"))
 	}
 
 	@Test
 	fun `simple array`() {
 		val arr = JsonArray()
 		arr.add("Ragoz")
-		assert(arr[0] == "Ragoz")
+		assert(arr[0] == JsonString("Ragoz"))
 	}
 
 
@@ -26,9 +29,9 @@ class JsonObjectTest {
 		obj.add("Von Chap")
 		obj.add("Ulf")
 		obj.insert(0, "Joelin")
-		assert(obj[0] == "Joelin")
-		assert(obj[1] == "Von Chap")
-		assert(obj[2] == "Ulf")
+		assert(obj[0] == JsonString("Joelin"))
+		assert(obj[1] == JsonString("Von Chap"))
+		assert(obj[2] == JsonString("Ulf"))
 	}
 
 	@Test
@@ -37,9 +40,9 @@ class JsonObjectTest {
 		obj.add("Von Chap")
 		obj.add("Ulf")
 		obj.insert(1, "Joelin")
-		assert(obj[1] == "Joelin")
-		assert(obj[0] == "Von Chap")
-		assert(obj[2] == "Ulf")
+		assert(obj[1] == JsonString("Joelin"))
+		assert(obj[0] == JsonString("Von Chap"))
+		assert(obj[2] == JsonString("Ulf"))
 	}
 
 	@Test
@@ -48,8 +51,8 @@ class JsonObjectTest {
 		obj.add("Von Chap")
 		obj.add("Ulf")
 		obj.insert(2, "Joelin")
-		assert(obj[2] == "Joelin")
-		assert(obj[0] == "Von Chap")
-		assert(obj[1] == "Ulf")
+		assert(obj[2] == JsonString("Joelin"))
+		assert(obj[0] == JsonString("Von Chap"))
+		assert(obj[1] == JsonString("Ulf"))
 	}
 }
