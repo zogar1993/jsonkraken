@@ -1,7 +1,9 @@
 package net.jemzart.jsonkraken.unit.purifier
 
 import net.jemzart.jsonkraken.*
+import net.jemzart.jsonkraken.purifier.errors.ArrayTransformationException
 import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
+import net.jemzart.jsonkraken.purifier.errors.IterableTransformationException
 import net.jemzart.jsonkraken.purifier.errors.MapTransformationException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
@@ -52,6 +54,31 @@ class AnyPurify {
 	}
 
 	@Test
+	fun `list is converted to JsonArray`() {
+		val list = listOf(null)
+
+		val arr = purify(list)
+
+		assertTrue(arr is JsonArray)
+		assertEquals(JsonNull, arr[0])
+	}
+
+	@Test
+	fun `array is converted to JsonArray`() {
+		val array = arrayOf<Any?>(null)
+
+		val arr = purify(array)
+
+		assertTrue(arr is JsonArray)
+		assertEquals(JsonNull, arr[0])
+	}
+
+	@Test
+	fun `json string compliance`() {
+		JsonStringCompliance.verify { value: Any -> purify(value) }
+	}
+
+	@Test
 	fun `map with null key fails`() {
 		val map = mapOf(null to null)
 		kotlin.runCatching { purify(map) }.
@@ -84,27 +111,38 @@ class AnyPurify {
 	}
 
 	@Test
-	fun `list is converted to JsonArray`() {
-		val list = listOf(null)
-
-		val arr = purify(list)
-
-		assertTrue(arr is JsonArray)
-		assertEquals(JsonNull, arr[0])
+	fun `map with invalid value fails`() {
+		val map = mapOf("" to Unit)
+		kotlin.runCatching { purify(map) }.
+			onSuccess { fail() }.
+			onFailure { e ->
+				assertTrue(e is MapTransformationException)
+				e as MapTransformationException
+				assertEquals(map, e.map)
+			}
 	}
 
 	@Test
-	fun `array is converted to JsonArray`() {
-		val array = arrayOf<Any?>(null)
-
-		val arr = purify(array)
-
-		assertTrue(arr is JsonArray)
-		assertEquals(JsonNull, arr[0])
+	fun `array with invalid value fails`() {
+		val array = arrayOf(Unit)
+		kotlin.runCatching { purify(array) }.
+			onSuccess { fail() }.
+			onFailure { e ->
+				assertTrue(e is ArrayTransformationException)
+				e as ArrayTransformationException
+				assertArrayEquals(array, e.array)
+			}
 	}
 
 	@Test
-	fun `json string compliance`() {
-		JsonStringCompliance.verify { value: Any -> purify(value) }
+	fun `iterable with invalid value fails`() {
+		val iterable = listOf(Unit)
+		kotlin.runCatching { purify(iterable) }.
+			onSuccess { fail() }.
+			onFailure { e ->
+				assertTrue(e is IterableTransformationException)
+				e as IterableTransformationException
+				assertEquals(iterable, e.iterable)
+			}
 	}
 }
