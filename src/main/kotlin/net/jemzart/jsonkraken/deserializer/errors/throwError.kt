@@ -2,8 +2,8 @@ package net.jemzart.jsonkraken.deserializer.errors
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
 
-const val PREVIEW_OFFSET_BACK = 20
-const val PREVIEW_OFFSET_FORWARD = 20
+internal const val PREVIEW_OFFSET_BACK = 20
+internal const val PREVIEW_OFFSET_FORWARD = 20
 
 internal fun Deserializer.throwError(detail: String): Nothing {
 	throw DeserializationException(

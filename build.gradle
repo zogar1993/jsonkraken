@@ -42,15 +42,16 @@ coveralls {
 }
 
 pitest {
-    targetClasses = ['net.jemzart.jsonkraken.*']
-    timestampedReports = false
-    outputFormats = ['XML', 'HTML']
+    targetClasses.set(["net.jemzart.jsonkraken.*"])
+    timestampedReports.set(false)
+    outputFormats.set(['XML', 'HTML'])
 }
 
 dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/javadoc"
     configuration {
+        reportUndocumented = true
         sourceLink {
             path = "src/main/kotlin"
             url = "https://github.com/zogar1993/jsonkraken"
@@ -60,7 +61,7 @@ dokka {
 }
 
 task sourceJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from sourceSets.main.allSource
 }
 
@@ -70,7 +71,7 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
 }
 
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
-    classifier = 'javadoc'
+    archiveClassifier.set('javadoc')
     from javadoc.destinationDir
 }
 
