@@ -263,14 +263,8 @@ class JsonString internal constructor() : JsonPrimitive<String>() {
 		this.value = value
 	}
 
-	override fun equals(other: Any?): Boolean {
-		if (other !is JsonString) return false
-		return value == other.value
-	}
-
-	override fun hashCode(): Int {
-		return value.hashCode()
-	}
+	override fun equals(other: Any?) = other is JsonString && value == other.value
+	override fun hashCode() = value.hashCode()
 }
 
 class JsonNumber internal constructor() : JsonPrimitive<String>() {
@@ -284,12 +278,6 @@ class JsonNumber internal constructor() : JsonPrimitive<String>() {
 		this.value = simplifyJsonNumber(number)
 	}
 
-	override fun equals(other: Any?): Boolean {
-		if (other !is JsonNumber) return false
-		return value == other.value
-	}
-
-	override fun hashCode(): Int {
-		return value.hashCode()
-	}
+	override fun equals(other: Any?) = other is JsonNumber && value == other.value
+	override fun hashCode() = value.hashCode()
 }
