@@ -1,8 +1,11 @@
 package net.jemzart.jsonkraken.unit.json.transform
 
 import net.jemzart.jsonkraken.*
-import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.exceptions.UnexpectedJsonValueException
+import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 
 import org.junit.Test
 
@@ -28,13 +31,20 @@ class ValueTransformation {
 		assert(arr["B"] == JsonString("ten"))
 	}
 
-	@Test(expected = InvalidCastException::class)
-	fun `invalid cast`() {
-		JsonKraken.transform<JsonObject>(JsonArray())
+	@Test
+	fun `unexpected destination json value`() {
+		runCatching { JsonKraken.transform<JsonObject>(JsonArray()) }.
+			onSuccess { Assert.fail() }.
+			onFailure { e ->
+				assertTrue(e is UnexpectedJsonValueException)
+				e as UnexpectedJsonValueException
+				assertEquals(JsonObject::class, e.expected)
+				assertEquals(JsonArray::class, e.actual)
+			}
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)
-	fun `invalid type`() {
+	fun `invalid type value`() {
 		JsonKraken.transform<JsonObject>(Exception())
 	}
 }

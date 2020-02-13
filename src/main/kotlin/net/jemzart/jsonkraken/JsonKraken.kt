@@ -45,7 +45,7 @@ object JsonKraken {
 
 	@PublishedApi
 	internal inline fun <reified T : JsonValue> cast(result: JsonValue) =
-		if (result is T) result else throw UnexpectedJsonValueException(result::class, T::class)
+		if (result is T) result else throw UnexpectedJsonValueException(T::class, result::class)
 }
 
 //TODO UPDATE README

@@ -5,7 +5,7 @@ import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.JsonValue
 import net.jemzart.jsonkraken.deserializer.Deserializer.Companion.BLANK_RAW_STRING
 import org.junit.Assert
-import org.junit.Assert.fail
+import org.junit.Assert.*
 import org.junit.Test
 
 class BlankDeserialization {
@@ -14,12 +14,12 @@ class BlankDeserialization {
 		runCatching { JsonKraken.deserialize<JsonValue>("") }.
 			onSuccess { fail() }.
 			onFailure { e ->
-				Assert.assertTrue(e is DeserializationException)
+				assertTrue(e is DeserializationException)
 				e as DeserializationException
-				Assert.assertEquals(BLANK_RAW_STRING, e.detail)
-				Assert.assertEquals(0, e.index)
-				Assert.assertEquals("", e.raw)
-				Assert.assertEquals("\n^", e.snapshot)
+				assertEquals(BLANK_RAW_STRING, e.detail)
+				assertEquals(0, e.index)
+				assertEquals("", e.raw)
+				assertEquals("\n^", e.snapshot)
 			}
 	}
 

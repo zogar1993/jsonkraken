@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.unit.purifier
 
 import net.jemzart.jsonkraken.*
+import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
 import net.jemzart.jsonkraken.purifier.errors.ArrayTransformationException
 import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
 import net.jemzart.jsonkraken.purifier.errors.IterableTransformationException
@@ -143,6 +144,18 @@ class AnyPurify {
 				assertTrue(e is IterableTransformationException)
 				e as IterableTransformationException
 				assertEquals(iterable, e.iterable)
+			}
+	}
+
+	@Test
+	fun `invalid value fails`() {
+		val unit = Unit
+		kotlin.runCatching { purify(unit) }.
+			onSuccess { fail() }.
+			onFailure { e ->
+				assertTrue(e is InvalidJsonTypeException)
+				e as InvalidJsonTypeException
+				assertEquals(unit, e.value)
 			}
 	}
 }
