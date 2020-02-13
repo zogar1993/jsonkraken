@@ -1,13 +1,13 @@
 package net.jemzart.jsonkraken.unit.purifier
 
 import net.jemzart.jsonkraken.*
+import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
 import net.jemzart.jsonkraken.purifier.errors.MapTransformationException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
+import org.junit.Assert.*
 
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AnyPurify {
@@ -51,10 +51,36 @@ class AnyPurify {
 		assertEquals(JsonNull, obj["A"])
 	}
 
-	@Test(expected = MapTransformationException::class)
+	@Test
 	fun `map with null key fails`() {
 		val map = mapOf(null to null)
-		purify(map)
+		kotlin.runCatching { purify(map) }.
+			onSuccess { fail() }.
+			onFailure { e ->
+				assertTrue(e is MapTransformationException)
+				e as MapTransformationException
+				assertEquals(map, e.map)
+
+				assertTrue(e.inner is InvalidKeyException)
+				val inner = e.inner as InvalidKeyException
+				assertEquals(null, inner.value)
+			}
+	}
+
+	@Test
+	fun `map with invalid key fails`() {
+		val map = mapOf(Unit to null)
+		kotlin.runCatching { purify(map) }.
+			onSuccess { fail() }.
+			onFailure { e ->
+				assertTrue(e is MapTransformationException)
+				e as MapTransformationException
+				assertEquals(map, e.map)
+
+				assertTrue(e.inner is InvalidKeyException)
+				val inner = e.inner as InvalidKeyException
+				assertEquals(Unit, inner.value)
+			}
 	}
 
 	@Test
