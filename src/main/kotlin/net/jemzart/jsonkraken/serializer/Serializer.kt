@@ -21,7 +21,7 @@ internal abstract class Serializer {
 		when (primitive) {
 			is JsonNull -> stb.append("null")
 			is JsonBoolean -> stb.append("${primitive.value}")
-			is JsonNumber -> stb.append("${primitive.value}")
+			is JsonNumber -> stb.append(primitive.value)
 			is JsonString -> stb.append("\"").append(primitive.value).append("\"")
 		}
 	}
