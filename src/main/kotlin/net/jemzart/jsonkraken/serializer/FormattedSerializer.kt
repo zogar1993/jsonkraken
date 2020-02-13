@@ -12,7 +12,7 @@ internal class FormattedSerializer constructor(private val value: JsonValue): Se
 
 	private val indentation = "\t"
 	private var nesting = 0
-	private inline val tabs get() = indentation.repeat(nesting)
+	private val tabs get() = indentation.repeat(nesting)
 
 	private fun writeKey(it: String) { stb += "\"$it\": " }
 	private fun writeStart(it: String) { stb += "$it\n"; ++nesting }
