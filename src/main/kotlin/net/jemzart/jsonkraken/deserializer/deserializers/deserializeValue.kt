@@ -12,7 +12,9 @@ internal fun Deserializer.deserializeValue(): JsonValue {
 		't' -> deserializeTrue()
 		'f' -> deserializeFalse()
 		'n' -> deserializeNull()
-		in '0'..'9', '-' -> deserializeNumber()
+		'-' -> deserializeNumberLowerThanZero()
+		'0' -> deserializeNumberStartingWithZero()
+		in '1'..'9' -> deserializeNumberEqualOrHigherThanOne()
 		else -> throwError("No JSON token starts with '$char'.")
 	}
 }
