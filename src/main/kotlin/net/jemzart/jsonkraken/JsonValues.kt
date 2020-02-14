@@ -91,9 +91,12 @@ sealed class JsonContainer : JsonValue() {
 	protected abstract fun references(value: JsonContainer): Boolean
 
 	internal fun isReferencedBy(value: Iterable<Any?>): Boolean {
-		for (item in value)
+		for (item in value) {
 			if (item == this) return true
-			else if (item is JsonContainer && item.references(this)) return true
+			if (item is JsonContainer)
+				if (item.references(this))
+					return true
+		}
 		return false
 	}
 
