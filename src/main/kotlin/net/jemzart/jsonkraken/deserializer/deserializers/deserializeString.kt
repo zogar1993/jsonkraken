@@ -1,12 +1,12 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
+import net.jemzart.jsonkraken.JsonString
 import net.jemzart.jsonkraken.constants.Escapable
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateExclusion
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
 import net.jemzart.jsonkraken.deserializer.validators.validateIsHexadecimal
 import net.jemzart.jsonkraken.deserializer.validators.validateIsNotISOControlCharacterOtherThanDelete
-import net.jemzart.jsonkraken.JsonString
 
 
 internal fun Deserializer.deserializeString(): JsonString {

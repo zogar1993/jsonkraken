@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.value.array
 
-import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import org.junit.Assert.*
 import org.junit.Test
 

@@ -1,13 +1,7 @@
 package net.jemzart.jsonkraken.unit
 
-import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.JsonArray
-import net.jemzart.jsonkraken.JsonNumber
-import net.jemzart.jsonkraken.JsonObject
-import net.jemzart.jsonkraken.JsonString
-
+import net.jemzart.jsonkraken.*
 import org.junit.Assert.assertEquals
-
 import org.junit.Test
 
 class JsonObjectFromJsonStringTest {

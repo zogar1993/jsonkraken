@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
+import net.jemzart.jsonkraken.JsonNumber
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
-import net.jemzart.jsonkraken.JsonNumber
 import net.jemzart.jsonkraken.helpers.simplifyJsonNumber
 
 internal fun Deserializer.deserializeNumberStartingWithZero(): JsonNumber {

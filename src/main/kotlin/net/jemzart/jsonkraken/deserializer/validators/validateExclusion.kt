@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.deserializer.validators
 
+import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.errors.throwError
-import net.jemzart.jsonkraken.JsonArray
 
 internal fun Deserializer.validateExclusion(char: Char, expectations: Array<Char>) {
 	for (expectation in expectations)

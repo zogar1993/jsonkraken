@@ -1,10 +1,9 @@
 package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import net.jemzart.jsonkraken.JsonValue
 import net.jemzart.jsonkraken.deserializer.Deserializer.Companion.BLANK_RAW_STRING
-import org.junit.Assert
+import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
 import org.junit.Assert.*
 import org.junit.Test
 

@@ -1,9 +1,8 @@
 package net.jemzart.jsonkraken.unit.json.value.string
 
-import net.jemzart.jsonkraken.utils.JsonStringCompliance
+
 import net.jemzart.jsonkraken.JsonString
-
-
+import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Test
 
 class JsonStringCast {

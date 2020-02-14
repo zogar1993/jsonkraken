@@ -1,7 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.value.number
 
 import net.jemzart.jsonkraken.JsonKraken
-import net.jemzart.jsonkraken.JsonNull
 import net.jemzart.jsonkraken.JsonNumber
 import org.junit.Assert.assertEquals
 import org.junit.Test

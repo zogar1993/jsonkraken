@@ -2,8 +2,6 @@ package net.jemzart.jsonkraken.unit.json.value.`object`
 
 
 import net.jemzart.jsonkraken.JsonObject
-import org.junit.Assert
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

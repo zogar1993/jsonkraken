@@ -1,10 +1,9 @@
 package net.jemzart.jsonkraken.unit.json.value.array
 
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.JsonString
-
+import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Test
 
 

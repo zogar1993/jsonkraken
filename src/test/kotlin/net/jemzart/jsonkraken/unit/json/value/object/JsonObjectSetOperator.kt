@@ -1,12 +1,11 @@
 package net.jemzart.jsonkraken.unit.json.value.`object`
 
-import net.jemzart.jsonkraken.exceptions.CircularReferenceException
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.JsonContainer
 import net.jemzart.jsonkraken.JsonObject
-
+import net.jemzart.jsonkraken.exceptions.CircularReferenceException
+import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Test
 
 class JsonObjectSetOperator {

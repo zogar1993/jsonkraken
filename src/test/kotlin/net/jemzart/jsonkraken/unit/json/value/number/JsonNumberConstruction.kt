@@ -2,7 +2,6 @@ package net.jemzart.jsonkraken.unit.json.value.number
 
 
 import net.jemzart.jsonkraken.JsonNumber
-import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
 import net.jemzart.jsonkraken.exceptions.NonCompliantNumberException
 import org.junit.Assert
 import org.junit.Assert.assertEquals

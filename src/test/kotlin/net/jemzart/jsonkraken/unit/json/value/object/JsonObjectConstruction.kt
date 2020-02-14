@@ -1,11 +1,10 @@
 package net.jemzart.jsonkraken.unit.json.value.`object`
 
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.utils.JsonStringCompliance
+
 import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.JsonString
-
-
+import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Test
 
 class JsonObjectConstruction {

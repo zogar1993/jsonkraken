@@ -1,13 +1,11 @@
 package net.jemzart.jsonkraken.unit.json.value.`object`
 
-import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
 import net.jemzart.jsonkraken.JsonContainer
 import net.jemzart.jsonkraken.JsonObject
-import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
+import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-
 import org.junit.Test
 
 class JsonObjectGetOperator {
