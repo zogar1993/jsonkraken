@@ -13,7 +13,8 @@ class JsonObjectContainsValue {
 		val obj = JsonObject("" to "a") as Map<String, Any?>
 		assertTrue(obj.containsValue(JsonString("a")))//TODO not really what I want
 	}
-//TODO WTF kotlin compiler
+
+	//TODO WTF kotlin compiler
 	@Test
 	fun `does not contain value`() {
 		val obj = JsonObject() as Map<String, Any?>

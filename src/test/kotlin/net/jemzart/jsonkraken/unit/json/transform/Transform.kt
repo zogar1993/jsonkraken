@@ -33,14 +33,12 @@ class ValueTransformation {
 
 	@Test
 	fun `unexpected destination json value`() {
-		runCatching { JsonKraken.transform<JsonObject>(JsonArray()) }.
-			onSuccess { Assert.fail() }.
-			onFailure { e ->
-				assertTrue(e is UnexpectedJsonValueException)
-				e as UnexpectedJsonValueException
-				assertEquals(JsonObject::class, e.expected)
-				assertEquals(JsonArray::class, e.actual)
-			}
+		runCatching { JsonKraken.transform<JsonObject>(JsonArray()) }.onSuccess { Assert.fail() }.onFailure { e ->
+			assertTrue(e is UnexpectedJsonValueException)
+			e as UnexpectedJsonValueException
+			assertEquals(JsonObject::class, e.expected)
+			assertEquals(JsonArray::class, e.actual)
+		}
 	}
 
 	@Test(expected = InvalidJsonTypeException::class)

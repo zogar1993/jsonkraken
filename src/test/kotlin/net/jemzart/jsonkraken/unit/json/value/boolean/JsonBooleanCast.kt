@@ -1,7 +1,6 @@
 package net.jemzart.jsonkraken.unit.json.value.boolean
 
 
-
 import net.jemzart.jsonkraken.JsonFalse
 import net.jemzart.jsonkraken.JsonTrue
 import org.junit.Test

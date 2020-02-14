@@ -36,14 +36,12 @@ class JsonArrayGetOperator {
 	@Test
 	fun `getting a non existent index when fetching by string fails`() {
 		val arr = JsonArray()
-		runCatching { arr["0"] }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is NoSuchIndexException)
-				e as NoSuchIndexException
-				assertEquals(arr, e.arr)
-				assertEquals(0, e.index)
-			}
+		runCatching { arr["0"] }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is NoSuchIndexException)
+			e as NoSuchIndexException
+			assertEquals(arr, e.arr)
+			assertEquals(0, e.index)
+		}
 	}
 
 	@Test(expected = NoSuchIndexException::class)

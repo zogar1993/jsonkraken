@@ -10,16 +10,14 @@ import org.junit.Test
 class BlankDeserialization {
 	@Test
 	fun `empty string`() {
-		runCatching { JsonKraken.deserialize<JsonValue>("") }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is DeserializationException)
-				e as DeserializationException
-				assertEquals(BLANK_RAW_STRING, e.detail)
-				assertEquals(0, e.index)
-				assertEquals("", e.raw)
-				assertEquals("\n^", e.snapshot)
-			}
+		runCatching { JsonKraken.deserialize<JsonValue>("") }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is DeserializationException)
+			e as DeserializationException
+			assertEquals(BLANK_RAW_STRING, e.detail)
+			assertEquals(0, e.index)
+			assertEquals("", e.raw)
+			assertEquals("\n^", e.snapshot)
+		}
 	}
 
 	@Test(expected = DeserializationException::class)

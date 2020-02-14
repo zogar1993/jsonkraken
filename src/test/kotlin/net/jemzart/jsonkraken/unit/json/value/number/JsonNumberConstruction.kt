@@ -11,12 +11,10 @@ import org.junit.Test
 class JsonNumberConstruction {
 	@Test
 	fun `invalid number construction`() {
-		runCatching { JsonNumber(Double.NaN) }.
-			onSuccess { Assert.fail() }.
-			onFailure { e ->
-				assertTrue(e is NonCompliantNumberException)
-				e as NonCompliantNumberException
-				assertEquals("NaN", e.value)
-			}
+		runCatching { JsonNumber(Double.NaN) }.onSuccess { Assert.fail() }.onFailure { e ->
+			assertTrue(e is NonCompliantNumberException)
+			e as NonCompliantNumberException
+			assertEquals("NaN", e.value)
+		}
 	}
 }

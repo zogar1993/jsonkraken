@@ -34,14 +34,12 @@ class JsonObjectGetOperator {
 	@Test
 	fun `getting a non existent property when fetching by string fails`() {
 		val obj = JsonObject()
-		runCatching { obj["this_property_does_not_exist"] }.
-			onSuccess { Assert.fail() }.
-			onFailure { e ->
-				assertTrue(e is NoSuchPropertyException)
-				e as NoSuchPropertyException
-				assertEquals(obj, e.obj)
-				assertEquals("this_property_does_not_exist", e.property)
-			}
+		runCatching { obj["this_property_does_not_exist"] }.onSuccess { Assert.fail() }.onFailure { e ->
+			assertTrue(e is NoSuchPropertyException)
+			e as NoSuchPropertyException
+			assertEquals(obj, e.obj)
+			assertEquals("this_property_does_not_exist", e.property)
+		}
 	}
 
 	@Test(expected = NoSuchPropertyException::class)

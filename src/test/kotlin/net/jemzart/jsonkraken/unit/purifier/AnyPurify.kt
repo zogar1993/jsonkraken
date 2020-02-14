@@ -82,80 +82,68 @@ class AnyPurify {
 	@Test
 	fun `map with null key fails`() {
 		val map = mapOf(null to null)
-		kotlin.runCatching { purify(map) }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is MapTransformationException)
-				e as MapTransformationException
-				assertEquals(map, e.map)
+		kotlin.runCatching { purify(map) }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is MapTransformationException)
+			e as MapTransformationException
+			assertEquals(map, e.map)
 
-				assertTrue(e.inner is InvalidKeyException)
-				val inner = e.inner as InvalidKeyException
-				assertEquals(null, inner.value)
-			}
+			assertTrue(e.inner is InvalidKeyException)
+			val inner = e.inner as InvalidKeyException
+			assertEquals(null, inner.value)
+		}
 	}
 
 	@Test
 	fun `map with invalid key fails`() {
 		val map = mapOf(Unit to null)
-		kotlin.runCatching { purify(map) }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is MapTransformationException)
-				e as MapTransformationException
-				assertEquals(map, e.map)
+		kotlin.runCatching { purify(map) }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is MapTransformationException)
+			e as MapTransformationException
+			assertEquals(map, e.map)
 
-				assertTrue(e.inner is InvalidKeyException)
-				val inner = e.inner as InvalidKeyException
-				assertEquals(Unit, inner.value)
-			}
+			assertTrue(e.inner is InvalidKeyException)
+			val inner = e.inner as InvalidKeyException
+			assertEquals(Unit, inner.value)
+		}
 	}
 
 	@Test
 	fun `map with invalid value fails`() {
 		val map = mapOf("" to Unit)
-		kotlin.runCatching { purify(map) }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is MapTransformationException)
-				e as MapTransformationException
-				assertEquals(map, e.map)
-			}
+		kotlin.runCatching { purify(map) }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is MapTransformationException)
+			e as MapTransformationException
+			assertEquals(map, e.map)
+		}
 	}
 
 	@Test
 	fun `array with invalid value fails`() {
 		val array = arrayOf(Unit)
-		kotlin.runCatching { purify(array) }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is ArrayTransformationException)
-				e as ArrayTransformationException
-				assertArrayEquals(array, e.array)
-			}
+		kotlin.runCatching { purify(array) }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is ArrayTransformationException)
+			e as ArrayTransformationException
+			assertArrayEquals(array, e.array)
+		}
 	}
 
 	@Test
 	fun `iterable with invalid value fails`() {
 		val iterable = listOf(Unit)
-		kotlin.runCatching { purify(iterable) }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is IterableTransformationException)
-				e as IterableTransformationException
-				assertEquals(iterable, e.iterable)
-			}
+		kotlin.runCatching { purify(iterable) }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is IterableTransformationException)
+			e as IterableTransformationException
+			assertEquals(iterable, e.iterable)
+		}
 	}
 
 	@Test
 	fun `invalid value fails`() {
 		val unit = Unit
-		kotlin.runCatching { purify(unit) }.
-			onSuccess { fail() }.
-			onFailure { e ->
-				assertTrue(e is InvalidJsonTypeException)
-				e as InvalidJsonTypeException
-				assertEquals(unit, e.value)
-			}
+		kotlin.runCatching { purify(unit) }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is InvalidJsonTypeException)
+			e as InvalidJsonTypeException
+			assertEquals(unit, e.value)
+		}
 	}
 }
