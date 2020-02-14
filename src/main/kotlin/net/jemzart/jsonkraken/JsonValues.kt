@@ -109,7 +109,7 @@ sealed class JsonContainer : JsonValue() {
 /**
  * @constructor empty json array.
  */
-class JsonArray() : JsonContainer(), Collection<JsonValue> {
+class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -178,7 +178,7 @@ class JsonArray() : JsonContainer(), Collection<JsonValue> {
 /**
  * @constructor empty json object.
  */
-class JsonObject() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry<String, JsonValue>> {
+class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry<String, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
