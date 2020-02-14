@@ -109,7 +109,10 @@ sealed class JsonContainer : JsonValue() {
  * JsonValue representation for 'array'.
  * @constructor empty json array.
  */
-class JsonArray() : JsonContainer(), Collection<JsonValue> {
+class JsonArray
+() :
+	JsonContainer(),
+	Collection<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
