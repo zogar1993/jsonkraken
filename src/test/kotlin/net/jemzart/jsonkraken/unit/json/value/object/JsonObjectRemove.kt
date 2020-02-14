@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken.unit.json.value.`object`
 
 
 import net.jemzart.jsonkraken.JsonObject
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class JsonObjectRemove {
@@ -12,6 +13,6 @@ class JsonObjectRemove {
 
 		obj.remove("0")
 
-		assert(obj.size == 0)
+		assert(obj.isEmpty())
 	}
 }

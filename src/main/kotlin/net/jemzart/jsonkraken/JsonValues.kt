@@ -222,7 +222,7 @@ class JsonObject() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry
 	override val keys get() = hashMap.keys
 	override val values get() = hashMap.values
 	override fun containsKey(key: String) = hashMap.containsKey(key)
-	override fun containsValue(value: JsonValue) = hashMap.containsValue(value)
+	override fun containsValue(value: JsonValue) = hashMap.containsValue(purify(value))//TODO not sure if what I want
 	override fun isEmpty() = hashMap.isEmpty()
 }
 
