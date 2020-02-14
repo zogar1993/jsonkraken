@@ -208,13 +208,13 @@ class JsonObject() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry
 
 	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(hashMap.values)
 
-	companion object {
-		fun fromMap(map: Map<String, JsonValue>): JsonObject {
-			val jsonObject = JsonObject()
-			jsonObject.hashMap.putAll(map)
-			return jsonObject
-		}
-	}
+//	companion object {
+//		fun fromMap(map: Map<String, JsonValue>): JsonObject {
+//			val jsonObject = JsonObject()
+//			jsonObject.hashMap.putAll(map)
+//			return jsonObject
+//		}
+//	}
 
 	override val size: Int get() = hashMap.size
 	override operator fun iterator() = hashMap.iterator()
