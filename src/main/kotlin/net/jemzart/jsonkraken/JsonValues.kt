@@ -91,12 +91,9 @@ sealed class JsonContainer : JsonValue() {
 	protected abstract fun references(value: JsonContainer): Boolean
 
 	internal fun isReferencedBy(value: Iterable<Any?>): Boolean {
-		for (item in value) {
+		for (item in value)
 			if (item == this) return true
-			if (item is JsonContainer)
-				if (item.references(this))
-					return true
-		}
+			else if (item is JsonContainer && item.references(this)) return true
 		return false
 	}
 
@@ -112,10 +109,7 @@ sealed class JsonContainer : JsonValue() {
  * JsonValue representation for 'array'.
  * @constructor empty json array.
  */
-class JsonArray
-() :
-	JsonContainer(),
-	Collection<JsonValue> {
+class JsonArray() : JsonContainer(), Collection<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
