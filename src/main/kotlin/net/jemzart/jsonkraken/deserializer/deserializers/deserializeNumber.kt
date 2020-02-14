@@ -1,23 +1,26 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
+import net.jemzart.jsonkraken.JsonNumber
 import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.deserializer.validators.validateInclusion
-import net.jemzart.jsonkraken.JsonNumber
 import net.jemzart.jsonkraken.helpers.simplifyJsonNumber
 
-
-internal fun Deserializer.deserializeNumber(): JsonNumber {
+internal fun Deserializer.deserializeNumberStartingWithZero(): JsonNumber {
 	val start = index
-	when (val char = peek()) {
-		'-' -> minus()
-		'0' -> zero()
-		in '1'..'9' -> oneToNine()
-		else -> validateInclusion(char, digits + '-')
-	}
+	zero()
+	return deserializeNumber(start)
+}
 
-	val jsonNumber = JsonNumber()
-	jsonNumber.value = simplifyJsonNumber(raw.substring(start, index))
-	return jsonNumber
+internal fun Deserializer.deserializeNumberLowerThanZero(): JsonNumber {
+	val start = index
+	minus()
+	return deserializeNumber(start)
+}
+
+internal fun Deserializer.deserializeNumberEqualOrHigherThanOne(): JsonNumber {
+	val start = index
+	oneToNine()
+	return deserializeNumber(start)
 }
 
 private fun Deserializer.minus() {
@@ -92,3 +95,9 @@ private tailrec fun Deserializer.thirdDigitLoop() {
 }
 
 private val digits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+
+private fun Deserializer.deserializeNumber(start: Int): JsonNumber {
+	val jsonNumber = JsonNumber()
+	jsonNumber.value = simplifyJsonNumber(raw.substring(start, index))
+	return jsonNumber
+}

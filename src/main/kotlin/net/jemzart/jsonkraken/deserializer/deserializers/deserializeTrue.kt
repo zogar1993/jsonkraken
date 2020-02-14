@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.deserializer.deserializers
 
-import net.jemzart.jsonkraken.deserializer.Deserializer
 import net.jemzart.jsonkraken.JsonTrue
+import net.jemzart.jsonkraken.deserializer.Deserializer
 
 
 internal fun Deserializer.deserializeTrue(): JsonTrue {

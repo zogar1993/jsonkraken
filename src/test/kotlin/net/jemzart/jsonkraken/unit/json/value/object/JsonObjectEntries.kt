@@ -2,16 +2,13 @@ package net.jemzart.jsonkraken.unit.json.value.`object`
 
 
 import net.jemzart.jsonkraken.JsonObject
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class JsonObjectRemove {
+class JsonObjectEntries {
 	@Test
-	fun `by String`() {
+	fun simple() {
 		val obj = JsonObject()
-		obj["0"] = null
-
-		obj.remove("0")
-
-		assert(obj.isEmpty())
+		assertEquals(obj.hashMap.entries, obj.entries)
 	}
 }

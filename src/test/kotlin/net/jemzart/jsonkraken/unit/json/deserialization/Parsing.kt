@@ -7,7 +7,7 @@ import java.io.File
 
 class Parsing {
 	private fun String.asResourceFile(): File =
-			File(this.javaClass::class.java.getResource(this).toURI())
+		File(this.javaClass::class.java.getResource(this).toURI())
 
 	@Test
 	fun `must parse`() {

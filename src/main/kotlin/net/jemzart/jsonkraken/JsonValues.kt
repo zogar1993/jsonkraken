@@ -5,12 +5,11 @@ import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
 import net.jemzart.jsonkraken.helpers.*
-import net.jemzart.jsonkraken.helpers.copy
-import net.jemzart.jsonkraken.helpers.isNullable
-import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantNumber
-import net.jemzart.jsonkraken.helpers.throwIfIsNotAJsonCompliantString
 import net.jemzart.jsonkraken.purifier.purify
 
+/**
+ * Represents any json value.
+ */
 sealed class JsonValue {
 	/**
 	 * @return the value of the property named [key].
@@ -107,6 +106,7 @@ sealed class JsonContainer : JsonValue() {
 }
 
 /**
+ * JsonValue representation for 'array'.
  * @constructor empty json array.
  */
 class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> {
@@ -139,6 +139,9 @@ class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> 
 		list[index.reversible()] = purified
 	}
 
+	/**
+	 * removes item at [index].
+	 */
 	fun remove(index: Int) {
 		list.removeAt(index.reversible())
 	}
@@ -176,6 +179,7 @@ class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> 
 //TODO Update Docs
 
 /**
+ * JsonValue representation for 'object'.
  * @constructor empty json object.
  */
 class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry<String, JsonValue>> {
@@ -200,6 +204,10 @@ class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue
 		hashMap[key] = purified
 	}
 
+
+	/**
+	 * removes element of name [key].
+	 */
 	fun remove(key: String) {
 		hashMap.remove(key)
 	}
@@ -208,13 +216,13 @@ class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue
 
 	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(hashMap.values)
 
-	companion object {
-		fun fromMap(map: Map<String, JsonValue>): JsonObject {
-			val jsonObject = JsonObject()
-			jsonObject.hashMap.putAll(map)
-			return jsonObject
-		}
-	}
+//	companion object {
+//		fun fromMap(map: Map<String, JsonValue>): JsonObject {
+//			val jsonObject = JsonObject()
+//			jsonObject.hashMap.putAll(map)
+//			return jsonObject
+//		}TODO see what to tdo with this idea
+//	}
 
 	override val size: Int get() = hashMap.size
 	override operator fun iterator() = hashMap.iterator()
@@ -222,10 +230,13 @@ class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue
 	override val keys get() = hashMap.keys
 	override val values get() = hashMap.values
 	override fun containsKey(key: String) = hashMap.containsKey(key)
-	override fun containsValue(value: JsonValue) = hashMap.containsValue(value)
+	override fun containsValue(value: JsonValue) = hashMap.containsValue(purify(value))//TODO not sure if what I want
 	override fun isEmpty() = hashMap.isEmpty()
 }
 
+/**
+ * Represents a json primitive, either a boolean, string, number or null.
+ */
 sealed class JsonPrimitive<T> : JsonValue() {
 	/**
 	 * @property value raw value contained by the JsonValue.
@@ -233,29 +244,35 @@ sealed class JsonPrimitive<T> : JsonValue() {
 	abstract val value: T
 }
 
+/**
+ * JsonValue representation for 'boolean'.
+ */
 sealed class JsonBoolean : JsonPrimitive<Boolean>()
 
 /**
- * @constructor JsonValue representation for 'false'.
+ * JsonValue representation for 'false'.
  */
 object JsonFalse : JsonBoolean() {
 	override val value = false
 }
 
 /**
- * @constructor JsonValue representation for 'true'.
+ * JsonValue representation for 'true'.
  */
 object JsonTrue : JsonBoolean() {
 	override val value = true
 }
 
 /**
- * @constructor JsonValue representation for 'null'.
+ * JsonValue representation for 'null'.
  */
 object JsonNull : JsonPrimitive<Nothing?>() {
 	override val value = null
 }
 
+/**
+ * JsonValue representation for 'string'.
+ */
 class JsonString internal constructor() : JsonPrimitive<String>() {
 	override var value: String = ""; internal set
 	constructor(value: String): this() {
@@ -267,6 +284,9 @@ class JsonString internal constructor() : JsonPrimitive<String>() {
 	override fun hashCode() = value.hashCode()
 }
 
+/**
+ * JsonValue representation for 'number'.
+ */
 class JsonNumber internal constructor() : JsonPrimitive<String>() {
 	override var value: String = ""; internal set
 
