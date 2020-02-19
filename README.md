@@ -108,9 +108,9 @@ In cases where the validation fails, an exception will be thrown.
 Some valid types shall be altered for consistency:
 - A Number will be stored internally as its *toString()* representation.
 - A Char will be converted to String.
-- Map will be converted to JsonObject
-- Iterable will be converted to JsonArray
-- Array will be converted to JsonArray
+- Map will be converted to JsonObject.
+- Iterable will be converted to JsonArray.
+- Array will be converted to JsonArray.
 
 
 ## JsonContainer
@@ -133,11 +133,12 @@ val pairs = arrayOf("key1" to 1, "key2" to "one", "key3" to true)
 JsonObject(*pairs)
 ```
 
-If you need to convert a non native Array collection to JsonArray or JsonObject, you have helpers methods for those too:
+You could also convert Iterables, Arrays and Maps the following way:
 
 ```kotlin
-val obj: JsonObject = mapOf("key1" to 1, "key2" to "one", "key3" to true).toJsonObject()
-val arr: JsonArray = listOf(1, "one", true).toJsonArray()
+val obj = JsonKraken.transform<JsonObject>(mapOf("key1" to 1, "key2" to "one", "key3" to true))
+val arr1 = JsonKraken.transform<JsonArray>(listOf(1, "one", true))
+val arr2 = JsonKraken.transform<JsonArray>(arrayOf(1, "one", true))
 ```
 
 A JsonValue has get and set operators so that you can do the following, provided foo is a JsonValue:

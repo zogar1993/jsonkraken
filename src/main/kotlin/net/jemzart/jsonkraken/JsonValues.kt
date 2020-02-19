@@ -165,7 +165,7 @@ class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> 
 		list.add(index.reversible(), purified)
 	}
 
-	override fun clone() = JsonArray(*list.map { copy(it) }.toTypedArray())
+	override fun clone(): JsonArray = JsonKraken.transform(list.map { copy(it) })
 
 	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(list)
 
@@ -212,7 +212,7 @@ class JsonObject internal constructor() : JsonContainer(), Iterable<Map.Entry<St
 		hashMap.remove(key)
 	}
 
-	override fun clone() = JsonObject(*hashMap.map { it.key to copy(it.value) }.toTypedArray())
+	override fun clone(): JsonObject = JsonKraken.transform(hashMap.map { it.key to copy(it.value) }.toMap())
 
 	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(hashMap.values)
 
@@ -266,21 +266,17 @@ sealed class JsonPrimitive<T> : JsonValue() {
 /**
  * JsonValue representation for 'boolean'.
  */
-sealed class JsonBoolean : JsonPrimitive<Boolean>()
+sealed class JsonBoolean(override val value: Boolean) : JsonPrimitive<Boolean>()
 
 /**
  * JsonValue representation for 'false'.
  */
-object JsonFalse : JsonBoolean() {
-	override val value = false
-}
+object JsonFalse : JsonBoolean(false)
 
 /**
  * JsonValue representation for 'true'.
  */
-object JsonTrue : JsonBoolean() {
-	override val value = true
-}
+object JsonTrue : JsonBoolean(true)
 
 /**
  * JsonValue representation for 'null'.
