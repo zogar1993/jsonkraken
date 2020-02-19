@@ -15,6 +15,6 @@ class JsonObjectIsEmpty {
 	@Test
 	fun `is not empty`() {
 		val obj = JsonObject("" to "a")
-		assertTrue(obj.isNotEmpty())
+		assertTrue(!obj.isEmpty())
 	}
 }

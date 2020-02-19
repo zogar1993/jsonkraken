@@ -103,7 +103,7 @@ sealed class JsonContainer : JsonValue() {
 			if (target.references(this)) throw CircularReferenceException(this, target)
 		}
 	}
-}
+}       
 
 /**
  * JsonValue representation for 'array'.
@@ -182,7 +182,7 @@ class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> 
  * JsonValue representation for 'object'.
  * @constructor empty json object.
  */
-class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue>, Iterable<Map.Entry<String, JsonValue>> {
+class JsonObject internal constructor() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
@@ -226,12 +226,31 @@ class JsonObject internal constructor() : JsonContainer(), Map<String, JsonValue
 
 	override val size: Int get() = hashMap.size
 	override operator fun iterator() = hashMap.iterator()
-	override val entries get() = hashMap.entries
-	override val keys get() = hashMap.keys
-	override val values get() = hashMap.values
-	override fun containsKey(key: String) = hashMap.containsKey(key)
-	override fun containsValue(value: JsonValue) = hashMap.containsValue(purify(value))//TODO not sure if what I want
-	override fun isEmpty() = hashMap.isEmpty()
+
+	/**
+	 * retrieves all entries.
+	 */
+	val entries get() = hashMap.entries
+
+	/**
+	 * retrieves all keys.
+	 */
+	val keys get() = hashMap.keys
+
+	/**
+	 * retrieves all values.
+	 */
+	val values get() = hashMap.values
+
+	/**
+	 * returns true if [key] exists.
+	 */
+	fun containsKey(key: String) = hashMap.containsKey(key)
+
+	/**
+	 * returns true if is empty.
+	 */
+	fun isEmpty() = hashMap.isEmpty()
 }
 
 /**
