@@ -1,8 +1,8 @@
 package net.jemzart.jsonkraken.unit.json.transform
 
 import net.jemzart.jsonkraken.*
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.exceptions.UnexpectedJsonValueException
+import net.jemzart.jsonkraken.errors.transformation.InvalidJsonTypeException
+import net.jemzart.jsonkraken.errors.transformation.UnexpectedJsonValueException
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

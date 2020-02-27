@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken
 
-import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
-import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
+import net.jemzart.jsonkraken.errors.collections.NoSuchIndexException
+import net.jemzart.jsonkraken.errors.collections.NoSuchPropertyException
 import net.jemzart.jsonkraken.helpers.*
 import net.jemzart.jsonkraken.purifier.purify
 

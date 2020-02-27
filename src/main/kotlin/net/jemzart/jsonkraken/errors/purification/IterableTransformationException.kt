@@ -1,6 +1,6 @@
-package net.jemzart.jsonkraken.purifier.errors
+package net.jemzart.jsonkraken.errors.purification
 
-import net.jemzart.jsonkraken.exceptions.JsonKrakenException
+import net.jemzart.jsonkraken.errors.JsonKrakenException
 
 /**
  * @since 2.0

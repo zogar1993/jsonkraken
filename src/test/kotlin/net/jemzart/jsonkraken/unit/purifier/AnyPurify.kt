@@ -1,11 +1,11 @@
 package net.jemzart.jsonkraken.unit.purifier
 
 import net.jemzart.jsonkraken.*
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
-import net.jemzart.jsonkraken.purifier.errors.ArrayTransformationException
-import net.jemzart.jsonkraken.purifier.errors.InvalidKeyException
-import net.jemzart.jsonkraken.purifier.errors.IterableTransformationException
-import net.jemzart.jsonkraken.purifier.errors.MapTransformationException
+import net.jemzart.jsonkraken.errors.transformation.InvalidJsonTypeException
+import net.jemzart.jsonkraken.errors.purification.ArrayTransformationException
+import net.jemzart.jsonkraken.errors.purification.InvalidKeyException
+import net.jemzart.jsonkraken.errors.purification.IterableTransformationException
+import net.jemzart.jsonkraken.errors.purification.MapTransformationException
 import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Assert.*

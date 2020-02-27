@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.utils
 
-import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
+import net.jemzart.jsonkraken.errors.primitives.NonCompliantStringException
 
 class JsonStringCompliance {
 	companion object {

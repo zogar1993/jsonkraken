@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.helpers
 
 import net.jemzart.jsonkraken.constants.Escapable
-import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
+import net.jemzart.jsonkraken.errors.primitives.NonCompliantStringException
 
 internal fun throwIfIsNotAJsonCompliantString(string: String) {
 	var i = 0

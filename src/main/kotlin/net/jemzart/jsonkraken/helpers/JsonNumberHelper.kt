@@ -1,6 +1,6 @@
 package net.jemzart.jsonkraken.helpers
 
-import net.jemzart.jsonkraken.exceptions.NonCompliantNumberException
+import net.jemzart.jsonkraken.errors.primitives.NonCompliantNumberException
 
 private val regex = Regex("""-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?""")
 internal fun throwIfIsNotAJsonCompliantNumber(number: String) {

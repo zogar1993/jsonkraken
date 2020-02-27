@@ -1,6 +1,7 @@
-package net.jemzart.jsonkraken.deserializer.errors
+package net.jemzart.jsonkraken.deserializer.throws
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
+import net.jemzart.jsonkraken.errors.deserialization.DeserializationException
 
 internal const val PREVIEW_OFFSET_BACK = 20
 internal const val PREVIEW_OFFSET_FORWARD = 20

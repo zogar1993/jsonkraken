@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.deserializer.Deserializer
-import net.jemzart.jsonkraken.deserializer.errors.throwExpectationFailed
+import net.jemzart.jsonkraken.deserializer.throws.throwExpectationFailed
 
 internal fun Deserializer.deserializeArray(): JsonArray {
 	advance() //skip [

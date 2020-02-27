@@ -5,8 +5,8 @@ import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.JsonNumber
 import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.JsonString
-import net.jemzart.jsonkraken.exceptions.CircularReferenceException
-import net.jemzart.jsonkraken.exceptions.InvalidJsonTypeException
+import net.jemzart.jsonkraken.errors.collections.CircularReferenceException
+import net.jemzart.jsonkraken.errors.transformation.InvalidJsonTypeException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
 import org.junit.Test
 

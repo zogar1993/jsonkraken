@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.unit.json.value.`object`
 
 import net.jemzart.jsonkraken.JsonContainer
 import net.jemzart.jsonkraken.JsonObject
-import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
+import net.jemzart.jsonkraken.errors.collections.NoSuchPropertyException
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -38,7 +38,7 @@ class JsonObjectGetOperator {
 			assertTrue(e is NoSuchPropertyException)
 			e as NoSuchPropertyException
 			assertEquals(obj, e.obj)
-			assertEquals("this_property_does_not_exist", e.property)
+			assertEquals("this_property_does_not_exist", e.key)
 		}
 	}
 

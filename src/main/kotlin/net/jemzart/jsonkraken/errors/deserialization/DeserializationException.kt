@@ -1,6 +1,6 @@
-package net.jemzart.jsonkraken.deserializer.errors
+package net.jemzart.jsonkraken.errors.deserialization
 
-import net.jemzart.jsonkraken.exceptions.JsonKrakenException
+import net.jemzart.jsonkraken.errors.JsonKrakenException
 
 /**
  * @since 2.0

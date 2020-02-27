@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.unit.json.value.number
 
 
 import net.jemzart.jsonkraken.JsonNumber
-import net.jemzart.jsonkraken.exceptions.InvalidCastException
+import net.jemzart.jsonkraken.errors.transformation.InvalidCastException
 import org.junit.Test
 
 class JsonNumberCast {

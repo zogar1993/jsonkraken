@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.deserializer
 
 import net.jemzart.jsonkraken.JsonValue
 import net.jemzart.jsonkraken.deserializer.deserializers.deserializeValue
-import net.jemzart.jsonkraken.deserializer.errors.throwError
+import net.jemzart.jsonkraken.deserializer.throws.throwError
 import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 import net.jemzart.jsonkraken.deserializer.validators.validateIsNotEndOfString

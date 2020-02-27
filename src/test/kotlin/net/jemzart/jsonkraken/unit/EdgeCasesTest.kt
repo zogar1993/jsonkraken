@@ -1,7 +1,7 @@
 package net.jemzart.jsonkraken.unit
 
 import net.jemzart.jsonkraken.JsonArray
-import net.jemzart.jsonkraken.exceptions.CircularReferenceException
+import net.jemzart.jsonkraken.errors.collections.CircularReferenceException
 import org.junit.Test
 
 class EdgeCasesTest {

@@ -1,4 +1,4 @@
-package net.jemzart.jsonkraken.deserializer.errors
+package net.jemzart.jsonkraken.deserializer.throws
 
 import net.jemzart.jsonkraken.deserializer.Deserializer
 

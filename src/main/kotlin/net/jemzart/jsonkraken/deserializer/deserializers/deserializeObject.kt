@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.deserializer.deserializers
 
 import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.deserializer.Deserializer
-import net.jemzart.jsonkraken.deserializer.errors.throwExpectationFailed
+import net.jemzart.jsonkraken.deserializer.throws.throwExpectationFailed
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
 
 

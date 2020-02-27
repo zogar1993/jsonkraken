@@ -2,7 +2,7 @@ package net.jemzart.jsonkraken.unit.json.deserialization
 
 import net.jemzart.jsonkraken.JsonKraken
 import net.jemzart.jsonkraken.JsonObject
-import net.jemzart.jsonkraken.deserializer.errors.DeserializationException
+import net.jemzart.jsonkraken.errors.deserialization.DeserializationException
 import net.jemzart.jsonkraken.utils.WS
 import net.jemzart.jsonkraken.utils.str
 import org.junit.Assert.assertEquals
