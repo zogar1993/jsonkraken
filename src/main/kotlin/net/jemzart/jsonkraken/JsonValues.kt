@@ -85,13 +85,13 @@ sealed class JsonContainer : JsonValue() {
 	 */
 	internal abstract fun references(value: JsonContainer): Boolean
 //TODO references is not being exposed, should be extracted and censored
-}       
+}
 
 /**
  * JsonValue representation for 'array'.
  * @constructor empty json array.
  */
-class JsonArray internal constructor() : JsonContainer(), Iterable<JsonValue> {
+class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -162,7 +162,7 @@ class JsonArray internal constructor() : JsonContainer(), Iterable<JsonValue> {
  * JsonValue representation for 'object'.
  * @constructor empty json object.
  */
-class JsonObject internal constructor() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
+class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	/**
 	 * @constructor json object filled with [properties].
 	 * Pair second values must be of valid types (See 'Valid Types').
@@ -258,7 +258,8 @@ object JsonNull : JsonPrimitive<Nothing?>() {
  */
 class JsonString internal constructor() : JsonPrimitive<String>() {
 	override var value: String = ""; internal set
-	constructor(value: String): this() {
+
+	constructor(value: String) : this() {
 		throwIfIsNotAJsonCompliantString(value)
 		this.value = value
 	}

@@ -169,19 +169,13 @@ foo.size //returns the amount of elements in the JsonValue
 - When iterating over a JsonArray you iterate directly into its elements.
 - The *add(element)* method allows you to add an element after the last one.
 - The *insert(index, element)* method allows you to add an element at designated index, pushing all items from said to the last element, without replacing any.
-- The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with null.
+- The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with JsonNull.
 - Both *get* and *set* operators, *remove* and *insert* support reverse notation.
 
 ## Implementation details
 ###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
 - -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
 - Since numbers are stored as String internally, they do not lose precision.
-- There is a method available for JsonValue which I did not talk about before because I wanted to keep things simple.
-It is called *references(value)*, and it requires value to be a JsonValue.
-I use that method internally to find if value is recursively contained within the caller,
-but since I found no real reason not to make it public, there it is.
-- Although *references(value)* does not check for self,
-all JsonValue insertion mechanisms do validate for A -> A circularity.
 - JsonValues get/set operators welcome both Integers and Strings as index/key.
 An Integer will be converted to String in the case of JsonObject,
 whereas a String will try to be converted to Int in JsonArray,
@@ -200,6 +194,18 @@ This simple yet standard formatting should suffice.
 (like circular reference check on construction or type check on deserialization).
 
 ## Change Log
+
+### 2.0.0
+
+- Now JSON null, boolean, string and number are each represented by a JsonValue.
+- No longer are unwrapped primitives stored inside JsonContainer, they get wrapped instead.
+- Library extension methods no longer exist.
+Use JsonKraken object instead for serialization, deserialization and transformation.
+- Numbers are no longer internally stored as Double,
+now they do not lose precision under any circumstance.
+- Added *cast* method to JsonValue to ease its usage, making it less verbose and error prone.
+- Refined error handling, throwing clearer and simpler exceptions.
+- *references* method no longer available in JsonContainer.
 
 ### 1.2.0
 
