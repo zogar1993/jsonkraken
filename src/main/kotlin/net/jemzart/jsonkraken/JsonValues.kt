@@ -83,21 +83,8 @@ sealed class JsonContainer : JsonValue() {
 	/**
 	 * @return true if [value] is deeply contained within self.
 	 */
-	protected abstract fun references(value: JsonContainer): Boolean
+	internal abstract fun references(value: JsonContainer): Boolean
 //TODO references is not being exposed, should be extracted and censored
-	internal fun isReferencedBy(value: Iterable<Any?>): Boolean {
-		for (item in value)
-			if (item == this) return true
-			else if (item is JsonContainer && item.references(this)) return true
-		return false
-	}
-
-	protected fun throwIfHasAReferenceOnMe(target: JsonValue) {
-		if (target is JsonContainer) {
-			if (target == this) throw CircularReferenceException(this, target)
-			if (target.references(this)) throw CircularReferenceException(this, target)
-		}
-	}
 }       
 
 /**
