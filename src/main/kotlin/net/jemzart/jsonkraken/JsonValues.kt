@@ -48,44 +48,6 @@ sealed class JsonValue {
 		}
 	}
 
-	@PublishedApi
-	internal inline fun <reified T> stringOrThrow(value: String): T {
-		return when (T::class) {
-			CharSequence::class, String::class, Any::class -> value as T
-			else -> throwInvalidCastException<T>()
-		}
-	}
-
-	@PublishedApi
-	internal inline fun <reified T> numberOrThrow(value: String): T {
-		return when (T::class) {
-			Byte::class -> value.toByte() as T
-			Short::class -> value.toShort() as T
-			Int::class -> value.toInt() as T
-			Long::class -> value.toLong() as T
-			Float::class -> value.toFloat() as T
-			Double::class -> value.toDouble() as T
-			Any::class -> value as T
-			else -> throwInvalidCastException<T>()
-		}
-	}
-
-	@PublishedApi
-	internal inline fun <reified T> booleanOrThrow(value: Boolean): T {
-		return when (T::class) {
-			Boolean::class, Any::class -> value as T
-			else -> throwInvalidCastException<T>()
-		}
-	}
-
-	@PublishedApi
-	internal inline fun <reified T> nullOrThrow() =
-		if (isNullable<T>()) null as T else throwInvalidCastException<T>()
-
-	@PublishedApi
-	internal inline fun <reified T> throwInvalidCastException(): Nothing =
-		throw InvalidCastException(from = this::class, to = T::class)
-
 	override fun toString() = JsonKraken.serialize(this)
 }
 
@@ -122,7 +84,7 @@ sealed class JsonContainer : JsonValue() {
 	 * @return true if [value] is deeply contained within self.
 	 */
 	protected abstract fun references(value: JsonContainer): Boolean
-
+//TODO references is not being exposed, should be extracted and censored
 	internal fun isReferencedBy(value: Iterable<Any?>): Boolean {
 		for (item in value)
 			if (item == this) return true
