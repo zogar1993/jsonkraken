@@ -5,50 +5,62 @@ import net.jemzart.jsonkraken.exceptions.NonCompliantStringException
 
 internal fun throwIfIsNotAJsonCompliantString(string: String) {
 	var i = 0
-	val length = string.length
-	while (i < length) {
+	while (i < string.length) {
 		if (string[i] == '\\') {
 			i++ // skip \
-			if (i >= length) throwUnescapedBackslashFound(i, string)
+			throwIfIsUnescapedBackslash(string, i)
 			if (string[i] == 'u') {
-				if (i + 4 >= length) throwInvalidUnicodeFound(i, string)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
-				if (string[++i].isNotHexadecimal()) throwInvalidUnicodeFound(i, string)
-			} else {
-				if (string[i] !in Escapable.monoChars) throwUnescapedBackslashFound(i, string)
-			}
+				throwIfUnicodeIsTooShort(string, i)
+				throwIfNonHexadecimalValueInsideUnicode(string, ++i)
+				throwIfNonHexadecimalValueInsideUnicode(string, ++i)
+				throwIfNonHexadecimalValueInsideUnicode(string, ++i)
+				throwIfNonHexadecimalValueInsideUnicode(string, ++i)
+			} else
+				throwIfEscapingNonEscapableCharacter(string, i)
 		} else {
-			val char = string[i]
-			if (char == '"') throwUnescapedDoubleQuotesFound(i, string)
-			if (char in Escapable.whiteSpaceChars) throwUnescapedWhiteSpaceCharacterFound(i, string)
-			if (char.isISOControlCharacterOtherThanDelete()) throwUnescapedIsoControlCharacterFound(i, string)
+			throwIfUnescapedDoubleQuotes(string, i)
+			throwIfUnescapedWhiteSpaceCharacter(string, i)
+			throwIfISOControlCharacterOtherThanDelete(string, i)
 		}
 		i++
 	}
 }
 
-private fun throwUnescapedBackslashFound(i: Int, string: String): Nothing {
-	throwNonCompliantString("Unescaped \\ at index ${i - 1}", string)
+private fun throwIfISOControlCharacterOtherThanDelete(string: String, i: Int) {
+	if (string[i].isISOControlCharacterOtherThanDelete())
+		throwNonCompliantString("Unescaped iso control character at index $i", string)
 }
 
-private fun throwInvalidUnicodeFound(i: Int, string: String): Nothing {
-	throwNonCompliantString("Invalid hexadecimal character ${string[i]} at index $i", string)
+private fun throwIfUnescapedWhiteSpaceCharacter(string: String, i: Int) {
+	if (string[i] in Escapable.whiteSpaceChars)
+		throwNonCompliantString("Unescaped white space character at index $i", string)
 }
 
-private fun throwUnescapedDoubleQuotesFound(i: Int, string: String): Nothing {
-	throwNonCompliantString("Unescaped \" at index $i", string)
+private fun throwIfUnescapedDoubleQuotes(string: String, i: Int) {
+	if (string[i] == '"')
+		throwNonCompliantString("Unescaped \" at index $i", string)
 }
 
-private fun throwUnescapedWhiteSpaceCharacterFound(i: Int, string: String): Nothing {
-	throwNonCompliantString("Unescaped white space character at index $i", string)
+private fun throwIfEscapingNonEscapableCharacter(string: String, i: Int) {
+	if (string[i] !in Escapable.monoChars)
+		throwNonCompliantString("Unescapable character '${string[i]}' found at index $i", string)
 }
 
-private fun throwUnescapedIsoControlCharacterFound(i: Int, string: String): Nothing {
-	throwNonCompliantString("Unescaped iso control character at index $i", string)
+private fun throwIfNonHexadecimalValueInsideUnicode(string: String, i: Int) {
+	if (string[i].isNotHexadecimal())
+		throwNonCompliantString("Invalid hexadecimal character '${string[i]}' at index $i", string)
 }
 
-private fun throwNonCompliantString(message: String, string: String): Nothing {
+private fun throwIfIsUnescapedBackslash(string: String, i: Int) {
+	if (i >= string.length)
+		throwNonCompliantString("Unescaped \\ at end of string", string)
+}
+
+private fun throwIfUnicodeIsTooShort(string: String, i: Int) {
+	if (i + 4 >= string.length)
+		throwNonCompliantString("Expected four hexadecimal characters but found end of string", string)
+}
+//TODO TEST
+
+private fun throwNonCompliantString(message: String, string: String): Nothing =
 	throw NonCompliantStringException(string, message)
-}

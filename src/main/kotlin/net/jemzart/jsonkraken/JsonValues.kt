@@ -203,7 +203,7 @@ class JsonObject internal constructor() : JsonContainer(), Iterable<Map.Entry<St
 	}
 
 	internal val hashMap: MutableMap<String, JsonValue> = mutableMapOf()
-
+//TODO key or name? pick one and stick to it
 	override fun get(key: String) = hashMap[key] ?: throw NoSuchPropertyException(key, this)
 	override fun set(key: String, value: Any?) {
 		throwIfIsNotAJsonCompliantString(key)
