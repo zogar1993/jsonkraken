@@ -12,14 +12,14 @@ import net.jemzart.jsonkraken.purifier.purify
 sealed class JsonValue {
 	/**
 	 * @since 1.0
-	 * @return the value of the property named [key].
+	 * @return the element of at key [key].
 	 * if JsonArray, [key] works as an index.
 	 */
 	open operator fun get(key: String): JsonValue = throw NotImplementedError()
 
 	/**
 	 * @since 1.0
-	 * Sets [value] in a property named [key].
+	 * Sets [value] as the element at key [key].
 	 * if JsonArray, [key] works as an index.
 	 */
 	open operator fun set(key: String, value: Any?): Unit = throw NotImplementedError()
@@ -27,14 +27,14 @@ sealed class JsonValue {
 	/**
 	 * @since 1.0
 	 * @return the element at index [index].
-	 * if JsonObject, [index] works as a property name.
+	 * if JsonObject, [index] works as a property key.
 	 */
 	open operator fun get(index: Int): JsonValue = throw NotImplementedError()
 
 	/**
 	 * @since 1.0
-	 * Sets [value] in the selected [index].
-	 * if JsonObject, [index] works as a property name.
+	 * Sets [value] as the element at index [index].
+	 * if JsonObject, [index] works as a property key.
 	 */
 	open operator fun set(index: Int, value: Any?): Unit = throw NotImplementedError()
 
@@ -54,7 +54,7 @@ sealed class JsonValue {
 
 	/**
 	 * @since 2.0
-	 * @return unformated serialized version of the JsonValue.
+	 * @return non-formatted serialized version of the JsonValue.
 	 */
 	override fun toString() = JsonKraken.serialize(this)
 }
@@ -77,7 +77,7 @@ sealed class JsonContainer : JsonValue() {
 
 	/**
 	 * @since 2.0
-	 * @return amount of values.
+	 * @return amount of elements.
 	 */
 	abstract val size: Int
 
@@ -187,14 +187,13 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	 * Each pair second value must be of a valid type (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
-		properties.forEach { (name, value) ->
-			throwIfIsNotAJsonCompliantString(name)
-			hashMap[name] = purify(value)
+		properties.forEach { (key, value) ->
+			throwIfIsNotAJsonCompliantString(key)
+			hashMap[key] = purify(value)
 		}
 	}
 
 	internal val hashMap: MutableMap<String, JsonValue> = mutableMapOf()
-	//TODO key or name? pick one and stick to it
 	override fun get(key: String) = hashMap[key] ?: throw NoSuchPropertyException(key, this)
 
 	override fun set(key: String, value: Any?) {
@@ -207,7 +206,7 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 
 	/**
 	 * @since 1.0
-	 * removes element of name [key].
+	 * removes element at key [key].
 	 */
 	fun remove(key: String) {
 		hashMap.remove(key)
