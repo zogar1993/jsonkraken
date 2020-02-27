@@ -86,6 +86,16 @@ sealed class JsonContainer : JsonValue() {
 	abstract val size: Int
 
 	/**
+	 * @return true if the JsonCollection is empty, otherwise it returns false.
+	 */
+	abstract fun isEmpty(): Boolean
+
+	/**
+	 * @return true if the JsonCollection is not empty, otherwise it returns false.
+	 */
+	fun isNotEmpty() = !isEmpty()
+
+	/**
 	 * @return true if [value] is deeply contained within self.
 	 */
 	protected abstract fun references(value: JsonContainer): Boolean
@@ -109,7 +119,7 @@ sealed class JsonContainer : JsonValue() {
  * JsonValue representation for 'array'.
  * @constructor empty json array.
  */
-class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> {
+class JsonArray internal constructor() : JsonContainer(), Iterable<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
@@ -171,8 +181,6 @@ class JsonArray internal constructor() : JsonContainer(), Collection<JsonValue> 
 
 	override val size get() = list.size
 	override fun iterator() = list.iterator()
-	override fun contains(element: JsonValue) = list.contains(element)
-	override fun containsAll(elements: Collection<JsonValue>) = list.containsAll(elements)
 	override fun isEmpty() = list.isEmpty()
 }
 
@@ -214,10 +222,7 @@ class JsonObject internal constructor() : JsonContainer(), Iterable<Map.Entry<St
 
 	override fun clone(): JsonObject = JsonKraken.transform(hashMap.map { it.key to copy(it.value) }.toMap())
 
-	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(hashMap.values)
-
-	override val size: Int get() = hashMap.size
-	override operator fun iterator() = hashMap.iterator()
+	override fun references(value: JsonContainer) = value.isReferencedBy(hashMap.values)
 
 	/**
 	 * retrieves all entries.
@@ -239,10 +244,9 @@ class JsonObject internal constructor() : JsonContainer(), Iterable<Map.Entry<St
 	 */
 	fun containsKey(key: String) = hashMap.containsKey(key)
 
-	/**
-	 * returns true if is empty.
-	 */
-	fun isEmpty() = hashMap.isEmpty()
+	override val size: Int get() = hashMap.size
+	override operator fun iterator() = hashMap.iterator()
+	override fun isEmpty() = hashMap.isEmpty()
 }
 
 /**
