@@ -50,7 +50,6 @@ sealed class JsonValue {
 				Long::class -> return this.value.toLong() as T
 				Float::class -> return this.value.toFloat() as T
 				Double::class -> return this.value.toDouble() as T
-				Number::class -> return this.value as T
 				Any::class -> return this as T
 			}
 			is JsonNull -> if (isNullable<T>()) return null as T

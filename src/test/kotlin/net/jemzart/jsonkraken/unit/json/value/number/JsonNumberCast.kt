@@ -2,6 +2,7 @@ package net.jemzart.jsonkraken.unit.json.value.number
 
 
 import net.jemzart.jsonkraken.JsonNumber
+import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import org.junit.Test
 
 class JsonNumberCast {
@@ -70,6 +71,12 @@ class JsonNumberCast {
 	fun `minus one stays minus one`() {
 		val value = JsonNumber(-1.0)
 		assert(value.cast<Double>() == -1.0)
+	}
+
+	@Test(expected = InvalidCastException::class)
+	fun `casting to Number fails`() {
+		val json = JsonNumber(1)
+		json.cast<Number>()
 	}
 
 	@Test
