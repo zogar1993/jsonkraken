@@ -3,7 +3,6 @@ package net.jemzart.jsonkraken.helpers
 import net.jemzart.jsonkraken.JsonContainer
 import net.jemzart.jsonkraken.JsonValue
 import net.jemzart.jsonkraken.exceptions.CircularReferenceException
-import net.jemzart.jsonkraken.exceptions.InvalidCastException
 
 internal fun JsonContainer.isReferencedBy(value: Iterable<Any?>): Boolean {
 	for (item in value)

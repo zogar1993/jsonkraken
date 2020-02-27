@@ -8,14 +8,15 @@ import net.jemzart.jsonkraken.serializer.FormattedSerializer
 import net.jemzart.jsonkraken.serializer.SimpleSerializer
 
 /**
+ * @since 2.0
  * Contains all main operations operations: serialization, deserialization and transformation.
  */
 object JsonKraken {
 	/**
+	 * @since 2.0
 	 * @param [data] is a raw String representation of a JSON.
 	 * @param [T] is the expected representation of [data].
 	 * @return a [T] representation of [data].
-	 * @since 2.0
 	 */
 	inline fun <reified T : JsonValue> deserialize(data: String): T {
 		val raw = Deserializer(data).create()
@@ -23,11 +24,11 @@ object JsonKraken {
 	}
 
 	/**
+	 * @since 2.0
 	 * @param [value] will be converted to its String JSON representation.
 	 * @param [formatted] will format the resulting JSON representation if true.
 	 * @return a String with the serialized JSON representation of [value].
 	 * @throws [InvalidCastException] See 'Valid Types' for more information.
-	 * @since 2.0
 	 */
 	fun serialize(value: Any?, formatted: Boolean = false): String {
 		return if (formatted) FormattedSerializer(purify(value)).create()
@@ -35,11 +36,11 @@ object JsonKraken {
 	}
 
 	/**
+	 * @since 2.0
 	 * @param [value] will be converted to [T] representation.
 	 * @param [T] is the expected representation of [value] .
 	 * @return a [T] representation of [value].
 	 * @throws [InvalidCastException] See 'Valid Types' for more information.
-	 * @since 2.0
 	 */
 	inline fun <reified T : JsonValue> transform(value: Any?): T {
 		val result = purify(value)

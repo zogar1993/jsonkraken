@@ -1,41 +1,45 @@
 package net.jemzart.jsonkraken
 
-import net.jemzart.jsonkraken.exceptions.CircularReferenceException
-import net.jemzart.jsonkraken.exceptions.InvalidCastException
 import net.jemzart.jsonkraken.exceptions.NoSuchIndexException
 import net.jemzart.jsonkraken.exceptions.NoSuchPropertyException
 import net.jemzart.jsonkraken.helpers.*
 import net.jemzart.jsonkraken.purifier.purify
 
 /**
+ * @since 1.0
  * Represents any json value.
  */
 sealed class JsonValue {
 	/**
+	 * @since 1.0
 	 * @return the value of the property named [key].
 	 * if JsonArray, [key] works as an index.
 	 */
 	open operator fun get(key: String): JsonValue = throw NotImplementedError()
 
 	/**
+	 * @since 1.0
 	 * Sets [value] in a property named [key].
 	 * if JsonArray, [key] works as an index.
 	 */
 	open operator fun set(key: String, value: Any?): Unit = throw NotImplementedError()
 
 	/**
+	 * @since 1.0
 	 * @return the element at index [index].
 	 * if JsonObject, [index] works as a property name.
 	 */
 	open operator fun get(index: Int): JsonValue = throw NotImplementedError()
 
 	/**
+	 * @since 1.0
 	 * Sets [value] in the selected [index].
 	 * if JsonObject, [index] works as a property name.
 	 */
 	open operator fun set(index: Int, value: Any?): Unit = throw NotImplementedError()
 
 	/**
+	 * @since 2.0
 	 * @return unboxed value.
 	 */
 	inline fun <reified T> cast(): T {
@@ -48,10 +52,15 @@ sealed class JsonValue {
 		}
 	}
 
+	/**
+	 * @since 2.0
+	 * @return unformated serialized version of the JsonValue.
+	 */
 	override fun toString() = JsonKraken.serialize(this)
 }
 
 /**
+ * @since 2.0
  * Represents a json structure, may it be an array or an object.
  */
 sealed class JsonContainer : JsonValue() {
@@ -61,32 +70,38 @@ sealed class JsonContainer : JsonValue() {
 	override operator fun set(index: Int, value: Any?): Unit = set(index.toString(), value)
 
 	/**
+	 * @since 2.0
 	 * @return a deep clone of self, with no shared references.
 	 */
 	abstract fun clone(): JsonValue
 
 	/**
+	 * @since 2.0
 	 * @return amount of values.
 	 */
 	abstract val size: Int
 
 	/**
+	 * @since 2.0
 	 * @return true if the JsonCollection is empty, otherwise it returns false.
 	 */
 	abstract fun isEmpty(): Boolean
 
 	/**
+	 * @since 2.0
 	 * @return true if the JsonCollection is not empty, otherwise it returns false.
 	 */
 	fun isNotEmpty() = !isEmpty()
 
 	/**
+	 * @since 2.0
 	 * @return true if [value] is deeply contained within self.
 	 */
 	internal abstract fun references(value: JsonContainer): Boolean
 }
 
 /**
+ * @since 1.0
  * JsonValue representation for 'array'.
  * @constructor empty json array.
  */
@@ -94,8 +109,9 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	private fun Int.reversible() = if (this < 0) list.size + this else this
 
 	/**
+	 * @since 1.0
 	 * @constructor json array filled with [items].
-	 * Items must be of valid types (See 'Valid Types').
+	 * Each item must be of a valid type (See 'Valid Types').
 	 */
 	constructor(vararg items: Any?) : this() {
 		for (item in items) {
@@ -121,6 +137,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	}
 
 	/**
+	 * @since 1.0
 	 * removes item at [index].
 	 */
 	fun remove(index: Int) {
@@ -128,6 +145,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	}
 
 	/**
+	 * @since 1.0
 	 * adds [value] after the current end of the array.
 	 */
 	fun add(value: Any?) {
@@ -137,6 +155,7 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	}
 
 	/**
+	 * @since 1.0
 	 * inserts [value] at specified [index].
 	 * all elements from that index to the end are moved one step, and none is replaced.
 	 */
@@ -155,16 +174,17 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 	override fun isEmpty() = list.isEmpty()
 }
 
-//TODO Update Docs
-
 /**
+ * @since 1.0
  * JsonValue representation for 'object'.
  * @constructor empty json object.
  */
 class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	/**
+	 * @since 1.0
 	 * @constructor json object filled with [properties].
-	 * Pair second values must be of valid types (See 'Valid Types').
+	 * Each pair first value must be compliant with the JSON specification.
+	 * Each pair second value must be of a valid type (See 'Valid Types').
 	 */
 	constructor(vararg properties: Pair<String, Any?>) : this() {
 		properties.forEach { (name, value) ->
@@ -174,8 +194,9 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	}
 
 	internal val hashMap: MutableMap<String, JsonValue> = mutableMapOf()
-//TODO key or name? pick one and stick to it
+	//TODO key or name? pick one and stick to it
 	override fun get(key: String) = hashMap[key] ?: throw NoSuchPropertyException(key, this)
+
 	override fun set(key: String, value: Any?) {
 		throwIfIsNotAJsonCompliantString(key)
 		val purified = purify(value)
@@ -185,6 +206,7 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 
 
 	/**
+	 * @since 1.0
 	 * removes element of name [key].
 	 */
 	fun remove(key: String) {
@@ -196,21 +218,25 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	override fun references(value: JsonContainer) = value.isReferencedBy(hashMap.values)
 
 	/**
+	 * @since 1.0
 	 * retrieves all entries.
 	 */
 	val entries get() = hashMap.entries
 
 	/**
+	 * @since 1.0
 	 * retrieves all keys.
 	 */
 	val keys get() = hashMap.keys
 
 	/**
+	 * @since 1.0
 	 * retrieves all values.
 	 */
 	val values get() = hashMap.values
 
 	/**
+	 * @since 2.0
 	 * returns true if [key] exists.
 	 */
 	fun containsKey(key: String) = hashMap.containsKey(key)
@@ -221,31 +247,37 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 }
 
 /**
+ * @since 2.0
  * Represents a json primitive, either a boolean, string, number or null.
  */
 sealed class JsonPrimitive<T> : JsonValue() {
 	/**
+	 * @since 2.0
 	 * @property value raw value contained by the JsonValue.
 	 */
 	abstract val value: T
 }
 
 /**
+ * @since 2.0
  * JsonValue representation for 'boolean'.
  */
 sealed class JsonBoolean(override val value: Boolean) : JsonPrimitive<Boolean>()
 
 /**
+ * @since 2.0
  * JsonValue representation for 'false'.
  */
 object JsonFalse : JsonBoolean(false)
 
 /**
+ * @since 2.0
  * JsonValue representation for 'true'.
  */
 object JsonTrue : JsonBoolean(true)
 
 /**
+ * @since 2.0
  * JsonValue representation for 'null'.
  */
 object JsonNull : JsonPrimitive<Nothing?>() {
@@ -253,6 +285,7 @@ object JsonNull : JsonPrimitive<Nothing?>() {
 }
 
 /**
+ * @since 2.0
  * JsonValue representation for 'string'.
  */
 class JsonString internal constructor() : JsonPrimitive<String>() {
@@ -268,13 +301,14 @@ class JsonString internal constructor() : JsonPrimitive<String>() {
 }
 
 /**
+ * @since 2.0
  * JsonValue representation for 'number'.
  */
 class JsonNumber internal constructor() : JsonPrimitive<String>() {
 	override var value: String = ""; internal set
 
-	constructor(value: Number): this("$value")
-	constructor(value: String): this() {
+	constructor(value: Number) : this("$value")
+	constructor(value: String) : this() {
 		val number = value.trim()
 		throwIfIsNotAJsonCompliantNumber(number)
 		this.value = simplifyJsonNumber(number)

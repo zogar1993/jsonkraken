@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken.exceptions
 import net.jemzart.jsonkraken.JsonContainer
 
 /**
+ * @since 2.0
  * An exception used for operations that would incur in a circular reference.
  *
  * Logically, this can only occur when assigning a JsonValue to another.

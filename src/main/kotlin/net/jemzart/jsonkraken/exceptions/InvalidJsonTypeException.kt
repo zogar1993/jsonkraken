@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.exceptions
 
 /**
+ * @since 2.0
  * An exception used for operations that try to make use of non permitted types.
  * JsonValue, null and all primitives are valid types.
  *

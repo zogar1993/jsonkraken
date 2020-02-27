@@ -4,6 +4,7 @@ import net.jemzart.jsonkraken.JsonValue
 import kotlin.reflect.KClass
 
 /**
+ * @since 2.0
  * An exception used for when a JsonValue tries to be parsed to an invalid Type
  * See 'Valid Types' for more information. (https://github.com/zogar1993/jsonkraken#valid-types)
  *

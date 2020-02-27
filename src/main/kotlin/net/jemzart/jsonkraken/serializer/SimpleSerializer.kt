@@ -4,7 +4,7 @@ import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.JsonValue
 
-internal class SimpleSerializer constructor(private val value: JsonValue): Serializer() {
+internal class SimpleSerializer constructor(private val value: JsonValue) : Serializer() {
 	fun create(): String {
 		writeValue(value)
 		return stb.toString()
@@ -23,7 +23,7 @@ internal class SimpleSerializer constructor(private val value: JsonValue): Seria
 	}
 
 	override fun writeArray(arr: JsonArray) {
-		stb.append( "[")
+		stb.append("[")
 		var first = true
 		for (item in arr) {
 			if (first) first = false
