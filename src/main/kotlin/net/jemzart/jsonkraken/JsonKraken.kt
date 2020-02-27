@@ -26,7 +26,7 @@ object JsonKraken {
 	 * @param [value] will be converted to its String JSON representation.
 	 * @param [formatted] will format the resulting JSON representation if true.
 	 * @return a String with the serialized JSON representation of [value].
-	 * @throws [InvalidCastException] See 'Valid Types' for more information.//TODO mejorar con link
+	 * @throws [InvalidCastException] See 'Valid Types' for more information.
 	 * @since 2.0
 	 */
 	fun serialize(value: Any?, formatted: Boolean = false): String {
@@ -38,7 +38,7 @@ object JsonKraken {
 	 * @param [value] will be converted to [T] representation.
 	 * @param [T] is the expected representation of [value] .
 	 * @return a [T] representation of [value].
-	 * @throws [InvalidCastException] See 'Valid Types' for more information.//TODO mejorar con link
+	 * @throws [InvalidCastException] See 'Valid Types' for more information.
 	 * @since 2.0
 	 */
 	inline fun <reified T : JsonValue> transform(value: Any?): T {

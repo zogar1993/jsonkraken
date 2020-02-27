@@ -87,7 +87,7 @@ We instead use *JsonKraken.serialize(obj, formatted = true)* when we want the se
 
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
-- Added an element, its type is valid (See 'Valid Types').
+- Added an element, its type is valid (See [Valid Types](https://github.com/zogar1993/jsonkraken#valid-types)).
 - Added a JsonValue, it does not provoke a circular reference.
 - Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
 
