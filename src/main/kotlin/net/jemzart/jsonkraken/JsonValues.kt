@@ -39,36 +39,54 @@ sealed class JsonValue {
 	 * @return unboxed value.
 	 */
 	inline fun <reified T> cast(): T {
-		if (this !is JsonPrimitive<*>) throw InvalidCastException(from = this::class, to = T::class)
-		if (this is JsonNull) {
-			throwIfTIsNotNullable<T>()
-			return null as T
+		return when (this) {
+			is JsonString -> stringOrThrow(this.value)
+			is JsonNumber -> numberOrThrow(this.value)
+			is JsonBoolean -> booleanOrThrow(this.value)
+			is JsonNull -> nullOrThrow()
+			else -> throwInvalidCastException<T>()
 		}
-		if (T::class == Any::class) return this.value as T
-		when (this) {
-			is JsonString -> when (T::class) {
-				CharSequence::class, String::class -> return this.value as T
-			}
-			is JsonNumber -> when (T::class) {
-				Byte::class -> return this.value.toByte() as T
-				Short::class -> return this.value.toShort() as T
-				Int::class -> return this.value.toInt() as T
-				Long::class -> return this.value.toLong() as T
-				Float::class -> return this.value.toFloat() as T
-				Double::class -> return this.value.toDouble() as T
-			}
-			is JsonBoolean -> if (T::class == Boolean::class) return this.value as T
+	}
+
+	@PublishedApi
+	internal inline fun <reified T> stringOrThrow(value: String): T {
+		return when (T::class) {
+			CharSequence::class, String::class, Any::class -> value as T
+			else -> throwInvalidCastException<T>()
 		}
+	}
+
+	@PublishedApi
+	internal inline fun <reified T> numberOrThrow(value: String): T {
+		return when (T::class) {
+			Byte::class -> value.toByte() as T
+			Short::class -> value.toShort() as T
+			Int::class -> value.toInt() as T
+			Long::class -> value.toLong() as T
+			Float::class -> value.toFloat() as T
+			Double::class -> value.toDouble() as T
+			Any::class -> value as T
+			else -> throwInvalidCastException<T>()
+		}
+	}
+
+	@PublishedApi
+	internal inline fun <reified T> booleanOrThrow(value: Boolean): T {
+		return when (T::class) {
+			Boolean::class, Any::class -> value as T
+			else -> throwInvalidCastException<T>()
+		}
+	}
+
+	@PublishedApi
+	internal inline fun <reified T> nullOrThrow() =
+		if (isNullable<T>()) null as T else throwInvalidCastException<T>()
+
+	@PublishedApi
+	internal inline fun <reified T> throwInvalidCastException(): Nothing =
 		throw InvalidCastException(from = this::class, to = T::class)
-	}
 
-	inline fun <reified T> throwIfTIsNotNullable() {
-		if (!isNullable<T>()) throw InvalidCastException(from = this::class, to = T::class)
-	}
-
-	override fun toString(): String {
-		return JsonKraken.serialize(this)
-	}
+	override fun toString() = JsonKraken.serialize(this)
 }
 
 /**
