@@ -7,6 +7,9 @@ import net.jemzart.jsonkraken.purifier.purify
 import net.jemzart.jsonkraken.serializer.FormattedSerializer
 import net.jemzart.jsonkraken.serializer.SimpleSerializer
 
+/**
+ * Contains all main operations operations: serialization, deserialization and transformation.
+ */
 object JsonKraken {
 	/**
 	 * @param [data] is a raw String representation of a JSON.
