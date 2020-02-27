@@ -80,10 +80,10 @@ class JsonNumberCast {
 	}
 
 	@Test
-	fun `casting to Any returns a JsonNumber`() {
+	fun `casting to Any returns a plain String`() {
 		val json = JsonNumber(1)
 		val result = json.cast<Any>()
 
-		assert(JsonNumber(1) == result)
+		assert("1" == result)
 	}
 }

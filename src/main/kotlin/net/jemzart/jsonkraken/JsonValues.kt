@@ -39,9 +39,15 @@ sealed class JsonValue {
 	 * @return unboxed value.
 	 */
 	inline fun <reified T> cast(): T {
+		if (this !is JsonPrimitive<*>) throw InvalidCastException(from = this::class, to = T::class)
+		if (this is JsonNull) {
+			throwIfTIsNotNullable<T>()
+			return null as T
+		}
+		if (T::class == Any::class) return this.value as T
 		when (this) {
 			is JsonString -> when (T::class) {
-				CharSequence::class, String::class, Any::class -> return this.value as T
+				CharSequence::class, String::class -> return this.value as T
 			}
 			is JsonNumber -> when (T::class) {
 				Byte::class -> return this.value.toByte() as T
@@ -50,14 +56,14 @@ sealed class JsonValue {
 				Long::class -> return this.value.toLong() as T
 				Float::class -> return this.value.toFloat() as T
 				Double::class -> return this.value.toDouble() as T
-				Any::class -> return this as T
 			}
-			is JsonNull -> if (isNullable<T>()) return null as T
-			is JsonBoolean -> when (T::class) {
-				Boolean::class, Any::class -> return this.value as T
-			}
+			is JsonBoolean -> if (T::class == Boolean::class) return this.value as T
 		}
 		throw InvalidCastException(from = this::class, to = T::class)
+	}
+
+	inline fun <reified T> throwIfTIsNotNullable() {
+		if (!isNullable<T>()) throw InvalidCastException(from = this::class, to = T::class)
 	}
 
 	override fun toString(): String {
