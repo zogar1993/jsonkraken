@@ -84,7 +84,6 @@ sealed class JsonContainer : JsonValue() {
 	 * @return true if [value] is deeply contained within self.
 	 */
 	internal abstract fun references(value: JsonContainer): Boolean
-//TODO references is not being exposed, should be extracted and censored
 }
 
 /**
