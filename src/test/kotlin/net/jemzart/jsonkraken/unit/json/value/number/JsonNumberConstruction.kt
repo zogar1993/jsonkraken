@@ -10,11 +10,41 @@ import org.junit.Test
 
 class JsonNumberConstruction {
 	@Test
-	fun `invalid number construction`() {
-		runCatching { JsonNumber(Double.NaN) }.onSuccess { Assert.fail() }.onFailure { e ->
-			assertTrue(e is NonCompliantNumberException)
-			e as NonCompliantNumberException
-			assertEquals("NaN", e.value)
-		}
+	fun `Double NaN fails`() {
+		runCatching { JsonNumber(Double.NaN) }.
+			onSuccess { Assert.fail() }.
+			onFailure { e ->
+				assertTrue(e is NonCompliantNumberException)
+				e as NonCompliantNumberException
+				assertEquals("NaN", e.value)
+			}
+	}
+
+	@Test
+	fun `Double negative infinity fails`() {
+		runCatching { JsonNumber(Double.NEGATIVE_INFINITY) }.
+			onSuccess { Assert.fail() }.
+			onFailure { e ->
+				assertTrue(e is NonCompliantNumberException)
+				e as NonCompliantNumberException
+				assertEquals("-Infinity", e.value)
+			}
+	}
+
+	@Test
+	fun `Double infinity fails`() {
+		runCatching { JsonNumber(Double.POSITIVE_INFINITY) }.
+			onSuccess { Assert.fail() }.
+			onFailure { e ->
+				assertTrue(e is NonCompliantNumberException)
+				e as NonCompliantNumberException
+				assertEquals("Infinity", e.value)
+			}
+	}
+
+	@Test
+	fun `Double -0 turns into 0`() {
+		val number = JsonNumber(-0.0)
+		assertEquals("0", number.value)
 	}
 }

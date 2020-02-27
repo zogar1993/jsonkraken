@@ -5,6 +5,7 @@ import net.jemzart.jsonkraken.deserializer.deserializers.deserializeValue
 import net.jemzart.jsonkraken.deserializer.errors.throwError
 import net.jemzart.jsonkraken.deserializer.validators.validateEOF
 import net.jemzart.jsonkraken.deserializer.validators.validateEquality
+import net.jemzart.jsonkraken.deserializer.validators.validateIsNotEndOfString
 import net.jemzart.jsonkraken.helpers.isWhiteSpace
 
 @PublishedApi
@@ -23,22 +24,16 @@ internal class Deserializer(val raw: String) {
 	}
 
 	fun isAtEnd() = index == last
+	fun current() = raw[index]
+	fun advance() = index++
 
 	fun peek(): Char {
-		if (isAtEnd()) throwError(PREMATURE_EOS)
+		validateIsNotEndOfString()
 		return raw[index]
-	}
-
-	fun current(): Char {
-		return raw[index]
-	}
-
-	fun advance() {
-		index++
 	}
 
 	fun next(): Char {
-		if (isAtEnd()) throwError(PREMATURE_EOS)
+		validateIsNotEndOfString()
 		return raw[index++]
 	}
 
@@ -47,7 +42,7 @@ internal class Deserializer(val raw: String) {
 	}
 
 	fun match(char: Char): Boolean {
-		if (isAtEnd()) throwError(PREMATURE_EOS)
+		validateIsNotEndOfString()
 		val result = raw[index] == char
 		if (result) index++
 		return result
@@ -64,7 +59,6 @@ internal class Deserializer(val raw: String) {
 	}
 
 	companion object {
-		internal const val PREMATURE_EOS = "Premature end of String."
 		internal const val BLANK_RAW_STRING = "Blank text is not a valid JSON representation."
 	}
 }

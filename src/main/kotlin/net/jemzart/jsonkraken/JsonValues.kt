@@ -305,7 +305,6 @@ class JsonString internal constructor() : JsonPrimitive<String>() {
 class JsonNumber internal constructor() : JsonPrimitive<String>() {
 	override var value: String = ""; internal set
 
-	//TODO reventar esta porqueria a tests
 	constructor(value: Number): this("$value")
 	constructor(value: String): this() {
 		val number = value.trim()
