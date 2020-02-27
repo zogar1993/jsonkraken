@@ -53,3 +53,4 @@ object JsonKraken {
 }
 
 //TODO UPDATE README
+//TODO UPDATE THROWS
