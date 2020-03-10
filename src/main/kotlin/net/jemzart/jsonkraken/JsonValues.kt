@@ -66,13 +66,6 @@ sealed class JsonValue {
  * Represents a json structure, may it be an array or an object.
  */
 sealed class JsonContainer : JsonValue() {
-	override operator fun get(key: String): JsonValue =
-		get(key.toIntOrNull() ?: throw InvalidIndexException(key, this as JsonArray))
-	override operator fun set(key: String, value: Any?): Unit =
-		set(key.toIntOrNull() ?: throw InvalidIndexException(key, this as JsonArray), value)
-	override operator fun get(index: Int): JsonValue = get(index.toString())
-	override operator fun set(index: Int, value: Any?): Unit = set(index.toString(), value)
-
 	/**
 	 * @since 2.0
 	 * @return a deep clone of self, with no shared references.
@@ -96,12 +89,6 @@ sealed class JsonContainer : JsonValue() {
 	 * @return true if the JsonCollection is not empty, otherwise it returns false.
 	 */
 	fun isNotEmpty() = !isEmpty()
-
-	/**
-	 * @since 2.0
-	 * @return true if [value] is deeply contained within self.
-	 */
-	internal abstract fun references(value: JsonContainer): Boolean
 }
 
 /**
@@ -171,11 +158,14 @@ class JsonArray() : JsonContainer(), Iterable<JsonValue> {
 
 	override fun clone(): JsonArray = JsonKraken.transform(list.map { copy(it) })
 
-	override fun references(value: JsonContainer): Boolean = value.isReferencedBy(list)
-
 	override val size get() = list.size
 	override fun iterator() = list.iterator()
 	override fun isEmpty() = list.isEmpty()
+
+	override operator fun get(key: String): JsonValue =
+		get(key.toIntOrNull() ?: throw InvalidIndexException(key, this))
+	override operator fun set(key: String, value: Any?): Unit =
+		set(key.toIntOrNull() ?: throw InvalidIndexException(key, this), value)
 }
 
 /**
@@ -218,8 +208,6 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 
 	override fun clone(): JsonObject = JsonKraken.transform(hashMap.map { it.key to copy(it.value) }.toMap())
 
-	override fun references(value: JsonContainer) = value.isReferencedBy(hashMap.values)
-
 	/**
 	 * @since 1.0
 	 * retrieves all keys.
@@ -241,6 +229,8 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	override val size: Int get() = hashMap.size
 	override operator fun iterator() = hashMap.iterator()
 	override fun isEmpty() = hashMap.isEmpty()
+	override operator fun get(index: Int): JsonValue = get(index.toString())
+	override operator fun set(index: Int, value: Any?): Unit = set(index.toString(), value)
 }
 
 /**
