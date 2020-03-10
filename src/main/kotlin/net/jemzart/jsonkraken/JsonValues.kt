@@ -29,7 +29,7 @@ sealed class JsonValue {
 	 * @return the element at index [index].
 	 * if JsonObject, [index] works as a property key.
 	 */
-	open operator fun get(index: Int): JsonValue = throw NotImplementedError()
+	open operator fun get(index: Int): JsonValue = throw NotImplementedError()//TODO add error specific to this cases
 
 	/**
 	 * @since 1.0
@@ -64,7 +64,7 @@ sealed class JsonValue {
  * Represents a json structure, may it be an array or an object.
  */
 sealed class JsonContainer : JsonValue() {
-	override operator fun get(key: String): JsonValue = get(key.toInt())
+	override operator fun get(key: String): JsonValue = get(key.toInt())//TODO Add error specific to these cases
 	override operator fun set(key: String, value: Any?): Unit = set(key.toInt(), value)
 	override operator fun get(index: Int): JsonValue = get(index.toString())
 	override operator fun set(index: Int, value: Any?): Unit = set(index.toString(), value)
@@ -215,12 +215,6 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 	override fun clone(): JsonObject = JsonKraken.transform(hashMap.map { it.key to copy(it.value) }.toMap())
 
 	override fun references(value: JsonContainer) = value.isReferencedBy(hashMap.values)
-
-	/**
-	 * @since 1.0
-	 * retrieves all entries.
-	 */
-	val entries get() = hashMap.entries
 
 	/**
 	 * @since 1.0

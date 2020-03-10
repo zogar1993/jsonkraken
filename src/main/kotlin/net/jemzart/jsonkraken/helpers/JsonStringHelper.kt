@@ -60,7 +60,6 @@ private fun throwIfUnicodeIsTooShort(string: String, i: Int) {
 	if (i + 4 >= string.length)
 		throwNonCompliantString("Expected four hexadecimal characters but found end of string", string)
 }
-//TODO TEST
 
 private fun throwNonCompliantString(message: String, string: String): Nothing =
 	throw NonCompliantStringException(string, message)

@@ -10,6 +10,7 @@ internal class FormattedSerializer constructor(private val value: JsonValue) : S
 		this.append(value)
 	}
 
+	//TODO add indentation options
 	private val indentation = "\t"
 	private var nesting = 0
 	private val tabs get() = indentation.repeat(nesting)

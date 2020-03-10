@@ -160,21 +160,23 @@ foo.size //returns the amount of elements in the JsonValue
 
 ## JsonObject
 
-- When iterating over a JsonObject, each element of the iteration is a Pair<String, Any?>.
+- When iterating over a JsonObject, each element of the iteration is a Map.Entry<String, JsonValue>.
 - The *keys* property returns only its keys.
 - You can guess on your own what the *values* property does.
 
 ## JsonArray
 
-- When iterating over a JsonArray you iterate directly into its elements.
+- When iterating over a JsonArray each element of the iteration is a JsonValue.
 - The *add(element)* method allows you to add an element after the last one.
-- The *insert(index, element)* method allows you to add an element at designated index, pushing all items from said to the last element, without replacing any.
-- The *set(index, element)* operator allows you to replace an existing element. If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with JsonNull.
+- The *insert(index, element)* method allows you to add an element at designated index,
+ pushing all items from said to the last element, without replacing any.
+- The *set(index, element)* operator allows you to replace an existing element.
+ If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with JsonNull.
 - Both *get* and *set* operators, *remove* and *insert* support reverse notation.
 
 ## Implementation details
 ###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
-- -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
+
 - Since numbers are stored as String internally, they do not lose precision.
 - JsonValues get/set operators welcome both Integers and Strings as index/key.
 An Integer will be converted to String in the case of JsonObject,
@@ -184,12 +186,13 @@ and will throw an Exception if the cast fails.
 JSONKraken (like every sane parser out there) does not support it.
 Only the value of the last duplicate key will be stored when deserializing,
 but no Exception will be thrown.
-- Whole numbers will be serialized without its decimal part.
 - Formatted serialization is indented with tabs.
 I have thought about allowing custom indentation,
 but if I did, it would be reasonable to add all other custom serialization options,
 and that would make JSONKraken slightly more complex than intended.
 This simple yet standard formatting should suffice.
+- Whole numbers will be serialized without its decimal part.
+- -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
 - For your peace of mind, validations are not performed when not necessary
 (like circular reference check on construction or type check on deserialization).
 
