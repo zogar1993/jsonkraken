@@ -81,7 +81,8 @@ In case of not being able to parse a symbol, a DeserializationException will be 
 We use *JsonKraken.serialize(obj)* for Object to String conversion.
 If *obj* is not a JsonValue, it will internally try to be converted into one before starting the serialization process.
 Strings are generated without needless blank space, minimizing its size and readability.
-We instead use *JsonKraken.serialize(obj, formatted = true)* when we want the serialization to be formatted.
+We instead use *JsonKraken.serialize(obj, tabulation)* when we want the serialization to be tabulated.
+To define which tabulation to apply, use *net.jemzart.jsonkraken.serializer.Tabulation*.
 
 ## JsonValue
 
@@ -186,11 +187,7 @@ and will throw an Exception if the cast fails.
 JSONKraken (like every sane parser out there) does not support it.
 Only the value of the last duplicate key will be stored when deserializing,
 but no Exception will be thrown.
-- Formatted serialization is indented with tabs.
-I have thought about allowing custom indentation,
-but if I did, it would be reasonable to add all other custom serialization options,
-and that would make JSONKraken slightly more complex than intended.
-This simple yet standard formatting should suffice.
+- Non tabulated serialization is optimized apart from its tabulated peers to maximize performance gain.
 - Whole numbers will be serialized without its decimal part.
 - -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
 - For your peace of mind, validations are not performed when not necessary

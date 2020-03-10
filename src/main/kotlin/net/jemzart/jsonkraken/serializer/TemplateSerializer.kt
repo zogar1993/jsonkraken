@@ -5,13 +5,12 @@ import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.JsonValue
 
 
-internal class FormattedSerializer constructor(private val value: JsonValue) : Serializer() {
+internal class TemplateSerializer constructor(private val value: JsonValue, tabulation: Tabulation) : Serializer() {
 	private operator fun StringBuilder.plusAssign(value: String) {
 		this.append(value)
 	}
 
-	//TODO add indentation options
-	private val indentation = "\t"
+	private val indentation = tabulation.value
 	private var nesting = 0
 	private val tabs get() = indentation.repeat(nesting)
 

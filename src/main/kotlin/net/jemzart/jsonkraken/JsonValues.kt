@@ -54,7 +54,7 @@ sealed class JsonValue {
 
 	/**
 	 * @since 2.0
-	 * @return non-formatted serialized version of the JsonValue.
+	 * @return compact serialized version of the JsonValue.
 	 */
 	override fun toString() = JsonKraken.serialize(this)
 }
