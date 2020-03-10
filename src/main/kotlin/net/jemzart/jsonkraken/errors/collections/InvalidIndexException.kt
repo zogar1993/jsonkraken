@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.errors.collections
 
 import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.errors.JsonKrakenException
 
 /**
  * @since 2.0
@@ -9,4 +10,4 @@ import net.jemzart.jsonkraken.JsonArray
  * @property[arr] the JsonArray which triggered the exception.
  * @property[value] String value which attempted to be used as an index.
  */
-class InvalidIndexException(val value: String, val arr: JsonArray) : Exception()
+class InvalidIndexException(val value: String, val arr: JsonArray) : JsonKrakenException()

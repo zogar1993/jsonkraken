@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.errors.transformation
 
 import net.jemzart.jsonkraken.JsonValue
+import net.jemzart.jsonkraken.errors.JsonKrakenException
 import kotlin.reflect.KClass
 
 /**
@@ -10,4 +11,5 @@ import kotlin.reflect.KClass
  * @property[expected] the expected type of the JsonValue.
  * @property[actual] the actual type of the JsonValue.
  */
-class UnexpectedJsonValueException(val expected: KClass<out JsonValue>, val actual: KClass<out JsonValue>) : Exception()
+class UnexpectedJsonValueException(val expected: KClass<out JsonValue>, val actual: KClass<out JsonValue>)
+	: JsonKrakenException()

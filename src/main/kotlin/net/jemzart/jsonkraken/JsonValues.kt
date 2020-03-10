@@ -3,6 +3,7 @@ package net.jemzart.jsonkraken
 import net.jemzart.jsonkraken.errors.collections.InvalidIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchPropertyException
+import net.jemzart.jsonkraken.errors.primitives.CollectionOperationOnPrimitiveException
 import net.jemzart.jsonkraken.helpers.*
 import net.jemzart.jsonkraken.purifier.purify
 
@@ -16,28 +17,28 @@ sealed class JsonValue {
 	 * @return the element of at key [key].
 	 * if JsonArray, [key] works as an index.
 	 */
-	open operator fun get(key: String): JsonValue = throw NotImplementedError()
+	abstract operator fun get(key: String): JsonValue
 
 	/**
 	 * @since 1.0
 	 * Sets [value] as the element at key [key].
 	 * if JsonArray, [key] works as an index.
 	 */
-	open operator fun set(key: String, value: Any?): Unit = throw NotImplementedError()
+	abstract operator fun set(key: String, value: Any?)
 
 	/**
 	 * @since 1.0
 	 * @return the element at index [index].
 	 * if JsonObject, [index] works as a property key.
 	 */
-	open operator fun get(index: Int): JsonValue = throw NotImplementedError()//TODO add error specific to this cases
+	abstract operator fun get(index: Int): JsonValue
 
 	/**
 	 * @since 1.0
 	 * Sets [value] as the element at index [index].
 	 * if JsonObject, [index] works as a property key.
 	 */
-	open operator fun set(index: Int, value: Any?): Unit = throw NotImplementedError()
+	abstract operator fun set(index: Int, value: Any?)
 
 	/**
 	 * @since 2.0
@@ -247,6 +248,10 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
  * Represents a json primitive, either a boolean, string, number or null.
  */
 sealed class JsonPrimitive<T> : JsonValue() {
+	override operator fun get(key: String): JsonValue = throw CollectionOperationOnPrimitiveException(this)
+	override operator fun set(key: String, value: Any?): Unit = throw CollectionOperationOnPrimitiveException(this)
+	override operator fun get(index: Int): JsonValue = throw CollectionOperationOnPrimitiveException(this)
+	override operator fun set(index: Int, value: Any?): Unit = throw CollectionOperationOnPrimitiveException(this)
 	/**
 	 * @since 2.0
 	 * @property value raw value contained by the JsonValue.

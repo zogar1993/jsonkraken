@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.errors.collections
 
 import net.jemzart.jsonkraken.JsonObject
+import net.jemzart.jsonkraken.errors.JsonKrakenException
 
 /**
  * @since 2.0
@@ -9,4 +10,4 @@ import net.jemzart.jsonkraken.JsonObject
  * @property[obj] the JsonObject which did not have a pair with said key.
  * @property[key] said key.
  */
-class NoSuchPropertyException(val key: String, val obj: JsonObject) : Exception()
+class NoSuchPropertyException(val key: String, val obj: JsonObject) : JsonKrakenException()
