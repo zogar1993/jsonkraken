@@ -199,7 +199,6 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
 		hashMap[key] = purified
 	}
 
-
 	/**
 	 * @since 1.0
 	 * removes element at key [key].
