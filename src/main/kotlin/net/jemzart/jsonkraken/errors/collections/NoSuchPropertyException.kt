@@ -10,4 +10,5 @@ import net.jemzart.jsonkraken.errors.JsonKrakenException
  * @property[obj] the JsonObject which did not have a pair with said key.
  * @property[key] said key.
  */
-class NoSuchPropertyException(val key: String, val obj: JsonObject) : JsonKrakenException()
+class NoSuchPropertyException(val key: String, val obj: JsonObject)
+	: JsonKrakenException("No element at key $key")

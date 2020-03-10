@@ -10,4 +10,5 @@ import net.jemzart.jsonkraken.errors.JsonKrakenException
  * @property[arr] the JsonArray which did not have an item in required index.
  * @property[index] said index.
  */
-class NoSuchIndexException(val index: Int, val arr: JsonArray) : JsonKrakenException()
+class NoSuchIndexException(val index: Int, val arr: JsonArray)
+	: JsonKrakenException("No element at index $index")

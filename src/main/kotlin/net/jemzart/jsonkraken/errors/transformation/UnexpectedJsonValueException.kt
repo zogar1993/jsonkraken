@@ -12,4 +12,4 @@ import kotlin.reflect.KClass
  * @property[actual] the actual type of the JsonValue.
  */
 class UnexpectedJsonValueException(val expected: KClass<out JsonValue>, val actual: KClass<out JsonValue>)
-	: JsonKrakenException()
+	: JsonKrakenException("Expected: '${expected.simpleName}'\nReceived: ${actual.simpleName}")

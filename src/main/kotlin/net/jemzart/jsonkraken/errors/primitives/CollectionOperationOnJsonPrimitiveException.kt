@@ -9,5 +9,5 @@ import net.jemzart.jsonkraken.errors.JsonKrakenException
  *
  * @property[primitive] JsonPrimitive on which the operation was being attempted.
  */
-class CollectionOperationOnPrimitiveException(val primitive: JsonPrimitive<*>)
-	: JsonKrakenException("Attempted to apply get or set operation over JSonPrimitive.")//TODO Upgrade with specific exceptions
+class CollectionOperationOnJsonPrimitiveException(val primitive: JsonPrimitive<*>, message: String)
+	: JsonKrakenException(message)

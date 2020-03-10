@@ -12,4 +12,5 @@ import kotlin.reflect.KClass
  * @property[from] the type of the JsonValue.
  * @property[to] the type to witch the cast was intended.
  */
-class InvalidCastException(val from: KClass<out JsonValue>, val to: KClass<*>) : JsonKrakenException()
+class InvalidCastException(val from: KClass<out JsonValue>, val to: KClass<*>)
+	: JsonKrakenException("Could not extract a ${to.simpleName} from ${from.simpleName}")

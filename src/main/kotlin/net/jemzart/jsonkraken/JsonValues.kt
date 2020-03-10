@@ -3,7 +3,7 @@ package net.jemzart.jsonkraken
 import net.jemzart.jsonkraken.errors.collections.InvalidIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchPropertyException
-import net.jemzart.jsonkraken.errors.primitives.CollectionOperationOnPrimitiveException
+import net.jemzart.jsonkraken.errors.primitives.CollectionOperationOnJsonPrimitiveException
 import net.jemzart.jsonkraken.helpers.*
 import net.jemzart.jsonkraken.purifier.purify
 
@@ -248,10 +248,14 @@ class JsonObject() : JsonContainer(), Iterable<Map.Entry<String, JsonValue>> {
  * Represents a json primitive, either a boolean, string, number or null.
  */
 sealed class JsonPrimitive<T> : JsonValue() {
-	override operator fun get(key: String): JsonValue = throw CollectionOperationOnPrimitiveException(this)
-	override operator fun set(key: String, value: Any?): Unit = throw CollectionOperationOnPrimitiveException(this)
-	override operator fun get(index: Int): JsonValue = throw CollectionOperationOnPrimitiveException(this)
-	override operator fun set(index: Int, value: Any?): Unit = throw CollectionOperationOnPrimitiveException(this)
+	override operator fun get(key: String): JsonValue =
+		throw CollectionOperationOnJsonPrimitiveException(this, "Attempted to get key '$key' in $this")
+	override operator fun set(key: String, value: Any?): Unit =
+		throw CollectionOperationOnJsonPrimitiveException(this, "Attempted to set value '$value' at key '$key' in $this")
+	override operator fun get(index: Int): JsonValue =
+		throw CollectionOperationOnJsonPrimitiveException(this, "Attempted to get index '$index' in $this")
+	override operator fun set(index: Int, value: Any?): Unit =
+		throw CollectionOperationOnJsonPrimitiveException(this, "Attempted to set value '$value' at index '$index' in $this")
 	/**
 	 * @since 2.0
 	 * @property value raw value contained by the JsonValue.
