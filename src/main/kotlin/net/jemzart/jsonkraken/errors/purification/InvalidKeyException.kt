@@ -8,4 +8,4 @@ import net.jemzart.jsonkraken.errors.JsonKrakenException
  *
  * @property[value] invalid string which triggered the exception.
  */
-class InvalidKeyException(val value: Any?) : JsonKrakenException("value is not a valid key for a JsonObject pair")
+class InvalidKeyException(val value: Any?) : JsonKrakenException("value '$value' is not a valid key for a JsonObject pair")

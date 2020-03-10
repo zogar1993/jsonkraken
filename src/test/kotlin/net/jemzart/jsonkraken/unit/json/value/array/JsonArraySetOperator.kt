@@ -3,8 +3,10 @@ package net.jemzart.jsonkraken.unit.json.value.array
 import net.jemzart.jsonkraken.JsonArray
 import net.jemzart.jsonkraken.JsonObject
 import net.jemzart.jsonkraken.errors.collections.CircularReferenceException
+import net.jemzart.jsonkraken.errors.collections.InvalidIndexException
 import net.jemzart.jsonkraken.errors.transformation.InvalidJsonTypeException
 import net.jemzart.jsonkraken.utils.JsonStringCompliance
+import org.junit.Assert
 import org.junit.Test
 
 class JsonArraySetOperator {
@@ -94,5 +96,17 @@ class JsonArraySetOperator {
 	@Test
 	fun `json string compliance`() {
 		JsonStringCompliance.verify { value: Any -> JsonArray()[0] = value }
+	}
+
+
+	@Test
+	fun `by faulty String`() {
+		val arr = JsonArray()
+		runCatching { arr["a"] = null }.onSuccess { Assert.fail() }.onFailure { e ->
+			Assert.assertTrue(e is InvalidIndexException)
+			e as InvalidIndexException
+			Assert.assertEquals(arr, e.arr)
+			Assert.assertEquals("a", e.value)
+		}
 	}
 }

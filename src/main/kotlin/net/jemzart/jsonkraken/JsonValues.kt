@@ -1,5 +1,6 @@
 package net.jemzart.jsonkraken
 
+import net.jemzart.jsonkraken.errors.collections.InvalidIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchPropertyException
 import net.jemzart.jsonkraken.helpers.*
@@ -64,8 +65,10 @@ sealed class JsonValue {
  * Represents a json structure, may it be an array or an object.
  */
 sealed class JsonContainer : JsonValue() {
-	override operator fun get(key: String): JsonValue = get(key.toInt())//TODO Add error specific to these cases
-	override operator fun set(key: String, value: Any?): Unit = set(key.toInt(), value)
+	override operator fun get(key: String): JsonValue =
+		get(key.toIntOrNull() ?: throw InvalidIndexException(key, this as JsonArray))
+	override operator fun set(key: String, value: Any?): Unit =
+		set(key.toIntOrNull() ?: throw InvalidIndexException(key, this as JsonArray), value)
 	override operator fun get(index: Int): JsonValue = get(index.toString())
 	override operator fun set(index: Int, value: Any?): Unit = set(index.toString(), value)
 

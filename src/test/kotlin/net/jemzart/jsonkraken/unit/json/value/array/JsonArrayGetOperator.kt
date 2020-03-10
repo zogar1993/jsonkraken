@@ -1,6 +1,7 @@
 package net.jemzart.jsonkraken.unit.json.value.array
 
 import net.jemzart.jsonkraken.JsonArray
+import net.jemzart.jsonkraken.errors.collections.InvalidIndexException
 import net.jemzart.jsonkraken.errors.collections.NoSuchIndexException
 import org.junit.Assert.*
 import org.junit.Test
@@ -54,5 +55,16 @@ class JsonArrayGetOperator {
 	fun `getting a non existent index when fetching by int by reverse notation fails`() {
 		val arr = JsonArray()
 		arr[-1]
+	}
+
+	@Test
+	fun `by faulty String`() {
+		val arr = JsonArray()
+		runCatching { arr["a"] }.onSuccess { fail() }.onFailure { e ->
+			assertTrue(e is InvalidIndexException)
+			e as InvalidIndexException
+			assertEquals(arr, e.arr)
+			assertEquals("a", e.value)
+		}
 	}
 }
