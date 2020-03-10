@@ -90,7 +90,7 @@ A JsonValue is always a consistent json representation should it be serialized. 
 
 - Added an element, its type is valid (See [Valid Types](https://github.com/zogar1993/jsonkraken#valid-types)).
 - Added a JsonValue, it does not provoke a circular reference.
-- Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)
+- Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 
 In cases where the validation fails, an exception will be thrown.
 
