@@ -11,10 +11,9 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
     id "info.solidsoft.pitest" version "$pitest_version"
     id "com.github.kt3k.coveralls" version "$coveralls_version"
+    id "maven-publish"
+    id 'signing'
 }
-
-//apply plugin: "maven-publish"
-//apply plugin: "signing"
 
 repositories {
     jcenter()
@@ -78,4 +77,118 @@ artifacts {
     archives jar
     archives sourceJar
     archives javadocJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            customizePom(pom)
+            groupId 'net.jemzart'
+            artifactId 'jsonkraken'
+            version '2.0.0'
+
+            from components.java
+
+            // create the sign pom artifact
+            pom.withXml {
+                def pomFile = file("${project.buildDir}/generated-pom.xml")
+                writeTo(pomFile)
+                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                artifact(pomAscFile) {
+                    classifier = null
+                    extension = 'pom.asc'
+                }
+            }
+
+            artifact(sourceJar) {
+                classifier = 'sources'
+            }
+            artifact(javadocJar) {
+                classifier = 'javadoc'
+            }
+
+            // create the signed artifacts
+            project.tasks.signArchives.signatureFiles.each {
+                artifact(it) {
+                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+                    if (matcher.find()) {
+                        classifier = matcher.group(1)
+                    } else {
+                        classifier = null
+                    }
+                    extension = 'jar.asc'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username "$sonatypeUsername"
+                password "$sonatypePassword"
+            }
+        }
+    }
+}
+
+def customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        // eliminate test-scoped dependencies (no need in maven central POMs)
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
+
+        // add all items necessary for maven central publication
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            description 'Idiomatic Json parser for Kotlin'
+            name 'JSONKraken'
+            url 'https://github.com/zogar1993/jsonkraken'
+            organization {
+                name 'net.jemzart'
+                url 'https://jemzart.net'
+            }
+            issueManagement {
+                system 'GitHub'
+                url 'https://github.com/zogar1993/jsonkraken/issues'
+            }
+            licenses {
+                license {
+                    name 'Apache License 2.0'
+                    url 'https://www.apache.org/licenses/LICENSE-2.0'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'https://github.com/zogar1993/jsonkraken'
+                connection 'scm:git:git://github.com/zogar1993/jsonkraken.git'
+                developerConnection 'scm:git:ssh://git@github.com:zogar1993/jsonkraken.git'
+            }
+            developers {
+                developer {
+                    name 'zogar1993'
+                }
+            }
+        }
+    }
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
+    tasks.publishMavenJavaPublicationToMavenLocal {
+        dependsOn project.tasks.signArchives
+    }
+    tasks.publishMavenJavaPublicationToMavenRepository {
+        dependsOn project.tasks.signArchives
+    }
 }
