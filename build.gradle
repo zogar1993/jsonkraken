@@ -10,7 +10,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "$kotlin_version"
     id "info.solidsoft.pitest" version "$pitest_version"
     id "com.github.kt3k.coveralls" version "$coveralls_version"
-    id "com.vanniktech.maven.publish" version "$vanniktech_version"
+    //id "com.vanniktech.maven.publish" version "$vanniktech_version"
 }
 
 repositories {
