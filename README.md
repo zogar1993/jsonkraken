@@ -208,7 +208,7 @@ now they do not lose precision under any circumstance.
 - Refined error handling, throwing clearer and simpler exceptions.
 - *references* method no longer available in JsonContainer.
 
-### 1.2.0
+### 1.2.0 [(Documentation)](https://github.com/zogar1993/jsonkraken/tree/v1.2)
 
 - Removed empty spaces on formatted serialized empty collections.
 - Now returns TokenExpectationException when deserialization finds premature end of String.
