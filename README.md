@@ -9,7 +9,7 @@
 
 JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is written in Kotlin for the Java Virtual Machine.
 
-## Why should I care?
+## Why should you care?
 
 - If you are looking to map POJOs, then this may not be for you.
 - If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
@@ -176,7 +176,7 @@ foo.size //returns the amount of elements in the JsonValue
 - Both *get* and *set* operators, *remove* and *insert* support reverse notation.
 
 ## Implementation details
-###### (you should not need to know all of this, but maybe you do. It is here for a reason after all)
+###### (you should not need to know any of this, but maybe you do. It is here for a reason after all)
 
 - Since numbers are stored as String internally, they do not lose precision.
 - JsonValues get/set operators welcome both Integers and Strings as index/key.
