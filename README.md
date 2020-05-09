@@ -13,7 +13,7 @@ JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is 
 
 - If you are looking to map POJOs, then this may not be for you.
 - If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
-- On the other hand, if you prefer *obj["captain"]["name"].cast<String>()* you may want to keep reading.
+- On the other hand, if you prefer *obj["captain"]["name"].cast\<String\>()* you may want to keep reading.
 
 ## Why another JSON parsing library?
 
