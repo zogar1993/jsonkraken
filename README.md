@@ -204,7 +204,7 @@ Use JsonKraken object instead for serialization, deserialization and transformat
 - Numbers are no longer internally stored as Double,
 now they do not lose precision under any circumstance.
 - Added *cast* method to JsonValue to ease its usage, making it less verbose and error prone.
-- Added multiple tabulation options for when serializing.
+- Added multiple tabulation options for serialization.
 - Refined error handling, throwing clearer and simpler exceptions.
 - *references* method no longer available in JsonContainer.
 
