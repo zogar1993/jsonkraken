@@ -79,7 +79,7 @@ In case of not being able to parse a symbol, a DeserializationException will be 
 ## Parsing from Object to String (Serialization)
 
 We use *JsonKraken.serialize(obj)* for Object to String conversion.
-If *obj* is not a JsonValue, it will internally try to be converted into one before starting the serialization process.
+If *obj* is not a JsonValue, it will be converted into one (if possible) before starting the serialization process.
 Strings are generated without needless blank space, minimizing its size and readability.
 We instead use *JsonKraken.serialize(obj, tabulation)* when we want the serialization to be tabulated.
 To define which tabulation to apply, use *net.jemzart.jsonkraken.serializer.Tabulation*.
