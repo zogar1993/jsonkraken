@@ -63,13 +63,13 @@ Inside package *net.jemzart.jsonkraken* you may find:
 * JsonKraken, useful for serialization, deserialization and transformation.
 * All wrapped types, which are derived from JsonValue.
 
-* - -
+- - -
 
 That pretty much covers the basics.
 The rest of the document is for you, dear reader,
 to better understand the details of JSONKraken.
 
-* - -
+- - -
 
 ## Parsing from String to JsonValue (Deserialization)
 
