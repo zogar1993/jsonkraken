@@ -11,9 +11,9 @@ JSONKraken is a fully compliant, pretty optimized, idiomatic JSON parser. It is 
 
 ## Why should you care?
 
-- If you are looking to map POJOs, then this may not be for you.
-- If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
-- On the other hand, if you prefer *obj["captain"]["name"].cast\<String\>()* you may want to keep reading.
+-  If you are looking to map POJOs, then this may not be for you.
+-  If *obj.getJsonObject("captain").getJsonString("name")* does not seem really verbose to you and does not make you want to cry, then your time is better spent elsewhere.
+-  On the other hand, if you prefer *obj["captain"]["name"].cast\<String\>()* you may want to keep reading.
 
 ## Why another JSON parsing library?
 
@@ -60,8 +60,8 @@ dependencies {
 ### Imports
 
 Inside package *net.jemzart.jsonkraken* you may find:
-- JsonKraken, useful for serialization, deserialization and transformation.
-- All wrapped types, which are derived from JsonValue.
+-  JsonKraken, useful for serialization, deserialization and transformation.
+-  All wrapped types, which are derived from JsonValue.
 
 - - -
 
@@ -88,30 +88,30 @@ To define which tabulation to apply, use *net.jemzart.jsonkraken.serializer.Tabu
 
 A JsonValue is always a consistent json representation should it be serialized. This means it verifies the following in all its operations:
 
-- Added an element, its type is valid (See [Valid Types](https://github.com/zogar1993/jsonkraken#valid-types)).
-- Added a JsonValue, it does not provoke a circular reference.
-- Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+-  Added an element, its type is valid (See [Valid Types](https://github.com/zogar1993/jsonkraken#valid-types)).
+-  Added a JsonValue, it does not provoke a circular reference.
+-  Added a String, it is compliant with the [JSON Specification](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 
 In cases where the validation fails, an exception will be thrown.
 
 #### Valid Types
 
-- Boolean
-- String
-- Char
-- Number
-- JsonValue
-- Map<\*,*>
-- Iterable<\*>
-- Array<\*>
-- null
+-  Boolean
+-  String
+-  Char
+-  Number
+-  JsonValue
+-  Map<\*,*>
+-  Iterable<\*>
+-  Array<\*>
+-  null
 
 Some valid types shall be altered for consistency:
-- A Number will be stored internally as its *toString()* representation.
-- A Char will be converted to String.
-- Map will be converted to JsonObject.
-- Iterable will be converted to JsonArray.
-- Array will be converted to JsonArray.
+-  A Number will be stored internally as its *toString()* representation.
+-  A Char will be converted to String.
+-  Map will be converted to JsonObject.
+-  Iterable will be converted to JsonArray.
+-  Array will be converted to JsonArray.
 
 
 ## JsonContainer
@@ -161,25 +161,25 @@ foo.size //returns the amount of elements in the JsonValue
 
 ## JsonObject
 
-- When iterating over a JsonObject, each element of the iteration is a Map.Entry<String, JsonValue>.
-- The *keys* property returns only its keys.
-- You can guess on your own what the *values* property does.
+-  When iterating over a JsonObject, each element of the iteration is a Map.Entry<String, JsonValue>.
+-  The *keys* property returns only its keys.
+-  You can guess on your own what the *values* property does.
 
 ## JsonArray
 
-- When iterating over a JsonArray each element of the iteration is a JsonValue.
-- The *add(element)* method allows you to add an element after the last one.
-- The *insert(index, element)* method allows you to add an element at designated index,
+-  When iterating over a JsonArray each element of the iteration is a JsonValue.
+-  The *add(element)* method allows you to add an element after the last one.
+-  The *insert(index, element)* method allows you to add an element at designated index,
  pushing all items from said to the last element, without replacing any.
-- The *set(index, element)* operator allows you to replace an existing element.
+-  The *set(index, element)* operator allows you to replace an existing element.
  If said index is unused, indexes between the specified and the actual last of the JsonArray will be filled with JsonNull.
-- Both *get* and *set* operators, *remove* and *insert* support reverse notation.
+-  Both *get* and *set* operators, *remove* and *insert* support reverse notation.
 
 ## Implementation details
 ###### (you should not need to know any of this, but maybe you do. It is here for a reason after all)
 
-- Since numbers are stored as String internally, they do not lose precision.
-- JsonValues get/set operators welcome both Integers and Strings as index/key.
+-  Since numbers are stored as String internally, they do not lose precision.
+-  JsonValues get/set operators welcome both Integers and Strings as index/key.
 An Integer will be converted to String in the case of JsonObject,
 whereas a String will try to be converted to Int in JsonArray,
 and will throw an Exception if the cast fails.
@@ -187,45 +187,45 @@ and will throw an Exception if the cast fails.
 JSONKraken (like every sane parser out there) does not support it.
 Only the value of the last duplicate key will be stored when deserializing,
 but no Exception will be thrown.
-- Non tabulated serialization is optimized apart from its tabulated peers to maximize performance gain.
-- Whole numbers will be serialized without its decimal part.
-- -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
-- For your peace of mind, validations are not performed when not necessary
+-  Non tabulated serialization is optimized apart from its tabulated peers to maximize performance gain.
+-  Whole numbers will be serialized without its decimal part.
+-  -0 will be turned to 0 to avoid weird language behaviour with some primitive types.
+-  For your peace of mind, validations are not performed when not necessary
 (like circular reference check on construction or type check on deserialization).
 
 ## Change Log
 
 ### 2.0.0
 
-- Now JSON null, boolean, string and number are each represented by a JsonValue.
-- No longer are unwrapped primitives stored inside JsonContainer, they get wrapped instead.
-- Library extension methods no longer exist.
+-  Now JSON null, boolean, string and number are each represented by a JsonValue.
+-  No longer are unwrapped primitives stored inside JsonContainer, they get wrapped instead.
+-  Library extension methods no longer exist.
 Use JsonKraken object instead for serialization, deserialization and transformation.
-- Numbers are no longer internally stored as Double,
+-  Numbers are no longer internally stored as Double,
 now they do not lose precision under any circumstance.
-- Added *cast* method to JsonValue to ease its usage, making it less verbose and error prone.
-- Added multiple tabulation options for serialization.
-- Refined error handling, throwing clearer and simpler exceptions.
-- *references* method no longer available in JsonContainer.
+-  Added *cast* method to JsonValue to ease its usage, making it less verbose and error prone.
+-  Added multiple tabulation options for serialization.
+-  Refined error handling, throwing clearer and simpler exceptions.
+-  *references* method no longer available in JsonContainer.
 
 ### 1.2.0 [(Documentation)](https://github.com/zogar1993/jsonkraken/tree/v1.2)
 
-- Removed empty spaces on formatted serialized empty collections.
-- Now returns TokenExpectationException when deserialization finds premature end of String.
-- Valid types now include Map, Iterable and Array.
+-  Removed empty spaces on formatted serialized empty collections.
+-  Now returns TokenExpectationException when deserialization finds premature end of String.
+-  Valid types now include Map, Iterable and Array.
 
 #### 1.1.1
 
-- Fixed bug when deserializing non fractional numbers with exponent.
+-  Fixed bug when deserializing non fractional numbers with exponent.
 
 #### 1.1.0
 
-- Added reverse notation support for JsonArray *insert* and *remove* methods.
-- Added json string validation for to all String insertions, since they where only validated when deserialized.
-- Added json string validation for to all JsonObject parity keys.
-- Added json string validation for lonely string serialization.
-- Fixed bug when deserializing extreme numbers which would lead into an unwanted Exception.
+-  Added reverse notation support for JsonArray *insert* and *remove* methods.
+-  Added json string validation for to all String insertions, since they where only validated when deserialized.
+-  Added json string validation for to all JsonObject parity keys.
+-  Added json string validation for lonely string serialization.
+-  Fixed bug when deserializing extreme numbers which would lead into an unwanted Exception.
 
 #### 1.0.0
 
-- Release the Kraken!
+-  Release the Kraken!
