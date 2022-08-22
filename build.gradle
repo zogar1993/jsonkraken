@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = "1.6.21"
     ext.coveralls_version = "2.12.0"
-    ext.pitest_version = "1.7.4"
+    ext.pitest_version = "1.9.0"
     ext.junit_version = "4.13.2"
     ext.vanniktech_version = "0.9.0"
 }
